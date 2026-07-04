@@ -1,0 +1,576 @@
+[2026-07-02T16:21:47.965Z] {"input":"vai tomar no cu","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":6,"status":"PASS"}
+[2026-07-02T16:21:47.968Z] {"input":"vai tomar no cu seu lixo","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.969Z] {"input":"vtnc","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.970Z] {"input":"vsf","expected":true,"got":true,"word":"vsf","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.971Z] {"input":"tmnc","expected":true,"got":true,"word":"tmnc","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.972Z] {"input":"arrombado","expected":true,"got":true,"word":"arrombado","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.973Z] {"input":"arromb4do","expected":true,"got":true,"word":"arrombado","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.974Z] {"input":"filho da puta","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.975Z] {"input":"filha da puta","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.976Z] {"input":"puta que pariu","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:47.976Z] {"input":"caralho mano","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:47.977Z] {"input":"car4lho","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:47.981Z] {"input":"buceta","expected":true,"got":true,"word":"buceta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":4,"status":"PASS"}
+[2026-07-02T16:21:47.982Z] {"input":"bct","expected":true,"got":true,"word":"bct","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.983Z] {"input":"foda-se","expected":true,"got":true,"word":"foda se","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.984Z] {"input":"fodase","expected":true,"got":true,"word":"foda se","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.985Z] {"input":"vai se foder","expected":true,"got":true,"word":"vai se foder","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.986Z] {"input":"estupro","expected":true,"got":true,"word":"estupro","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.987Z] {"input":"estupr0","expected":true,"got":true,"word":"estupro","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.988Z] {"input":"isso é uma merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.989Z] {"input":"você é uma merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.990Z] {"input":"que porra é essa","expected":true,"got":false,"word":"porra","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"FAIL"}
+[2026-07-02T16:21:47.991Z] {"input":"porr4","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.992Z] {"input":"seu merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.992Z] {"input":"m3rda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:47.993Z] {"input":"seu bosta","expected":true,"got":true,"word":"bosta","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.994Z] {"input":"viado","expected":true,"got":true,"word":"viado","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.995Z] {"input":"retardado","expected":true,"got":true,"word":"retardado","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.996Z] {"input":"otario","expected":true,"got":true,"word":"otario","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:47.997Z] {"input":"seu corno","expected":true,"got":true,"word":"corno","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.998Z] {"input":"fuck you","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:47.999Z] {"input":"shit","expected":true,"got":true,"word":"shit","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.000Z] {"input":"bitch","expected":true,"got":true,"word":"bitch","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.001Z] {"input":"dick","expected":true,"got":true,"word":"dick","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.002Z] {"input":"what the fuck","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.003Z] {"input":"you bastard","expected":true,"got":true,"word":"bastard","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.003Z] {"input":"child porn","expected":true,"got":true,"word":"child porn","level":"illegal","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.003Z] {"input":"childporn","expected":true,"got":true,"word":"child porn","level":"illegal","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.003Z] {"input":"pedo","expected":true,"got":true,"word":"pedo","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.003Z] {"input":"pedophile","expected":true,"got":true,"word":"pedophile","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.003Z] {"input":"loli","expected":true,"got":true,"word":"loli","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.003Z] {"input":"shota","expected":true,"got":true,"word":"shota","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.003Z] {"input":"minor","expected":true,"got":true,"word":"minor","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.004Z] {"input":"rape","expected":true,"got":true,"word":"rape","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.004Z] {"input":"abuse","expected":true,"got":true,"word":"abuse","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.004Z] {"input":"groom","expected":true,"got":true,"word":"groom","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.004Z] {"input":"incest","expected":true,"got":true,"word":"incest","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.004Z] {"input":"v1tnc","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.005Z] {"input":"v!a t0mar n0 c0","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.005Z] {"input":"v a i t o m a r n o c u","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.005Z] {"input":"p.u.t.a","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.006Z] {"input":"p u t a","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.006Z] {"input":"c-a-r-a-l-h-o","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.006Z] {"input":"c a r a l h o","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.007Z] {"input":"p0rr@","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.008Z] {"input":"f0d@","expected":true,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"FAIL"}
+[2026-07-02T16:21:48.008Z] {"input":"p o r r a","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.008Z] {"input":"f o d a - s e","expected":true,"got":true,"word":"foda se","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.009Z] {"input":"f u c k","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.009Z] {"input":"vaitomarnocu","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.009Z] {"input":"car4lh0","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.010Z] {"input":"buc3t4","expected":true,"got":true,"word":"buceta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.010Z] {"input":"a palavra caralho pode ser usada em contexto informal","expected":false,"got":false,"word":"caralho","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.011Z] {"input":"isso é uma merda de sistema (estou citando um erro)","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.011Z] {"input":"ele disse 'vai tomar no cu' na música","expected":false,"got":false,"word":"vai tomar no cu","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.011Z] {"input":"o termo foda-se aparece em memes da internet","expected":false,"got":false,"word":"foda se","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.012Z] {"input":"estamos estudando como insultos são usados na linguagem","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.013Z] {"input":"a pesquisa analisa palavras ofensivas no português","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.013Z] {"input":"o artigo cita termos como porra e caralho como exemplo","expected":false,"got":false,"word":"caralho","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.014Z] {"input":"ele escreveu: 'isso é uma merda'","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.014Z] {"input":"o usuário digitou v1tnc no chat","expected":false,"got":false,"word":"vai tomar no cu","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.014Z] {"input":"no log aparece a string foda-se","expected":false,"got":false,"word":"foda se","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.015Z] {"input":"variável chamada fuckCounter no código","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.015Z] {"input":"classe ShitManager usada no sistema legado","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.016Z] {"input":"função chamada caralhoHandler (nome antigo)","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.016Z] {"input":"isso aqui tá uma merda mas funciona kkkkk (brincadeira)","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.019Z] {"input":"mano isso é uma bosta mas eu gosto disso 😂","expected":false,"got":false,"word":"bosta","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":3,"status":"PASS"}
+[2026-07-02T16:21:48.019Z] {"input":"vamos jogar minecraft hoje","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.020Z] {"input":"bom dia tudo bem","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.020Z] {"input":"qual é o horário da reunião","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.021Z] {"input":"como você está hoje","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.021Z] {"input":"documento","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.022Z] {"input":"classificação","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.022Z] {"input":"automóveis","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.023Z] {"input":"assistente","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.023Z] {"input":"cultura","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.024Z] {"input":"escuro","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.024Z] {"input":"put","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.025Z] {"input":"input","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.025Z] {"input":"output","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.025Z] {"input":"class","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.026Z] {"input":"pass","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.026Z] {"input":"","expected":false,"got":false,"word":null,"level":null,"reason":"invalid","confidence":0,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.027Z] {"input":"   ","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:48.027Z] {"input":null,"expected":false,"got":false,"word":null,"level":null,"reason":"invalid","confidence":0,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:48.028Z] {"summary":{"total":95,"passed":93,"failed":2,"successRate":"97.89","stats":{"hard":36,"sensitive":24,"illegal":11,"bypass":0,"clean":24,"context":0}}}
+[2026-07-02T16:24:08.401Z] {"input":"vai tomar no cu","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":6,"status":"PASS"}
+[2026-07-02T16:24:08.405Z] {"input":"vai tomar no cu seu lixo","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.406Z] {"input":"vtnc","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.406Z] {"input":"vsf","expected":true,"got":true,"word":"vsf","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.407Z] {"input":"tmnc","expected":true,"got":true,"word":"tmnc","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.408Z] {"input":"arrombado","expected":true,"got":true,"word":"arrombado","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.409Z] {"input":"arromb4do","expected":true,"got":true,"word":"arrombado","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.409Z] {"input":"filho da puta","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.410Z] {"input":"filha da puta","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.411Z] {"input":"puta que pariu","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.411Z] {"input":"caralho mano","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.414Z] {"input":"car4lho","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":3,"status":"PASS"}
+[2026-07-02T16:24:08.415Z] {"input":"buceta","expected":true,"got":true,"word":"buceta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.415Z] {"input":"bct","expected":true,"got":true,"word":"bct","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.416Z] {"input":"foda-se","expected":true,"got":true,"word":"foda se","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.417Z] {"input":"fodase","expected":true,"got":true,"word":"foda se","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.417Z] {"input":"vai se foder","expected":true,"got":true,"word":"vai se foder","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.418Z] {"input":"estupro","expected":true,"got":true,"word":"estupro","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.419Z] {"input":"estupr0","expected":true,"got":true,"word":"estupro","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.419Z] {"input":"isso é uma merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.420Z] {"input":"você é uma merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.421Z] {"input":"que porra é essa","expected":true,"got":false,"word":"porra","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"FAIL"}
+[2026-07-02T16:24:08.421Z] {"input":"porr4","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.422Z] {"input":"seu merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.422Z] {"input":"m3rda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.423Z] {"input":"seu bosta","expected":true,"got":true,"word":"bosta","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.424Z] {"input":"viado","expected":true,"got":true,"word":"viado","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.425Z] {"input":"retardado","expected":true,"got":true,"word":"retardado","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.425Z] {"input":"otario","expected":true,"got":true,"word":"otario","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.426Z] {"input":"seu corno","expected":true,"got":true,"word":"corno","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.427Z] {"input":"fuck you","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.427Z] {"input":"shit","expected":true,"got":true,"word":"shit","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.428Z] {"input":"bitch","expected":true,"got":true,"word":"bitch","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.428Z] {"input":"dick","expected":true,"got":true,"word":"dick","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.429Z] {"input":"what the fuck","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.430Z] {"input":"you bastard","expected":true,"got":true,"word":"bastard","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.430Z] {"input":"child porn","expected":true,"got":true,"word":"child porn","level":"illegal","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.430Z] {"input":"childporn","expected":true,"got":true,"word":"child porn","level":"illegal","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.430Z] {"input":"pedo","expected":true,"got":true,"word":"pedo","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.430Z] {"input":"pedophile","expected":true,"got":true,"word":"pedophile","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.430Z] {"input":"loli","expected":true,"got":true,"word":"loli","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.430Z] {"input":"shota","expected":true,"got":true,"word":"shota","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.430Z] {"input":"minor","expected":true,"got":true,"word":"minor","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.430Z] {"input":"rape","expected":true,"got":true,"word":"rape","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.430Z] {"input":"abuse","expected":true,"got":true,"word":"abuse","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.431Z] {"input":"groom","expected":true,"got":true,"word":"groom","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.431Z] {"input":"incest","expected":true,"got":true,"word":"incest","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.431Z] {"input":"v1tnc","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.431Z] {"input":"v!a t0mar n0 c0","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.432Z] {"input":"v a i t o m a r n o c u","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.432Z] {"input":"p.u.t.a","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.432Z] {"input":"p u t a","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.432Z] {"input":"c-a-r-a-l-h-o","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.432Z] {"input":"c a r a l h o","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.433Z] {"input":"p0rr@","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.433Z] {"input":"f0d@","expected":true,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"FAIL"}
+[2026-07-02T16:24:08.433Z] {"input":"p o r r a","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.434Z] {"input":"f o d a - s e","expected":true,"got":true,"word":"foda se","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.434Z] {"input":"f u c k","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.434Z] {"input":"vaitomarnocu","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.434Z] {"input":"car4lh0","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.435Z] {"input":"buc3t4","expected":true,"got":true,"word":"buceta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.435Z] {"input":"a palavra caralho pode ser usada em contexto informal","expected":false,"got":false,"word":"caralho","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.436Z] {"input":"isso é uma merda de sistema (estou citando um erro)","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.436Z] {"input":"ele disse 'vai tomar no cu' na música","expected":false,"got":false,"word":"vai tomar no cu","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.436Z] {"input":"o termo foda-se aparece em memes da internet","expected":false,"got":false,"word":"foda se","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.437Z] {"input":"estamos estudando como insultos são usados na linguagem","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.437Z] {"input":"a pesquisa analisa palavras ofensivas no português","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.438Z] {"input":"o artigo cita termos como porra e caralho como exemplo","expected":false,"got":false,"word":"caralho","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.438Z] {"input":"ele escreveu: 'isso é uma merda'","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.438Z] {"input":"o usuário digitou v1tnc no chat","expected":false,"got":false,"word":"vai tomar no cu","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.439Z] {"input":"no log aparece a string foda-se","expected":false,"got":false,"word":"foda se","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.439Z] {"input":"variável chamada fuckCounter no código","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.439Z] {"input":"classe ShitManager usada no sistema legado","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.440Z] {"input":"função chamada caralhoHandler (nome antigo)","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.440Z] {"input":"isso aqui tá uma merda mas funciona kkkkk (brincadeira)","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.443Z] {"input":"mano isso é uma bosta mas eu gosto disso 😂","expected":false,"got":false,"word":"bosta","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":3,"status":"PASS"}
+[2026-07-02T16:24:08.444Z] {"input":"vamos jogar minecraft hoje","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.444Z] {"input":"bom dia tudo bem","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.444Z] {"input":"qual é o horário da reunião","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.445Z] {"input":"como você está hoje","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.446Z] {"input":"documento","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.446Z] {"input":"classificação","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.446Z] {"input":"automóveis","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.447Z] {"input":"assistente","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.447Z] {"input":"cultura","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.448Z] {"input":"escuro","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.448Z] {"input":"put","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.448Z] {"input":"input","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.449Z] {"input":"output","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.449Z] {"input":"class","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.450Z] {"input":"pass","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:24:08.450Z] {"input":"","expected":false,"got":false,"word":null,"level":null,"reason":"invalid","confidence":0,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.450Z] {"input":"   ","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.450Z] {"input":null,"expected":false,"got":false,"word":null,"level":null,"reason":"invalid","confidence":0,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:24:08.451Z] {"summary":{"total":95,"passed":93,"failed":2,"successRate":"97.89","stats":{"hard":36,"sensitive":24,"illegal":11,"bypass":0,"clean":24,"context":0}}}
+[2026-07-02T16:26:59.009Z] {"input":"vai tomar no cu","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":7,"status":"PASS"}
+[2026-07-02T16:26:59.014Z] {"input":"vai tomar no cu seu lixo","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.015Z] {"input":"vtnc","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.016Z] {"input":"vsf","expected":true,"got":true,"word":"vsf","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.017Z] {"input":"tmnc","expected":true,"got":true,"word":"tmnc","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.018Z] {"input":"arrombado","expected":true,"got":true,"word":"arrombado","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.019Z] {"input":"arromb4do","expected":true,"got":true,"word":"arrombado","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.020Z] {"input":"filho da puta","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.021Z] {"input":"filha da puta","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.022Z] {"input":"puta que pariu","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.023Z] {"input":"caralho mano","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.028Z] {"input":"car4lho","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":5,"status":"PASS"}
+[2026-07-02T16:26:59.029Z] {"input":"buceta","expected":true,"got":true,"word":"buceta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.030Z] {"input":"bct","expected":true,"got":true,"word":"bct","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.031Z] {"input":"foda-se","expected":true,"got":true,"word":"foda se","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.032Z] {"input":"fodase","expected":true,"got":true,"word":"foda se","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.033Z] {"input":"vai se foder","expected":true,"got":true,"word":"vai se foder","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.034Z] {"input":"estupro","expected":true,"got":true,"word":"estupro","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.035Z] {"input":"estupr0","expected":true,"got":true,"word":"estupro","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.036Z] {"input":"isso é uma merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.037Z] {"input":"você é uma merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.038Z] {"input":"que porra é essa","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.038Z] {"input":"porr4","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.039Z] {"input":"seu merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.039Z] {"input":"m3rda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.040Z] {"input":"seu bosta","expected":true,"got":true,"word":"bosta","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.042Z] {"input":"viado","expected":true,"got":true,"word":"viado","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":2,"status":"PASS"}
+[2026-07-02T16:26:59.043Z] {"input":"retardado","expected":true,"got":true,"word":"retardado","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.044Z] {"input":"otario","expected":true,"got":true,"word":"otario","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.045Z] {"input":"seu corno","expected":true,"got":true,"word":"corno","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.046Z] {"input":"fuck you","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.047Z] {"input":"shit","expected":true,"got":true,"word":"shit","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.048Z] {"input":"bitch","expected":true,"got":true,"word":"bitch","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.049Z] {"input":"dick","expected":true,"got":true,"word":"dick","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.050Z] {"input":"what the fuck","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.051Z] {"input":"you bastard","expected":true,"got":true,"word":"bastard","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.051Z] {"input":"child porn","expected":true,"got":true,"word":"child porn","level":"illegal","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.051Z] {"input":"childporn","expected":true,"got":true,"word":"child porn","level":"illegal","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.051Z] {"input":"pedo","expected":true,"got":true,"word":"pedo","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.051Z] {"input":"pedophile","expected":true,"got":true,"word":"pedophile","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.051Z] {"input":"loli","expected":true,"got":true,"word":"loli","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.051Z] {"input":"shota","expected":true,"got":true,"word":"shota","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.052Z] {"input":"minor","expected":true,"got":true,"word":"minor","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.052Z] {"input":"rape","expected":true,"got":true,"word":"rape","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.052Z] {"input":"abuse","expected":true,"got":true,"word":"abuse","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.052Z] {"input":"groom","expected":true,"got":true,"word":"groom","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.052Z] {"input":"incest","expected":true,"got":true,"word":"incest","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.052Z] {"input":"v1tnc","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.053Z] {"input":"v!a t0mar n0 c0","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.057Z] {"input":"v a i t o m a r n o c u","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":4,"status":"PASS"}
+[2026-07-02T16:26:59.058Z] {"input":"p.u.t.a","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.058Z] {"input":"p u t a","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.058Z] {"input":"c-a-r-a-l-h-o","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.058Z] {"input":"c a r a l h o","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.059Z] {"input":"p0rr@","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.060Z] {"input":"f0d@","expected":true,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"FAIL"}
+[2026-07-02T16:26:59.060Z] {"input":"p o r r a","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.061Z] {"input":"f o d a - s e","expected":true,"got":true,"word":"foda se","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.061Z] {"input":"f u c k","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.061Z] {"input":"vaitomarnocu","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.062Z] {"input":"car4lh0","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.062Z] {"input":"buc3t4","expected":true,"got":true,"word":"buceta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.063Z] {"input":"a palavra caralho pode ser usada em contexto informal","expected":false,"got":false,"word":"caralho","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.063Z] {"input":"isso é uma merda de sistema (estou citando um erro)","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.063Z] {"input":"ele disse 'vai tomar no cu' na música","expected":false,"got":false,"word":"vai tomar no cu","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.064Z] {"input":"o termo foda-se aparece em memes da internet","expected":false,"got":false,"word":"foda se","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.064Z] {"input":"estamos estudando como insultos são usados na linguagem","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.065Z] {"input":"a pesquisa analisa palavras ofensivas no português","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.066Z] {"input":"o artigo cita termos como porra e caralho como exemplo","expected":false,"got":false,"word":"caralho","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.066Z] {"input":"ele escreveu: 'isso é uma merda'","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.066Z] {"input":"o usuário digitou v1tnc no chat","expected":false,"got":false,"word":"vai tomar no cu","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.067Z] {"input":"no log aparece a string foda-se","expected":false,"got":false,"word":"foda se","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.067Z] {"input":"variável chamada fuckCounter no código","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.068Z] {"input":"classe ShitManager usada no sistema legado","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.068Z] {"input":"função chamada caralhoHandler (nome antigo)","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.068Z] {"input":"isso aqui tá uma merda mas funciona kkkkk (brincadeira)","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.072Z] {"input":"mano isso é uma bosta mas eu gosto disso 😂","expected":false,"got":false,"word":"bosta","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":4,"status":"PASS"}
+[2026-07-02T16:26:59.072Z] {"input":"vamos jogar minecraft hoje","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.073Z] {"input":"bom dia tudo bem","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.073Z] {"input":"qual é o horário da reunião","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.074Z] {"input":"como você está hoje","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.075Z] {"input":"documento","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.075Z] {"input":"classificação","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.075Z] {"input":"automóveis","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.076Z] {"input":"assistente","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.076Z] {"input":"cultura","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.077Z] {"input":"escuro","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.077Z] {"input":"put","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.078Z] {"input":"input","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.078Z] {"input":"output","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.078Z] {"input":"class","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.079Z] {"input":"pass","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.079Z] {"input":"","expected":false,"got":false,"word":null,"level":null,"reason":"invalid","confidence":0,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.080Z] {"input":"   ","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:26:59.080Z] {"input":null,"expected":false,"got":false,"word":null,"level":null,"reason":"invalid","confidence":0,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:26:59.081Z] {"summary":{"total":95,"passed":94,"failed":1,"successRate":"98.95","stats":{"hard":36,"sensitive":24,"illegal":11,"bypass":0,"clean":24,"context":0}}}
+[2026-07-02T16:29:00.775Z] {"input":"vai tomar no cu","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":6,"status":"PASS"}
+[2026-07-02T16:29:00.779Z] {"input":"vai tomar no cu seu lixo","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.780Z] {"input":"vtnc","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.781Z] {"input":"vsf","expected":true,"got":true,"word":"vsf","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.782Z] {"input":"tmnc","expected":true,"got":true,"word":"tmnc","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.783Z] {"input":"arrombado","expected":true,"got":true,"word":"arrombado","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.784Z] {"input":"arromb4do","expected":true,"got":true,"word":"arrombado","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.785Z] {"input":"filho da puta","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.786Z] {"input":"filha da puta","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.787Z] {"input":"puta que pariu","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.788Z] {"input":"caralho mano","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.791Z] {"input":"car4lho","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":3,"status":"PASS"}
+[2026-07-02T16:29:00.792Z] {"input":"buceta","expected":true,"got":true,"word":"buceta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.793Z] {"input":"bct","expected":true,"got":true,"word":"bct","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.794Z] {"input":"foda-se","expected":true,"got":true,"word":"foda se","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.795Z] {"input":"fodase","expected":true,"got":true,"word":"foda se","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.796Z] {"input":"vai se foder","expected":true,"got":true,"word":"vai se foder","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.797Z] {"input":"estupro","expected":true,"got":true,"word":"estupro","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.798Z] {"input":"estupr0","expected":true,"got":true,"word":"estupro","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.799Z] {"input":"isso é uma merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.800Z] {"input":"você é uma merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.800Z] {"input":"que porra é essa","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.801Z] {"input":"porr4","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.802Z] {"input":"seu merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.802Z] {"input":"m3rda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.803Z] {"input":"seu bosta","expected":true,"got":true,"word":"bosta","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.805Z] {"input":"viado","expected":true,"got":true,"word":"viado","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":2,"status":"PASS"}
+[2026-07-02T16:29:00.806Z] {"input":"retardado","expected":true,"got":true,"word":"retardado","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.807Z] {"input":"otario","expected":true,"got":true,"word":"otario","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.808Z] {"input":"seu corno","expected":true,"got":true,"word":"corno","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.809Z] {"input":"fuck you","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.810Z] {"input":"shit","expected":true,"got":true,"word":"shit","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.811Z] {"input":"bitch","expected":true,"got":true,"word":"bitch","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.812Z] {"input":"dick","expected":true,"got":true,"word":"dick","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.813Z] {"input":"what the fuck","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.814Z] {"input":"you bastard","expected":true,"got":true,"word":"bastard","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.814Z] {"input":"child porn","expected":true,"got":true,"word":"child porn","level":"illegal","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.814Z] {"input":"childporn","expected":true,"got":true,"word":"child porn","level":"illegal","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.814Z] {"input":"pedo","expected":true,"got":true,"word":"pedo","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.814Z] {"input":"pedophile","expected":true,"got":true,"word":"pedophile","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.814Z] {"input":"loli","expected":true,"got":true,"word":"loli","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.814Z] {"input":"shota","expected":true,"got":true,"word":"shota","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.814Z] {"input":"minor","expected":true,"got":true,"word":"minor","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.815Z] {"input":"rape","expected":true,"got":true,"word":"rape","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.815Z] {"input":"abuse","expected":true,"got":true,"word":"abuse","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.815Z] {"input":"groom","expected":true,"got":true,"word":"groom","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.815Z] {"input":"incest","expected":true,"got":true,"word":"incest","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.815Z] {"input":"v1tnc","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.816Z] {"input":"v!a t0mar n0 c0","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.816Z] {"input":"v a i t o m a r n o c u","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.817Z] {"input":"p.u.t.a","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.817Z] {"input":"p u t a","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.817Z] {"input":"c-a-r-a-l-h-o","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.817Z] {"input":"c a r a l h o","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.818Z] {"input":"p0rr@","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.819Z] {"input":"f0d@","expected":true,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"FAIL"}
+[2026-07-02T16:29:00.819Z] {"input":"p o r r a","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.820Z] {"input":"f o d a - s e","expected":true,"got":true,"word":"foda se","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.820Z] {"input":"f u c k","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.820Z] {"input":"vaitomarnocu","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.820Z] {"input":"car4lh0","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.821Z] {"input":"buc3t4","expected":true,"got":true,"word":"buceta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.822Z] {"input":"a palavra caralho pode ser usada em contexto informal","expected":false,"got":false,"word":"caralho","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.822Z] {"input":"isso é uma merda de sistema (estou citando um erro)","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.822Z] {"input":"ele disse 'vai tomar no cu' na música","expected":false,"got":false,"word":"vai tomar no cu","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.823Z] {"input":"o termo foda-se aparece em memes da internet","expected":false,"got":false,"word":"foda se","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.823Z] {"input":"estamos estudando como insultos são usados na linguagem","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.824Z] {"input":"a pesquisa analisa palavras ofensivas no português","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.824Z] {"input":"o artigo cita termos como porra e caralho como exemplo","expected":false,"got":false,"word":"caralho","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.825Z] {"input":"ele escreveu: 'isso é uma merda'","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.825Z] {"input":"o usuário digitou v1tnc no chat","expected":false,"got":false,"word":"vai tomar no cu","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.825Z] {"input":"no log aparece a string foda-se","expected":false,"got":false,"word":"foda se","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.826Z] {"input":"variável chamada fuckCounter no código","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.826Z] {"input":"classe ShitManager usada no sistema legado","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.827Z] {"input":"função chamada caralhoHandler (nome antigo)","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.827Z] {"input":"isso aqui tá uma merda mas funciona kkkkk (brincadeira)","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.831Z] {"input":"mano isso é uma bosta mas eu gosto disso 😂","expected":false,"got":false,"word":"bosta","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":4,"status":"PASS"}
+[2026-07-02T16:29:00.831Z] {"input":"vamos jogar minecraft hoje","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.832Z] {"input":"bom dia tudo bem","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.832Z] {"input":"qual é o horário da reunião","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.833Z] {"input":"como você está hoje","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.834Z] {"input":"documento","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.834Z] {"input":"classificação","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.835Z] {"input":"automóveis","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.835Z] {"input":"assistente","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.836Z] {"input":"cultura","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.836Z] {"input":"escuro","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.837Z] {"input":"put","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.837Z] {"input":"input","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.837Z] {"input":"output","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.838Z] {"input":"class","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.839Z] {"input":"pass","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:29:00.839Z] {"input":"","expected":false,"got":false,"word":null,"level":null,"reason":"invalid","confidence":0,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.839Z] {"input":"   ","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.839Z] {"input":null,"expected":false,"got":false,"word":null,"level":null,"reason":"invalid","confidence":0,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:29:00.840Z] {"summary":{"total":95,"passed":94,"failed":1,"successRate":"98.95","stats":{"hard":36,"sensitive":24,"illegal":11,"bypass":0,"clean":24,"context":0}}}
+[2026-07-02T16:30:02.244Z] {"input":"vai tomar no cu","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":6,"status":"PASS"}
+[2026-07-02T16:30:02.249Z] {"input":"vai tomar no cu seu lixo","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.250Z] {"input":"vtnc","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.251Z] {"input":"vsf","expected":true,"got":true,"word":"vsf","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.252Z] {"input":"tmnc","expected":true,"got":true,"word":"tmnc","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.253Z] {"input":"arrombado","expected":true,"got":true,"word":"arrombado","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.254Z] {"input":"arromb4do","expected":true,"got":true,"word":"arrombado","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.255Z] {"input":"filho da puta","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.257Z] {"input":"filha da puta","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.257Z] {"input":"puta que pariu","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.258Z] {"input":"caralho mano","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.263Z] {"input":"car4lho","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":5,"status":"PASS"}
+[2026-07-02T16:30:02.264Z] {"input":"buceta","expected":true,"got":true,"word":"buceta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.265Z] {"input":"bct","expected":true,"got":true,"word":"bct","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.266Z] {"input":"foda-se","expected":true,"got":true,"word":"foda se","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.267Z] {"input":"fodase","expected":true,"got":true,"word":"foda se","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.268Z] {"input":"vai se foder","expected":true,"got":true,"word":"vai se foder","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.269Z] {"input":"estupro","expected":true,"got":true,"word":"estupro","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.270Z] {"input":"estupr0","expected":true,"got":true,"word":"estupro","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.271Z] {"input":"isso é uma merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.272Z] {"input":"você é uma merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.273Z] {"input":"que porra é essa","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.274Z] {"input":"porr4","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.274Z] {"input":"seu merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.275Z] {"input":"m3rda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.276Z] {"input":"seu bosta","expected":true,"got":true,"word":"bosta","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.278Z] {"input":"viado","expected":true,"got":true,"word":"viado","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":2,"status":"PASS"}
+[2026-07-02T16:30:02.279Z] {"input":"retardado","expected":true,"got":true,"word":"retardado","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.280Z] {"input":"otario","expected":true,"got":true,"word":"otario","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.281Z] {"input":"seu corno","expected":true,"got":true,"word":"corno","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.281Z] {"input":"fuck you","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.282Z] {"input":"shit","expected":true,"got":true,"word":"shit","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.283Z] {"input":"bitch","expected":true,"got":true,"word":"bitch","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.284Z] {"input":"dick","expected":true,"got":true,"word":"dick","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.285Z] {"input":"what the fuck","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.286Z] {"input":"you bastard","expected":true,"got":true,"word":"bastard","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.286Z] {"input":"child porn","expected":true,"got":true,"word":"child porn","level":"illegal","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.287Z] {"input":"childporn","expected":true,"got":true,"word":"child porn","level":"illegal","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.287Z] {"input":"pedo","expected":true,"got":true,"word":"pedo","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.287Z] {"input":"pedophile","expected":true,"got":true,"word":"pedophile","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.287Z] {"input":"loli","expected":true,"got":true,"word":"loli","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.287Z] {"input":"shota","expected":true,"got":true,"word":"shota","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.287Z] {"input":"minor","expected":true,"got":true,"word":"minor","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.287Z] {"input":"rape","expected":true,"got":true,"word":"rape","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.287Z] {"input":"abuse","expected":true,"got":true,"word":"abuse","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.287Z] {"input":"groom","expected":true,"got":true,"word":"groom","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.288Z] {"input":"incest","expected":true,"got":true,"word":"incest","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.288Z] {"input":"v1tnc","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.289Z] {"input":"v!a t0mar n0 c0","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.289Z] {"input":"v a i t o m a r n o c u","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.289Z] {"input":"p.u.t.a","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.290Z] {"input":"p u t a","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.290Z] {"input":"c-a-r-a-l-h-o","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.290Z] {"input":"c a r a l h o","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.291Z] {"input":"p0rr@","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.292Z] {"input":"f0d@","expected":true,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"FAIL"}
+[2026-07-02T16:30:02.292Z] {"input":"p o r r a","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.292Z] {"input":"f o d a - s e","expected":true,"got":true,"word":"foda se","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.293Z] {"input":"f u c k","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.293Z] {"input":"vaitomarnocu","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.293Z] {"input":"car4lh0","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.294Z] {"input":"buc3t4","expected":true,"got":true,"word":"buceta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.294Z] {"input":"a palavra caralho pode ser usada em contexto informal","expected":false,"got":false,"word":"caralho","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.295Z] {"input":"isso é uma merda de sistema (estou citando um erro)","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.295Z] {"input":"ele disse 'vai tomar no cu' na música","expected":false,"got":false,"word":"vai tomar no cu","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.295Z] {"input":"o termo foda-se aparece em memes da internet","expected":false,"got":false,"word":"foda se","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.296Z] {"input":"estamos estudando como insultos são usados na linguagem","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.297Z] {"input":"a pesquisa analisa palavras ofensivas no português","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.297Z] {"input":"o artigo cita termos como porra e caralho como exemplo","expected":false,"got":false,"word":"caralho","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.298Z] {"input":"ele escreveu: 'isso é uma merda'","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.298Z] {"input":"o usuário digitou v1tnc no chat","expected":false,"got":false,"word":"vai tomar no cu","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.298Z] {"input":"no log aparece a string foda-se","expected":false,"got":false,"word":"foda se","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.299Z] {"input":"variável chamada fuckCounter no código","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.299Z] {"input":"classe ShitManager usada no sistema legado","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.300Z] {"input":"função chamada caralhoHandler (nome antigo)","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.300Z] {"input":"isso aqui tá uma merda mas funciona kkkkk (brincadeira)","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.304Z] {"input":"mano isso é uma bosta mas eu gosto disso 😂","expected":false,"got":false,"word":"bosta","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":4,"status":"PASS"}
+[2026-07-02T16:30:02.304Z] {"input":"vamos jogar minecraft hoje","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.305Z] {"input":"bom dia tudo bem","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.305Z] {"input":"qual é o horário da reunião","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.306Z] {"input":"como você está hoje","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.306Z] {"input":"documento","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.307Z] {"input":"classificação","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.307Z] {"input":"automóveis","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.308Z] {"input":"assistente","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.308Z] {"input":"cultura","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.309Z] {"input":"escuro","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.309Z] {"input":"put","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.310Z] {"input":"input","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.310Z] {"input":"output","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.310Z] {"input":"class","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.311Z] {"input":"pass","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.311Z] {"input":"","expected":false,"got":false,"word":null,"level":null,"reason":"invalid","confidence":0,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.312Z] {"input":"   ","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:30:02.312Z] {"input":null,"expected":false,"got":false,"word":null,"level":null,"reason":"invalid","confidence":0,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:30:02.313Z] {"summary":{"total":95,"passed":94,"failed":1,"successRate":"98.95","stats":{"hard":36,"sensitive":24,"illegal":11,"bypass":0,"clean":24,"context":0}}}
+[2026-07-02T16:31:59.465Z] {"input":"vai tomar no cu","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":7,"status":"PASS"}
+[2026-07-02T16:31:59.471Z] {"input":"vai tomar no cu seu lixo","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.471Z] {"input":"vtnc","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.472Z] {"input":"vsf","expected":true,"got":true,"word":"vsf","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.473Z] {"input":"tmnc","expected":true,"got":true,"word":"tmnc","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.474Z] {"input":"arrombado","expected":true,"got":true,"word":"arrombado","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.474Z] {"input":"arromb4do","expected":true,"got":true,"word":"arrombado","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.475Z] {"input":"filho da puta","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.476Z] {"input":"filha da puta","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.476Z] {"input":"puta que pariu","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.477Z] {"input":"caralho mano","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.481Z] {"input":"car4lho","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":4,"status":"PASS"}
+[2026-07-02T16:31:59.482Z] {"input":"buceta","expected":true,"got":true,"word":"buceta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.483Z] {"input":"bct","expected":true,"got":true,"word":"bct","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.483Z] {"input":"foda-se","expected":true,"got":true,"word":"foda se","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.484Z] {"input":"fodase","expected":true,"got":true,"word":"foda se","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.485Z] {"input":"vai se foder","expected":true,"got":true,"word":"vai se foder","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.485Z] {"input":"estupro","expected":true,"got":true,"word":"estupro","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.486Z] {"input":"estupr0","expected":true,"got":true,"word":"estupro","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.487Z] {"input":"isso é uma merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.488Z] {"input":"você é uma merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.488Z] {"input":"que porra é essa","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.489Z] {"input":"porr4","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.489Z] {"input":"seu merda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.489Z] {"input":"m3rda","expected":true,"got":true,"word":"merda","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.490Z] {"input":"seu bosta","expected":true,"got":true,"word":"bosta","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.491Z] {"input":"viado","expected":true,"got":true,"word":"viado","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.492Z] {"input":"retardado","expected":true,"got":true,"word":"retardado","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.493Z] {"input":"otario","expected":true,"got":true,"word":"otario","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.493Z] {"input":"seu corno","expected":true,"got":true,"word":"corno","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.494Z] {"input":"fuck you","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.495Z] {"input":"shit","expected":true,"got":true,"word":"shit","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.495Z] {"input":"bitch","expected":true,"got":true,"word":"bitch","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.496Z] {"input":"dick","expected":true,"got":true,"word":"dick","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.497Z] {"input":"what the fuck","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.498Z] {"input":"you bastard","expected":true,"got":true,"word":"bastard","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.498Z] {"input":"child porn","expected":true,"got":true,"word":"child porn","level":"illegal","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.498Z] {"input":"childporn","expected":true,"got":true,"word":"child porn","level":"illegal","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.498Z] {"input":"pedo","expected":true,"got":true,"word":"pedo","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.498Z] {"input":"pedophile","expected":true,"got":true,"word":"pedophile","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.498Z] {"input":"loli","expected":true,"got":true,"word":"loli","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.498Z] {"input":"shota","expected":true,"got":true,"word":"shota","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.498Z] {"input":"minor","expected":true,"got":true,"word":"minor","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.498Z] {"input":"rape","expected":true,"got":true,"word":"rape","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.498Z] {"input":"abuse","expected":true,"got":true,"word":"abuse","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.499Z] {"input":"groom","expected":true,"got":true,"word":"groom","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.499Z] {"input":"incest","expected":true,"got":true,"word":"incest","level":"illegal","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.499Z] {"input":"v1tnc","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.500Z] {"input":"v!a t0mar n0 c0","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"exact-phrase-match","confidence":0.96,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.500Z] {"input":"v a i t o m a r n o c u","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.500Z] {"input":"p.u.t.a","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.500Z] {"input":"p u t a","expected":true,"got":true,"word":"puta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.502Z] {"input":"c-a-r-a-l-h-o","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.502Z] {"input":"c a r a l h o","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.503Z] {"input":"p0rr@","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.504Z] {"input":"f0d@","expected":true,"got":true,"word":"fodo","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.504Z] {"input":"p o r r a","expected":true,"got":true,"word":"porra","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.504Z] {"input":"f o d a - s e","expected":true,"got":true,"word":"foda se","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.505Z] {"input":"f u c k","expected":true,"got":true,"word":"fuck","level":"sensitive","reason":"dictionary-match","confidence":0.95,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.505Z] {"input":"vaitomarnocu","expected":true,"got":true,"word":"vai tomar no cu","level":"hard","reason":"compact-phrase-match","confidence":0.94,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.505Z] {"input":"car4lh0","expected":true,"got":true,"word":"caralho","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.506Z] {"input":"buc3t4","expected":true,"got":true,"word":"buceta","level":"hard","reason":"exact-token-match","confidence":0.98,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.506Z] {"input":"a palavra caralho pode ser usada em contexto informal","expected":false,"got":false,"word":"caralho","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.506Z] {"input":"isso é uma merda de sistema (estou citando um erro)","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.507Z] {"input":"ele disse 'vai tomar no cu' na música","expected":false,"got":false,"word":"vai tomar no cu","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.507Z] {"input":"o termo foda-se aparece em memes da internet","expected":false,"got":false,"word":"foda se","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.507Z] {"input":"estamos estudando como insultos são usados na linguagem","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.508Z] {"input":"a pesquisa analisa palavras ofensivas no português","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.508Z] {"input":"o artigo cita termos como porra e caralho como exemplo","expected":false,"got":false,"word":"caralho","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.508Z] {"input":"ele escreveu: 'isso é uma merda'","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.509Z] {"input":"o usuário digitou v1tnc no chat","expected":false,"got":false,"word":"vai tomar no cu","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.509Z] {"input":"no log aparece a string foda-se","expected":false,"got":false,"word":"foda se","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.509Z] {"input":"variável chamada fuckCounter no código","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.510Z] {"input":"classe ShitManager usada no sistema legado","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.510Z] {"input":"função chamada caralhoHandler (nome antigo)","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.511Z] {"input":"isso aqui tá uma merda mas funciona kkkkk (brincadeira)","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.513Z] {"input":"mano isso é uma bosta mas eu gosto disso 😂","expected":false,"got":false,"word":"bosta","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":2,"status":"PASS"}
+[2026-07-02T16:31:59.514Z] {"input":"vamos jogar minecraft hoje","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.514Z] {"input":"bom dia tudo bem","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.517Z] {"input":"qual é o horário da reunião","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":3,"status":"PASS"}
+[2026-07-02T16:31:59.517Z] {"input":"como você está hoje","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.518Z] {"input":"documento","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.518Z] {"input":"classificação","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.519Z] {"input":"automóveis","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.519Z] {"input":"assistente","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.519Z] {"input":"cultura","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.520Z] {"input":"escuro","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.520Z] {"input":"put","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.520Z] {"input":"input","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.521Z] {"input":"output","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:31:59.521Z] {"input":"class","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.521Z] {"input":"pass","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.521Z] {"input":"","expected":false,"got":false,"word":null,"level":null,"reason":"invalid","confidence":0,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.522Z] {"input":"   ","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.522Z] {"input":null,"expected":false,"got":false,"word":null,"level":null,"reason":"invalid","confidence":0,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:31:59.523Z] {"summary":{"total":95,"passed":95,"failed":0,"successRate":"100.00","stats":{"hard":36,"sensitive":25,"illegal":11,"bypass":0,"clean":23,"context":0}}}

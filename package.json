@@ -1,0 +1,27 @@
+{
+  "name": "hostville-bot",
+  "version": "5.0.0",
+  "description": "Bot de Moderacao Completo - HostVille",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Y2k_Nat",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "cors": "^2.8.6",
+    "discord.js": "^14.26.4",
+    "dotenv": "^16.4.7",
+    "express": "^5.2.1",
+    "groq-sdk": "^1.3.0",
+    "gtts": "^0.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.7.3",
+    "node-json-db": "^2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

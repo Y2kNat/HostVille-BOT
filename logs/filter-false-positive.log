@@ -1,0 +1,44 @@
+[2026-07-02T16:18:03.018Z] {"input":"a palavra caralho pode ser usada em contexto informal","expected":false,"got":false,"word":"caralho","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":5,"status":"PASS"}
+[2026-07-02T16:18:03.021Z] {"input":"isso é uma merda de sistema (estou citando um erro)","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:18:03.022Z] {"input":"ele disse 'vai tomar no cu' na música","expected":false,"got":false,"word":"vai tomar no cu","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:18:03.023Z] {"input":"o termo foda-se aparece em memes da internet","expected":false,"got":false,"word":"foda se","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:18:03.024Z] {"input":"estamos estudando como insultos são usados na linguagem","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:18:03.025Z] {"input":"a pesquisa analisa palavras ofensivas no português","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:18:03.025Z] {"input":"o artigo cita termos como porra e caralho como exemplo","expected":false,"got":false,"word":"caralho","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:18:03.026Z] {"input":"ele escreveu: 'isso é uma merda'","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:18:03.029Z] {"input":"o usuário digitou v1tnc no chat","expected":false,"got":false,"word":"vai tomar no cu","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":3,"status":"PASS"}
+[2026-07-02T16:18:03.030Z] {"input":"no log aparece a string foda-se","expected":false,"got":false,"word":"foda se","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:18:03.031Z] {"input":"variável chamada fuckCounter no código","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:18:03.031Z] {"input":"classe ShitManager usada no sistema legado","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:18:03.032Z] {"input":"função chamada caralhoHandler (nome antigo)","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:18:03.033Z] {"input":"isso aqui tá uma merda mas funciona kkkkk (brincadeira)","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:18:03.036Z] {"input":"mano isso é uma bosta mas eu gosto disso 😂","expected":false,"got":false,"word":"bosta","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":3,"status":"PASS"}
+[2026-07-02T16:18:03.037Z] {"input":"vamos jogar minecraft hoje","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:18:03.038Z] {"input":"bom dia tudo bem","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:18:03.038Z] {"input":"qual é o horário da reunião","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:18:03.038Z] {"input":"","expected":false,"got":false,"word":null,"level":null,"reason":"invalid","confidence":0,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:18:03.039Z] {"input":"   ","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:18:03.039Z] {"input":null,"expected":false,"got":false,"word":null,"level":null,"reason":"invalid","confidence":0,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:18:03.042Z] {"summary":{"total":21,"passed":21,"failed":0,"accuracy":"100.00"}}
+[2026-07-02T16:21:43.147Z] {"input":"a palavra caralho pode ser usada em contexto informal","expected":false,"got":false,"word":"caralho","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":5,"status":"PASS"}
+[2026-07-02T16:21:43.156Z] {"input":"isso é uma merda de sistema (estou citando um erro)","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":3,"status":"PASS"}
+[2026-07-02T16:21:43.157Z] {"input":"ele disse 'vai tomar no cu' na música","expected":false,"got":false,"word":"vai tomar no cu","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:43.158Z] {"input":"o termo foda-se aparece em memes da internet","expected":false,"got":false,"word":"foda se","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:43.159Z] {"input":"estamos estudando como insultos são usados na linguagem","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:43.160Z] {"input":"a pesquisa analisa palavras ofensivas no português","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:43.160Z] {"input":"o artigo cita termos como porra e caralho como exemplo","expected":false,"got":false,"word":"caralho","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:43.161Z] {"input":"ele escreveu: 'isso é uma merda'","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:43.164Z] {"input":"o usuário digitou v1tnc no chat","expected":false,"got":false,"word":"vai tomar no cu","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":3,"status":"PASS"}
+[2026-07-02T16:21:43.165Z] {"input":"no log aparece a string foda-se","expected":false,"got":false,"word":"foda se","level":"hard","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:43.166Z] {"input":"variável chamada fuckCounter no código","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:43.166Z] {"input":"classe ShitManager usada no sistema legado","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:43.167Z] {"input":"função chamada caralhoHandler (nome antigo)","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:43.168Z] {"input":"isso aqui tá uma merda mas funciona kkkkk (brincadeira)","expected":false,"got":false,"word":"merda","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:43.171Z] {"input":"mano isso é uma bosta mas eu gosto disso 😂","expected":false,"got":false,"word":"bosta","level":"sensitive","reason":"context-suppressed","confidence":0.65,"timeMs":3,"status":"PASS"}
+[2026-07-02T16:21:43.172Z] {"input":"vamos jogar minecraft hoje","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:43.173Z] {"input":"bom dia tudo bem","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:43.173Z] {"input":"qual é o horário da reunião","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:43.173Z] {"input":"","expected":false,"got":false,"word":null,"level":null,"reason":"invalid","confidence":0,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:43.174Z] {"input":"   ","expected":false,"got":false,"word":null,"level":null,"reason":"clean","confidence":0.99,"timeMs":1,"status":"PASS"}
+[2026-07-02T16:21:43.174Z] {"input":null,"expected":false,"got":false,"word":null,"level":null,"reason":"invalid","confidence":0,"timeMs":0,"status":"PASS"}
+[2026-07-02T16:21:43.177Z] {"summary":{"total":21,"passed":21,"failed":0,"accuracy":"100.00"}}
