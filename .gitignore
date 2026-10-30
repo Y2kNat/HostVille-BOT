@@ -26,6 +26,9 @@ data/transcripts/
 # Backups e runtime de dados
 backups/
 data/backups/
+
+# Status do bot rodando (reescreve sozinho com timestamp/pid)
+console/bot-status.js
 data/warnings.json
 data/warnings.json.bak
 data/warnings.json.pre-backfill.bak
