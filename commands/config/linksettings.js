@@ -6,7 +6,7 @@ const StatsManager = require('../../managers/StatsManager');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('linksettings')
-        .setDescription('🔗 Configura o filtro anti-link')
+        .setDescription('🔗 Filtro anti-link deste servidor (convites e domínios permitidos)')
         .addStringOption(option =>
             option.setName('action')
                 .setDescription('Ação')
@@ -29,39 +29,39 @@ module.exports = {
         
         const action = interaction.options.getString('action');
         const domain = interaction.options.getString('domain')?.toLowerCase().trim();
-        const config = await db.getLinkSettings();
+        const cfg = await db.getLinkSettings(interaction.guild.id);
         StatsManager.trackCommand('linksettings');
         
         if (action === 'toggle_invites') {
-            config.deleteInvites = !config.deleteInvites;
-            await db.setLinkSettings(config);
+            cfg.deleteInvites = !cfg.deleteInvites;
+            await db.setLinkSettings(interaction.guild.id, cfg);
             return interaction.reply({
-                content: `✅ Bloqueio de convites: **${config.deleteInvites ? 'ATIVADO' : 'DESATIVADO'}**`,
+                content: `✅ Bloqueio de convites em ${interaction.guild.name}: **${cfg.deleteInvites ? 'ATIVADO' : 'DESATIVADO'}**`,
                 flags: 64
             });
         }
         
         if (action === 'add_domain' && domain) {
-            if (config.allowedDomains.includes(domain)) {
+            if (cfg.allowedDomains.includes(domain)) {
                 return interaction.reply({ content: `⚠️ ${domain} já está na lista.`, flags: 64 });
             }
-            config.allowedDomains.push(domain);
-            await db.setLinkSettings(config);
-            return interaction.reply({ content: `✅ ${domain} adicionado à lista de permitidos.`, flags: 64 });
+            cfg.allowedDomains.push(domain);
+            await db.setLinkSettings(interaction.guild.id, cfg);
+            return interaction.reply({ content: `✅ ${domain} adicionado à lista de permitidos deste servidor.`, flags: 64 });
         }
         
         if (action === 'remove_domain' && domain) {
-            config.allowedDomains = config.allowedDomains.filter(d => d !== domain);
-            await db.setLinkSettings(config);
-            return interaction.reply({ content: `✅ ${domain} removido da lista.`, flags: 64 });
+            cfg.allowedDomains = cfg.allowedDomains.filter(d => d !== domain);
+            await db.setLinkSettings(interaction.guild.id, cfg);
+            return interaction.reply({ content: `✅ ${domain} removido da lista deste servidor.`, flags: 64 });
         }
         
         if (action === 'list_domains') {
-            if (config.allowedDomains.length === 0) {
-                return interaction.reply({ content: '📋 Nenhum domínio na lista de permitidos.', flags: 64 });
+            if (cfg.allowedDomains.length === 0) {
+                return interaction.reply({ content: '📋 Nenhum domínio na lista de permitidos deste servidor.', flags: 64 });
             }
             return interaction.reply({
-                content: `📋 **Domínios permitidos:**\n${config.allowedDomains.join('\n')}`,
+                content: `📋 **Domínios permitidos em ${interaction.guild.name}:**\n${cfg.allowedDomains.join('\n')}`,
                 flags: 64
             });
         }

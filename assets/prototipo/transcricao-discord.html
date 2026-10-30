@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Protótipo — Transcrição de Ticket (estilo Discord)</title>
+<link rel="stylesheet" href="../transcricao.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===================== CABECALHO ===================== -->
+  <div class="channel-head">
+    <span class="hash">#</span>
+    <span class="name">ticket-duvida-0023</span>
+    <span class="spacer"></span>
+    <span class="pill">Transcrição</span>
+  </div>
+
+  <!-- ===================== PIN DO TICKET ===================== -->
+  <div class="ticket-pin">
+    <div class="ticket-pin__title">
+      <span class="ico">🎫</span>
+      <span>Ticket Aberto</span>
+      <span class="num">#0023</span>
+    </div>
+
+    <div class="meta-grid">
+      <div class="meta"><span class="meta__k">Nome do Ticket</span>
+        <span class="meta__v"><a href="#">🎫・duvida-0023</a></span></div>
+      <div class="meta"><span class="meta__k">Criado Por</span>
+        <span class="meta__v">@Marcio Howard Ronstadt</span></div>
+      <div class="meta"><span class="meta__k">Data de Abertura</span>
+        <span class="meta__v">22 de setembro de 2026 às 18:31</span></div>
+      <div class="meta"><span class="meta__k">Tipo de Ticket</span>
+        <span class="meta__v">🔵 Registre-se</span></div>
+    </div>
+
+    <div class="summary">
+      <h4>Resumo do Atendimento</h4>
+      <p><b>Problema relatado:</b> o usuário não conseguia abrir ticket na categoria Dúvidas pois o botão retornava erro.</p>
+      <p><b>Solução aplicada:</b> o cargo de staff havia perdido a permissão Ver Canal; as permissões foram restauradas e o acesso normalizado.</p>
+    </div>
+  </div>
+
+  <!-- ===================== CHAT ===================== -->
+  <div class="chat">
+
+    <div class="day-divider"><span>24 de setembro de 2026</span></div>
+
+    <!-- 1) usuario com avatar real -->
+    <div class="msg msg--first">
+      <div class="msg__avatar">
+        <img alt="" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23EB459E'/%3E%3Cstop offset='1' stop-color='%23FAA81A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='80' height='80' fill='url(%23g)'/%3E%3Ccircle cx='40' cy='31' r='14' fill='%23fff' opacity='.9'/%3E%3Cpath d='M14 74c0-15 12-24 26-24s26 9 26 24z' fill='%23fff' opacity='.9'/%3E%3C/svg%3E">
+      </div>
+      <div class="msg__body">
+        <div class="msg__head">
+          <span class="msg__name">Marcio Howard Ronstadt</span>
+          <span class="msg__bot">BOT</span>
+          <span class="msg__time">Hoje às 18:31</span>
+        </div>
+        <div class="msg__text">Boa tarde! Não estou conseguindo abrir ticket na categoria Dúvidas. Ao clicar no botão aparece <b>erro desconhecido</b>.</div>
+      </div>
+    </div>
+
+    <!-- 2) bot, avatar em iniciais (fallback) + embed de texto -->
+    <div class="msg msg--first">
+      <div class="msg__avatar">HB</div>
+      <div class="msg__body">
+        <div class="msg__head">
+          <span class="msg__name">HostVille BOT</span>
+          <span class="msg__bot">BOT</span>
+          <span class="msg__time">Hoje às 18:31</span>
+        </div>
+
+        <div class="embed" style="--embed-accent:#d4af37">
+          <div class="embed__title">🎫 Ticket de Dúvidas</div>
+          <div class="embed__desc">Recebemos sua mensagem! Nossa equipe vai responder em instantes.</div>
+          <div class="embed__fields">
+            <div class="embed__field">
+              <div class="k">Categoria</div>
+              <div class="v">duvidas</div>
+            </div>
+            <div class="embed__field">
+              <div class="k">Status</div>
+              <div class="v">aguardando equipe</div>
+            </div>
+          </div>
+          <div class="embed__footer">
+            <img alt="" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Crect width='20' height='20' rx='10' fill='%23d4af37'/%3E%3C/svg%3E">
+            HostVille • Greenville RP
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3) staff respondendo, MENÇÃO destacada -->
+    <div class="msg msg--first">
+      <div class="msg__avatar">
+        <img alt="" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23223'/%3E%3Ctext x='40' y='52' font-family='sans-serif' font-size='30' font-weight='600' fill='%23fff' text-anchor='middle'%3EМ3%3C/text%3E%3C/svg%3E">
+      </div>
+      <div class="msg__body">
+        <div class="msg__head">
+          <span class="msg__name">【Ｍｏｎ 3Ｙ】</span>
+          <span class="msg__time">Hoje às 18:36</span>
+        </div>
+        <div class="msg__text"><span class="mention">@Marcio Howard Ronstadt</span> boa tarde! O problema é com o cargo de staff, que perdeu a permissão <code>ViewChannel</code>.</div>
+      </div>
+    </div>
+
+    <!-- 4) mesma pessoa, mensagem agrupada (sem avatar) -->
+    <div class="msg">
+      <div class="msg__avatar">М3</div>
+      <div class="msg__body">
+        <div class="msg__text">Já estou restaurando as permissões da categoria.</div>
+      </div>
+    </div>
+
+    <!-- 5) EMBED DE IMAGEM: barra colorida + imagem + legenda do arquivo -->
+    <div class="msg msg--first">
+      <div class="msg__avatar">HB</div>
+      <div class="msg__body">
+        <div class="msg__head">
+          <span class="msg__name">HostVille BOT</span>
+          <span class="msg__bot">BOT</span>
+          <span class="msg__time">Hoje às 18:38</span>
+        </div>
+
+        <div class="embed embed--image" style="--embed-accent:#23A55A">
+          <img class="embed__img" alt="Captura de tela enviada pelo usuário"
+               src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 220'%3E%3Crect width='400' height='220' fill='%23242427'/%3E%3Crect x='18' y='18' width='364' height='34' rx='6' fill='%23313438'/%3E%3Ccircle cx='36' cy='35' r='5' fill='%23ED4245'/%3E%3Ccircle cx='52' cy='35' r='5' fill='%23FEE75C'/%3E%3Ccircle cx='68' cy='35' r='5' fill='%2323A55A'/%3E%3Crect x='18' y='68' width='240' height='130' rx='6' fill='%232B2D31'/%3E%3Crect x='34' y='88' width='120' height='10' rx='3' fill='%234F5660'/%3E%3Crect x='34' y='108' width='200' height='8' rx='3' fill='%233B3E44'/%3E%3Crect x='34' y='126' width='180' height='8' rx='3' fill='%233B3E44'/%3E%3Crect x='34' y='150' width='90' height='30' rx='5' fill='%235865F2'/%3E%3Crect x='272' y='68' width='110' height='130' rx='6' fill='%232B2D31'/%3E%3Crect x='288' y='88' width='78' height='8' rx='3' fill='%234F5660'/%3E%3Crect x='288' y='108' width='60' height='8' rx='3' fill='%233B3E44'/%3E%3Crect x='288' y='128' width='70' height='8' rx='3' fill='%233B3E44'/%3E%3C/svg%3E">
+          <div class="embed__cap">captura-de-tela.png · 1280 × 720</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6) anexo de arquivo (não é embed) -->
+    <div class="msg msg--first">
+      <div class="msg__avatar">
+        <img alt="" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23EB459E'/%3E%3Ccircle cx='40' cy='31' r='14' fill='%23fff' opacity='.9'/%3E%3Cpath d='M14 74c0-15 12-24 26-24s26 9 26 24z' fill='%23fff' opacity='.9'/%3E%3C/svg%3E">
+      </div>
+      <div class="msg__body">
+        <div class="msg__head">
+          <span class="msg__name">Marcio Howard Ronstadt</span>
+          <span class="msg__time">Hoje às 18:41</span>
+        </div>
+        <div class="msg__text">Segue o print do erro:</div>
+        <div class="attachments">
+          <a class="attachment" href="#">
+            <span class="ico">📄</span>
+            <span>erro-abrir-ticket.png <span style="color:#949BA4;font-weight:400">· 284 KB</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7) embed de sucesso, com autor e footer -->
+    <div class="msg msg--first">
+      <div class="msg__avatar">М3</div>
+      <div class="msg__body">
+        <div class="msg__head">
+          <span class="msg__name">【Ｍｏｎ 3Ｙ】</span>
+          <span class="msg__time">Hoje às 18:45</span>
+        </div>
+
+        <div class="embed" style="--embed-accent:#23A55A">
+          <div class="embed__author">
+            <span class="dot"></span>
+            <span class="nm">Atendimento</span>
+          </div>
+          <div class="embed__title">✅ Permissões corrigidas</div>
+          <div class="embed__desc">Cargo de staff normalizado na categoria Dúvidas.
+Peça para o usuário testar novamente.</div>
+          <div class="embed__fields">
+            <div class="embed__field">
+              <div class="k">Cargo afetado</div>
+              <div class="v">Staff</div>
+            </div>
+            <div class="embed__field">
+              <div class="k">Permissões restauradas</div>
+              <div class="v">ViewChannel · SendMessages · ReadMessageHistory</div>
+            </div>
+          </div>
+          <div class="embed__footer">Aplicado por Mon 3Y • 24/09/2026</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8) código inline em mensagem normal -->
+    <div class="msg">
+      <div class="msg__avatar">М3</div>
+      <div class="msg__body">
+        <div class="msg__text">Comando usado: <code>/ticketconfig permissao staff ViewChannel</code></div>
+      </div>
+    </div>
+
+    <!-- 9) embed de erro -->
+    <div class="msg msg--first">
+      <div class="msg__avatar">HB</div>
+      <div class="msg__body">
+        <div class="msg__head">
+          <span class="msg__name">HostVille BOT</span>
+          <span class="msg__bot">BOT</span>
+          <span class="msg__time">Hoje às 18:46</span>
+        </div>
+
+        <div class="embed" style="--embed-accent:#ED4245">
+          <div class="embed__title">❌ Falha ao fechar ticket</div>
+          <div class="embed__desc">Não foi possível excluir o canal <code>ticket-duvida-0023</code>. Verifique as permissões do bot.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    <span>Documento gerado automaticamente pelo HostVille • BOT</span>
+  </div>
+
+</div>
+</body>
+</html>

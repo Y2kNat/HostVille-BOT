@@ -1,0 +1,918 @@
+{
+  "documents": [
+    {
+      "id": "ascend-visao-geral",
+      "title": "Ascend — visão geral",
+      "path": "ai/knowledge/ascend/visao-geral.md",
+      "category": "ascend",
+      "priority": 5,
+      "keywords": [
+        "visao geral",
+        "prefisso",
+        "objetivo",
+        "estrutura"
+      ],
+      "commands": [],
+      "source": "Ascend/index.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "ascend-tiers-e-progressao",
+      "title": "Ascend — tiers e progressão",
+      "path": "ai/knowledge/ascend/tiers-e-progressao.md",
+      "category": "ascend",
+      "priority": 10,
+      "keywords": [
+        "tiers",
+        "tier",
+        "progressao",
+        "promocao",
+        "sessoes necessarias",
+        "ranking",
+        "cargos",
+        "limite",
+        "lenda",
+        "imortal",
+        "7 tiers"
+      ],
+      "commands": [
+        "$tier",
+        "$sessoes",
+        "$ranking",
+        "$top",
+        "/mytier",
+        "$info"
+      ],
+      "source": "Ascend/.env, Ascend/index.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "ascend-sessoes",
+      "title": "Ascend — sessões",
+      "path": "ai/knowledge/ascend/sessoes.md",
+      "category": "ascend",
+      "priority": 10,
+      "keywords": [
+        "sessoes",
+        "sabado",
+        "dia extra",
+        "horario",
+        "cancelamento",
+        "sessao manual",
+        "status"
+      ],
+      "commands": [
+        "/acess",
+        "/config"
+      ],
+      "source": "Ascend/index.js, Ascend/data/guilds",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "ascend-painel-de-link",
+      "title": "Ascend — painel de link",
+      "path": "ai/knowledge/ascend/painel-de-link.md",
+      "category": "ascend",
+      "priority": 8,
+      "keywords": [
+        "painel de link",
+        "sessao liberada",
+        "contagem regressiva",
+        "tiers disponiveis",
+        "dias extras",
+        "servidor"
+      ],
+      "commands": [
+        "/config"
+      ],
+      "source": "Ascend/index.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "ascend-solicitar-link",
+      "title": "Ascend — solicitar link de sessão",
+      "path": "ai/knowledge/ascend/solicitar-link.md",
+      "category": "ascend",
+      "priority": 10,
+      "keywords": [
+        "link",
+        "solicitar",
+        "modal confirmar",
+        "dm",
+        "limite diario",
+        "cooldown",
+        "sessao fechada"
+      ],
+      "commands": [
+        "$link"
+      ],
+      "source": "Ascend/index.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "ascend-configuracao-e-backup",
+      "title": "Ascend — configuração e backup",
+      "path": "ai/knowledge/ascend/configuracao-e-backup.md",
+      "category": "ascend",
+      "priority": 5,
+      "keywords": [
+        "configuracao",
+        "config",
+        "backup",
+        "modais",
+        "dono",
+        "acess"
+      ],
+      "commands": [
+        "/config",
+        "$backup",
+        "/acess"
+      ],
+      "source": "Ascend/index.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "ascend-comandos",
+      "title": "Ascend — comandos",
+      "path": "ai/knowledge/ascend/comandos.md",
+      "category": "ascend",
+      "priority": 7,
+      "keywords": [
+        "comandos",
+        "permissoes",
+        "prefisso",
+        "slash",
+        "ajuda"
+      ],
+      "commands": [
+        "$ping",
+        "$tier",
+        "$sessoes",
+        "$ranking",
+        "$top",
+        "$link",
+        "$info",
+        "$backup",
+        "$help",
+        "$ajuda",
+        "/mytier",
+        "/config",
+        "/acess"
+      ],
+      "source": "Ascend/index.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "ascend-erros",
+      "title": "Ascend — erros",
+      "path": "ai/knowledge/ascend/erros.md",
+      "category": "ascend",
+      "priority": 6,
+      "keywords": [
+        "erros",
+        "limite atingido",
+        "cooldown",
+        "sessao fechada",
+        "dm bloqueada",
+        "permissao negada"
+      ],
+      "commands": [],
+      "source": "Ascend/index.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "atlas-visao-geral",
+      "title": "Atlas — visão geral",
+      "path": "ai/knowledge/atlas/visao-geral.md",
+      "category": "atlas",
+      "priority": 5,
+      "keywords": [
+        "visao geral",
+        "bairros",
+        "imoveis",
+        "registro",
+        "estrutura"
+      ],
+      "commands": [],
+      "source": "Atlas/index.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "atlas-registro-de-imoveis",
+      "title": "Atlas — registro de imóveis",
+      "path": "ai/knowledge/atlas/registro-de-imoveis.md",
+      "category": "atlas",
+      "priority": 10,
+      "keywords": [
+        "registro",
+        "imovel",
+        "modal",
+        "bairro",
+        "tipo",
+        "foto",
+        "erros registro"
+      ],
+      "commands": [
+        "/houseregister",
+        "/housechannel"
+      ],
+      "source": "Atlas/index.js, Atlas/data/configs",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "atlas-consulta-e-busca",
+      "title": "Atlas — consulta e busca",
+      "path": "ai/knowledge/atlas/consulta-e-busca.md",
+      "category": "atlas",
+      "priority": 8,
+      "keywords": [
+        "listar",
+        "busca",
+        "info",
+        "stats",
+        "bairros",
+        "vizinhanca",
+        "minhasprops"
+      ],
+      "commands": [
+        ";help",
+        ";list",
+        ";search",
+        ";info",
+        ";stats",
+        ";neighborhoods",
+        ";bairros",
+        ";vizinhanca",
+        ";minhasprops"
+      ],
+      "source": "Atlas/index.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "atlas-status-e-acoes-rp",
+      "title": "Atlas — status e ações RP",
+      "path": "ai/knowledge/atlas/status-e-acoes-rp.md",
+      "category": "atlas",
+      "priority": 8,
+      "keywords": [
+        "status",
+        "reforma",
+        "abandono",
+        "invasao",
+        "construcao",
+        "disponivel"
+      ],
+      "commands": [
+        ";status",
+        ";reformar",
+        ";abandonar",
+        ";invadir"
+      ],
+      "source": "Atlas/index.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "atlas-gangues",
+      "title": "Atlas — gangues",
+      "path": "ai/knowledge/atlas/gangues.md",
+      "category": "atlas",
+      "priority": 7,
+      "keywords": [
+        "gangue",
+        "criar",
+        "vincular",
+        "membros",
+        "territorio",
+        "propriedades"
+      ],
+      "commands": [
+        ";gangue"
+      ],
+      "source": "Atlas/index.js, Atlas/data/configs",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "atlas-policia",
+      "title": "Atlas — polícia",
+      "path": "ai/knowledge/atlas/policia.md",
+      "category": "atlas",
+      "priority": 7,
+      "keywords": [
+        "policia",
+        "interditar",
+        "investigar",
+        "liberar",
+        "cargos policiais"
+      ],
+      "commands": [
+        ";policia",
+        ";interditar",
+        ";investigar",
+        ";liberar"
+      ],
+      "source": "Atlas/index.js, Atlas/data/configs",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "atlas-comandos",
+      "title": "Atlas — comandos",
+      "path": "ai/knowledge/atlas/comandos.md",
+      "category": "atlas",
+      "priority": 7,
+      "keywords": [
+        "comandos",
+        "permissoes",
+        "admin",
+        "owner"
+      ],
+      "commands": [
+        ";delete",
+        ";backup",
+        ";export",
+        ";exportar"
+      ],
+      "source": "Atlas/index.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "atlas-erros",
+      "title": "Atlas — erros",
+      "path": "ai/knowledge/atlas/erros.md",
+      "category": "atlas",
+      "priority": 6,
+      "keywords": [
+        "erros",
+        "permissao negada",
+        "nao encontrado",
+        "formato invalido",
+        "tempo esgotado"
+      ],
+      "commands": [],
+      "source": "Atlas/index.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "vehix-visao-geral",
+      "title": "Vehix — visão geral",
+      "path": "ai/knowledge/vehix/visao-geral.md",
+      "category": "vehix",
+      "priority": 5,
+      "keywords": [
+        "visao geral",
+        "veiculos",
+        "canais",
+        "registro"
+      ],
+      "commands": [],
+      "source": "Vehix/index.js, Vehix/modules/config.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "vehix-registro-e-veiculos",
+      "title": "Vehix — registro de veículos",
+      "path": "ai/knowledge/vehix/registro-e-veiculos.md",
+      "category": "vehix",
+      "priority": 10,
+      "keywords": [
+        "registro",
+        "modal",
+        "placa",
+        "imagem",
+        "botao",
+        "tipos"
+      ],
+      "commands": [
+        "/register",
+        "/registered",
+        "/workcars"
+      ],
+      "source": "Vehix/index.js, Vehix/modules",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "vehix-limites-e-tiers",
+      "title": "Vehix — limites e tiers",
+      "path": "ai/knowledge/vehix/limites-e-tiers.md",
+      "category": "vehix",
+      "priority": 10,
+      "keywords": [
+        "limites",
+        "tiers",
+        "preco maximo",
+        "veiculos pessoais",
+        "veiculos de trabalho",
+        "vehicleLimit",
+        "tier 6",
+        "tier 7",
+        "teto 350000",
+        "teto 450000"
+      ],
+      "commands": [],
+      "source": "Vehix/modules/config.js, Vehix/.env",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "vehix-booster-e-retirada",
+      "title": "Vehix — Booster e retirada",
+      "path": "ai/knowledge/vehix/booster-e-retirada.md",
+      "category": "vehix",
+      "priority": 10,
+      "keywords": [
+        "booster",
+        "boost",
+        "multiplicador",
+        "teto com booster",
+        "retirada",
+        "auto delete",
+        "apagar proprio veiculo",
+        "limite semanal"
+      ],
+      "commands": [
+        "'boost",
+        "'booster",
+        "/delete-channel",
+        "/listuser"
+      ],
+      "source": "Vehix/modules/boost.js, Vehix/modules/selfDelete.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "vehix-consulta-e-gerenciamento",
+      "title": "Vehix — consulta e gerenciamento",
+      "path": "ai/knowledge/vehix/consulta-e-gerenciamento.md",
+      "category": "vehix",
+      "priority": 8,
+      "keywords": [
+        "listar",
+        "buscar",
+        "stats",
+        "bloquear placa",
+        "backup",
+        "cleanup",
+        "admin",
+        "antigos",
+        "orfaos",
+        "verificar",
+        "deletar veiculo",
+        "remover veiculo",
+        "apagar veiculo",
+        "deletar proprio veiculo"
+      ],
+      "commands": [
+        "'listvehicles",
+        "'listar",
+        "'searchvehicle",
+        "'buscar",
+        "'stats",
+        "'estatisticas",
+        "'deletevehicle",
+        "'deletar",
+        "'remover",
+        "'blockplate",
+        "'bloquear",
+        "'unblockplate",
+        "'desbloquear",
+        "'listblocked",
+        "'bloqueadas",
+        "'cleanup",
+        "'limpar",
+        "'broadcast",
+        "'anunciar",
+        "'reenviar",
+        "'repost",
+        "'restaurar_veiculos",
+        "'verify",
+        "'verificar",
+        "'exportdata",
+        "'exportar",
+        "'backup",
+        "'restaurar",
+        "'restore"
+      ],
+      "source": "Vehix/index.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "vehix-comandos",
+      "title": "Vehix — comandos",
+      "path": "ai/knowledge/vehix/comandos.md",
+      "category": "vehix",
+      "priority": 7,
+      "keywords": [
+        "comandos",
+        "permissoes",
+        "owner",
+        "slash",
+        "prefisso"
+      ],
+      "commands": [
+        "'help",
+        "'ajuda",
+        "'comandos"
+      ],
+      "source": "Vehix/index.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "vehix-erros",
+      "title": "Vehix — erros",
+      "path": "ai/knowledge/vehix/erros.md",
+      "category": "vehix",
+      "priority": 6,
+      "keywords": [
+        "erros",
+        "placa invalida",
+        "placa bloqueada",
+        "tempo esgotado",
+        "sem tier",
+        "permissao"
+      ],
+      "commands": [],
+      "source": "Vehix/index.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "geral-bot",
+      "title": "HostVille • BOT — visão geral",
+      "path": "ai/knowledge/geral/bot.md",
+      "category": "geral",
+      "priority": 6,
+      "keywords": [
+        "hostville",
+        "bot",
+        "versao",
+        "servidor",
+        "comunidade",
+        "staff",
+        "administracao",
+        "canal",
+        "logs",
+        "central de atendimento",
+        "o que o bot faz",
+        "nao faz",
+        "identificacao"
+      ],
+      "commands": [],
+      "source": "config.js, db.json, events/ready.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "geral-comandos",
+      "title": "Comandos do HostVille • BOT",
+      "path": "ai/knowledge/geral/comandos.md",
+      "category": "geral",
+      "priority": 9,
+      "keywords": [
+        "comando",
+        "comandos",
+        "slash",
+        "qual comando",
+        "como usar",
+        "ping",
+        "help",
+        "ajuda",
+        "warn",
+        "timeout",
+        "kick",
+        "ban",
+        "purge",
+        "ticket",
+        "close",
+        "adicionar",
+        "filter",
+        "linksettings",
+        "maintenance",
+        "adm",
+        "private",
+        "report",
+        "avatar",
+        "serverinfo",
+        "userinfo",
+        "autointeraction"
+      ],
+      "commands": [
+        "/ping",
+        "/help",
+        "/warn",
+        "/warnings",
+        "/clearwarns",
+        "/timeout",
+        "/kick",
+        "/ban",
+        "/purge",
+        "/ticket",
+        "/close",
+        "/adicionar",
+        "/ticket-setup",
+        "/ticket-config",
+        "/filter",
+        "/linksettings",
+        "/autointeraction",
+        "/maintenance",
+        "/adm",
+        "/private",
+        "/report",
+        "/avatar",
+        "/serverinfo",
+        "/userinfo"
+      ],
+      "source": "events/interactionCreate.js, commands/**",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "geral-idioma-e-tom",
+      "title": "Idioma, tom e formato das respostas",
+      "path": "ai/knowledge/geral/idioma-e-tom.md",
+      "category": "geral",
+      "priority": 4,
+      "keywords": [
+        "idioma",
+        "tom",
+        "formal",
+        "informal",
+        "giria",
+        "portugues",
+        "estilo",
+        "formato",
+        "variacao",
+        "tamanho",
+        "resposta curta",
+        "como responder"
+      ],
+      "commands": [],
+      "source": "ai/system/internal-rules.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "tickets-painel",
+      "title": "Central de Atendimento — onde abrir ticket",
+      "path": "ai/knowledge/tickets/painel.md",
+      "category": "tickets",
+      "priority": 10,
+      "keywords": [
+        "ticket",
+        "tickets",
+        "abrir ticket",
+        "criar ticket",
+        "central de atendimento",
+        "painel",
+        "botao",
+        "onde abro",
+        "assumir",
+        "fechar ticket",
+        "canal do ticket",
+        "privado",
+        "categoria"
+      ],
+      "commands": [
+        "/ticket-setup",
+        "/close"
+      ],
+      "source": "db.json#tickets.panels, managers/TicketManager.js, commands/ticket/ticketsetup.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "tickets-duvidas",
+      "title": "Ticket de Dúvidas",
+      "path": "ai/knowledge/tickets/duvidas.md",
+      "category": "tickets",
+      "priority": 10,
+      "keywords": [
+        "duvida",
+        "duvidas",
+        "ticket duvida",
+        "pergunta",
+        "regras de rp",
+        "frequencia",
+        "como funciona",
+        "chamar staff",
+        "ia responde"
+      ],
+      "commands": [],
+      "source": "managers/TicketDuvidas.js, managers/TicketManager.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "tickets-suporte",
+      "title": "Ticket de Suporte",
+      "path": "ai/knowledge/tickets/suporte.md",
+      "category": "tickets",
+      "priority": 10,
+      "keywords": [
+        "suporte",
+        "ticket suporte",
+        "problema",
+        "erro",
+        "nao funciona",
+        "deu erro",
+        "ajuda",
+        "chamar staff",
+        "diferenca duvidas"
+      ],
+      "commands": [],
+      "source": "managers/TicketSuporte.js, managers/TicketManager.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "tickets-atendimento",
+      "title": "Ticket de Atendimento",
+      "path": "ai/knowledge/tickets/atendimento.md",
+      "category": "tickets",
+      "priority": 10,
+      "keywords": [
+        "atendimento",
+        "ticket atendimento",
+        "cargo responsavel",
+        "escalonar",
+        "nao tenho essa informacao",
+        "atendimento aberto"
+      ],
+      "commands": [],
+      "source": "managers/TicketAtendimento.js, managers/TicketManager.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "tickets-denuncias",
+      "title": "Ticket de Denúncia",
+      "path": "ai/knowledge/tickets/denuncias.md",
+      "category": "tickets",
+      "priority": 10,
+      "keywords": [
+        "denuncia",
+        "denuncias",
+        "denunciar",
+        "prova",
+        "provas",
+        "print",
+        "testemunha",
+        "quem deseja denunciar",
+        "motivo",
+        "confidencial",
+        "formulario"
+      ],
+      "commands": [],
+      "source": "managers/TicketDenuncias.js, managers/TicketManager.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "tickets-limites-e-acesso",
+      "title": "Tickets — acesso, permissões e limites",
+      "path": "ai/knowledge/tickets/limites-e-acesso.md",
+      "category": "tickets",
+      "priority": 9,
+      "keywords": [
+        "ticket",
+        "limite",
+        "quantos tickets",
+        "maximo de tickets",
+        "permissao",
+        "acesso",
+        "privado",
+        "staff",
+        "cargo staff",
+        "fechar",
+        "adicionar usuario"
+      ],
+      "commands": [],
+      "source": "managers/TicketManager.js, db.json#tickets.connections, commands/ticket/**",
+      "confidence": "medium",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "moderacao-avisos",
+      "title": "Sistema de avisos (warn)",
+      "path": "ai/knowledge/moderacao/avisos.md",
+      "category": "moderacao",
+      "priority": 10,
+      "keywords": [
+        "warn",
+        "aviso",
+        "avisos",
+        "advertencia",
+        "punicao",
+        "clearwarns",
+        "limpar avisos",
+        "quantos avisos",
+        "cargo staff"
+      ],
+      "commands": [
+        "/warn",
+        "/warnings",
+        "/clearwarns"
+      ],
+      "source": "commands/mod/warn.js, commands/mod/warnings.js, commands/mod/clearwarns.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "moderacao-silencio-expulsao-banimento",
+      "title": "Silêncio, expulsão e banimento",
+      "path": "ai/knowledge/moderacao/silencio-expulsao-banimento.md",
+      "category": "moderacao",
+      "priority": 10,
+      "keywords": [
+        "timeout",
+        "silenciar",
+        "silencio",
+        "mute",
+        "kick",
+        "expulsar",
+        "ban",
+        "banir",
+        "punicao",
+        "40320",
+        "28 dias",
+        "permissao"
+      ],
+      "commands": [
+        "/timeout",
+        "/kick",
+        "/ban"
+      ],
+      "source": "commands/mod/timeout.js, commands/mod/kick.js, commands/mod/ban.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "moderacao-purge",
+      "title": "Limpeza de mensagens (purge)",
+      "path": "ai/knowledge/moderacao/purge.md",
+      "category": "moderacao",
+      "priority": 9,
+      "keywords": [
+        "purge",
+        "limpar",
+        "apagar mensagem",
+        "apagar mensagens",
+        "quantidade",
+        "100",
+        "gerenciar mensagens"
+      ],
+      "commands": [
+        "/purge"
+      ],
+      "source": "commands/mod/purge.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "moderacao-filtro-spam-links",
+      "title": "Filtro de palavras, links e spam",
+      "path": "ai/knowledge/moderacao/filtro-spam-links.md",
+      "category": "moderacao",
+      "priority": 9,
+      "keywords": [
+        "palavra ofensiva",
+        "palavras proibidas",
+        "filtro",
+        "censura",
+        "link",
+        "convite",
+        "convite de discord",
+        "spam",
+        "5 mensagens",
+        "bloqueado",
+        "apagou minha mensagem",
+        "linksettings"
+      ],
+      "commands": [
+        "/filter",
+        "/linksettings"
+      ],
+      "source": "data/offensiveWords.js, commands/config/filter.js, commands/config/linksettings.js, managers/LinkManager.js, managers/SpamManager.js, config.js",
+      "confidence": "high",
+      "lastVerified": "2026-09-25"
+    }
+  ]
+}

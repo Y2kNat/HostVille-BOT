@@ -1,0 +1,11 @@
+**FILE: [FILE: src/Calculator.tsx]**
+**ACTION: [ACAO: CREATE] + execute**
+**CODE:**
+```tsx
+import React, { useState } from 'react';
+
+export const Calc = () => {
+  const [d, setD] = useState('0');
+  return <div>{d}</div>;
+};
+```

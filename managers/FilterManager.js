@@ -1,256 +1,213 @@
-const Groq = require('groq-sdk');
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+/**
+ * FilterManager — casca de persistência.
+ *
+ * Antes este arquivo tinha TODO o motor de matching. Agora o motor é
+ * utils/moderation/OffensiveEngine.js. O que sobra aqui é o que depende de
+ * estado: as palavras customizadas que a staff cadastra via /filter, com
+ * cache TTL, e a inicialização.
+ *
+ * Nenhum outro módulo deve usar os arrays hardBlock/sensitive/illegal: o
+ * conhecimento está em data/offensiveWords.js.
+ */
+
+const db = require('../database/db');
+const engine = require('../utils/moderation/OffensiveEngine');
+const { DECISION } = require('../utils/moderation/constants');
 
 class FilterManager {
-  
+
   static sensitiveCache = new Map();
-  static MAX_CACHE = 10000;
+  static MAX_CACHE = 1000;
   static CACHE_TTL = 5 * 60 * 1000;
   static cacheCleaner = null;
 
-  static setCache(key, result) {
-    if (this.sensitiveCache.size >= this.MAX_CACHE) {
-      this.sensitiveCache.delete(this.sensitiveCache.keys().next().value);
+  // Palavras banidas pelo staff (db.getCustomWords), cacheadas com TTL.
+  // POR SERVIDOR: a lista é `{ guildId: [palavras] }`. Antes era um array
+  // único, e o admin de um servidor mudava o filtro de todos.
+  static customWords = {};
+  static customWordsLoadedAt = 0;
+  static CUSTOM_WORDS_TTL = 2 * 60 * 1000;
+
+  // Canais com o filtro desligado (via /filter disable). Cacheado como as
+  // customWords: uma consulta ao banco a cada 2 min, não a cada mensagem.
+  static channelModeration = {};
+  static channelModerationAt = 0;
+  static CHANNEL_TTL = 2 * 60 * 1000;
+
+  /**
+   * ERRO A (corrigido) — o refresh nunca carregava nada.
+   *
+   * A versão anterior fazia `Object.keys(db)`, onde `db` é o MÓDULO
+   * exportado por database/db.js. `Object.keys` de um módulo devolve os
+   * NOMES DAS FUNÇÕES (`['db', 'getCustomWords', 'addCustomWord', ...]`),
+   * nunca um ID de guild. O laço chamava `getChannelModeration('ban')` e
+   * guardava `{}` em `this.channelModeration['ban']`.
+   *
+   * Ou seja: o mapa por canal vivia só na sessão onde alguém rodou
+   * `/filter disable`. Depois de um restart, todo canal voltava a moderar
+   * sem que ninguém tivesse ligado nada de novo.
+   *
+   * A fonte da lista de servidores é o client do gateway. `global.client` é
+   * publicado no ready.js; fora dele (teste, script) cai para o que já está
+   * em cache, e o refresh force ainda funciona para quem souber o guildId.
+   */
+  static guildIdsConhecidos() {
+    const ids = new Set();
+    const client = global.client;
+    if (client?.guilds?.cache) {
+      for (const id of client.guilds.cache.keys()) ids.add(String(id));
     }
-    this.sensitiveCache.set(key, { result, time: Date.now() });
+    for (const id of Object.keys(this.channelModeration)) ids.add(String(id));
+    for (const id of Object.keys(this.customWords)) ids.add(String(id));
+    return [...ids];
   }
 
-  static getCache(key) {
-    const cached = this.sensitiveCache.get(key);
-    if (cached && Date.now() - cached.time < this.CACHE_TTL) return cached.result;
-    if (cached) this.sensitiveCache.delete(key);
-    return null;
+  static async refreshChannelModeration(force = false) {
+    const now = Date.now();
+    if (!force && now - this.channelModerationAt < this.CHANNEL_TTL) return this.channelModeration;
+    try {
+      const db = require('../database/db');
+      const guildIds = this.guildIdsConhecidos();
+      const vistos = new Set();
+      for (const g of guildIds) {
+        try {
+          const map = await db.getChannelModeration(g);
+          this.channelModeration[g] = map;
+          vistos.add(String(g));
+        } catch (e) { /* guild sem config */ }
+      }
+      // Servidor que saiu do bot não pode continuar entrando no `map` do
+      // `isChannelEnabled` — mas também não vale a pena apagar a config dele
+      // do cache, porque ele pode estar só com o gateway frio.
+      this.channelModerationAt = now;
+      return this.channelModeration;
+    } catch (e) { /* banco fora: segue com o que tem em cache */ }
+    return this.channelModeration;
+  }
+
+  /** O filtro roda neste canal? */
+  static isChannelEnabled(guildId, channelId) {
+    const map = this.channelModeration[guildId];
+    if (!map) return true;              // sem config = filtro ligado
+    return !map[String(channelId)];      // true no map = desligado
+  }
+
+  static async setChannelModeration(guildId, channelId, disabled) {
+    const db = require('../database/db');
+    const map = await db.setChannelModeration(guildId, channelId, disabled);
+    this.channelModeration[guildId] = map;
+    this.channelModerationAt = Date.now();
+    return map;
+  }
+
+  static async refreshCustomWords(force = false) {
+    if (!force && Date.now() - this.customWordsLoadedAt < this.CUSTOM_WORDS_TTL) return this.customWords;
+    try {
+      const db = require('../database/db');
+      const guildIds = this.guildIdsConhecidos();
+      for (const g of guildIds) {
+        try {
+          const words = await db.getCustomWords(g);
+          this.customWords[g] = Array.isArray(words)
+            ? words.filter(w => typeof w === 'string' && w.trim())
+            : [];
+        } catch (e) { /* banco fora para este servidor */ }
+      }
+      this.customWordsLoadedAt = Date.now();
+    } catch (e) {
+      this.customWords = this.customWords || {};
+    }
+    return this.customWords;
+  }
+
+  /** Palavras do servidor. Sem guildId, não devolve nada: o filtro de
+   *  palavra é de servidor, e devolver a lista errada é pior que devolver
+   *  vazia (é o que punia gente em um servidor por palavra de outro). */
+  static async wordsFor(guildId) {
+    await this.refreshCustomWords();
+    if (!guildId) return [];
+    return this.customWords[String(guildId)] || [];
+  }
+
+  static async addWord(guildId, word) {
+    const db = require('../database/db');
+    const added = await db.addCustomWord(guildId, word);
+    await this.refreshCustomWords(true);
+    return added;
+  }
+
+  static async removeWord(guildId, word) {
+    const db = require('../database/db');
+    await db.removeCustomWord(guildId, word);
+    await this.refreshCustomWords(true);
+    return true;
   }
 
   static init() {
     if (this.cacheCleaner) return;
+    this.refreshCustomWords(true);
+    this.refreshChannelModeration(true);
     this.cacheCleaner = setInterval(() => {
       const now = Date.now();
       for (const [key, value] of this.sensitiveCache) {
         if (now - value.time > this.CACHE_TTL) this.sensitiveCache.delete(key);
       }
+      this.refreshCustomWords();
+      this.refreshChannelModeration();
     }, 60000);
+    if (this.cacheCleaner.unref) this.cacheCleaner.unref();
   }
 
-  static hardBlock = [
-    'puta', 'puita', 'put0', 'poota',
-    'caralho', 'car4lho', 'c4ralho', 'karalho', 'carai', 'carãi', 'karaio',
-    'buceta', 'buc3ta', 'buseta', 'bct', 'bcta',
-    'foda se', 'foda-se', 'fodase', 'fod4se',
-    'vai se foder', 'vai tomar no cu', 'vtnc', 'tmnc', 'vsf',
-    'arrombado', 'arromb4do',
-    'filho da puta', 'filha da puta',
-    'estupro', 'estupr0', '3stupro',
-  ];
-
-  static sensitive = [
-    'foder', 'fuder', 'fder',
-    'fdp', 'f d p', 'f.d.p',
-    'porra', 'porã', 'fodo', 'f0do', 'porrã', 'porr4',
-    'merda', 'm3rda', 'merd4',
-    'desgraça', 'd3sgraça',
-    'cacete', 'c4cete',
-    'polla', 'rola', 'piroca',
-    'bosta', 'viado', 'retardado', 'otario', 'corno',
-    'puto',
-    'fuck', 'fck', 'fuk',
-    'shit', 'sh1t',
-    'bitch', 'b1tch',
-    'dick', 'd1ck',
-    'cunt', 'kunt',
-    'bastard', 'whore', 'slut',
-  ];
-
-  static illegal = [
-    'child porn', 'childporn', 'children porn',
-    'pedo', 'ped0', 'p3do', 'pedophile',
-    'loli', 'l0li', 'lol1', 'shota', 'sh0ta',
-    'minor', 'underage', 'und3rage',
-    'rape', 'r4pe', 'r4p3', 'rap3',
-    'abuse', 'abus3', 'abus0', '4buse',
-    'groom', 'gr00m', 'gr0oming',
-    'incest', 'inc3st',
-    'zoofilia', 'z00filia', 'necrophilia', 'n3cr0',
-  ];
-
-  static normalize(text) {
-    return String(text)
-      .normalize('NFKC')
-      .replace(/[\u200B-\u200D\uFEFF]/g, '')
-      .replace(/[\u202A-\u202E\u2066-\u2069]/g, '')
-      .toLowerCase()
-      .replace(/[0@º]/g, 'o').replace(/[1!|£]/g, 'i')
-      .replace(/[3€]/g, 'e').replace(/[4ª]/g, 'a')
-      .replace(/[5$§]/g, 's').replace(/[6]/g, 'g')
-      .replace(/[7+]/g, 't').replace(/[8]/g, 'b').replace(/[9]/g, 'g')
-      .replace(/[áâãàä]/g, 'a').replace(/[éêèë]/g, 'e')
-      .replace(/[íìîï]/g, 'i').replace(/[óôõòö]/g, 'o')
-      .replace(/[úùûü]/g, 'u').replace(/[ç]/g, 'c').replace(/[ñ]/g, 'n')
-      .replace(/[._\-+,;:!?|/\\()[\]{}"'\n\r]+/g, ' ')
-      .replace(/(.)\1{2,}/g, '$1$1')
-      .replace(/\s+/g, ' ')
-      .trim();
-  }
-
-  static phraseMatch(tokens, phraseTokens) {
-    if (!phraseTokens.length || tokens.length < phraseTokens.length) return false;
-    for (let i = 0; i <= tokens.length - phraseTokens.length; i++) {
-      let ok = true;
-      for (let j = 0; j < phraseTokens.length; j++) {
-        if (tokens[i + j] !== phraseTokens[j]) { ok = false; break; }
-      }
-      if (ok) return true;
+  /**
+   * Análise completa. API principal do módulo.
+   *
+   * @param {string} text
+   * @param {object} [opts] { guildId, debug }
+   * @returns {Promise<object>} resultado do engine, com customWords aplicadas
+   */
+  static async analyze(text, opts = {}) {
+    if (!text || typeof text !== 'string') {
+      return engine.analyze('', opts);
     }
-    return false;
+    const customWords = await this.wordsFor(opts.guildId);
+    return engine.analyze(text, {
+      ...opts,
+      customWords
+    });
   }
 
-  static matchList(text, list, level) {
-    if (!text || typeof text !== 'string') return null;
-    
-    // PRÉ-FILTRO NO TEXTO BRUTO
-      text = text.replace(/f0d@/gi, 'fodo');
-    text = text
-  .replace(/^f0d@$/gi, 'foda')
-  .replace(/f0d@\s/gi, 'foda ')         
-  .replace(/\sf0d@$/gi, ' foda')        
-  .replace(/\sf0d@\s/gi, ' foda ')      
-  .replace(/v!a\s+t0mar\s+n0\s+c0/gi, 'vai tomar no cu')
-  .replace(/v1tnc|vt[nm]c|v!tnc/gi, 'vai tomar no cu')
-  .replace(/p0rr[@a]/gi, 'porra')
-  .replace(/f0d[@a]|f0da/gi, 'foda')
-  .replace(/t0mar/gi, 'tomar')
-  .replace(/n0/gi, 'no')
-      
-  .replace(/c0/gi, 'cu');
-    
-    const normalized = this.normalize(text);
-    const tokens = normalized.split(' ').filter(Boolean);
-    
-    const joinedTokens = [];
-    let buffer = '';
-    for (const token of tokens) {
-      if (token.length === 1 && /[a-z]/.test(token)) {
-        buffer += token;
-      } else {
-        if (buffer.length >= 3) joinedTokens.push(buffer);
-        buffer = '';
-        joinedTokens.push(token);
-      }
-    }
-    if (buffer.length >= 3) joinedTokens.push(buffer);
-    
-    const compact = normalized.replace(/\s+/g, '');
-    
-    for (const item of list) {
-      const normalizedItem = this.normalize(item);
-      const itemTokens = normalizedItem.split(' ').filter(Boolean);
-      const compactItem = normalizedItem.replace(/\s+/g, '');
+  /**
+   * Decide uma mensagem, resolvendo a parte ambígua com o classificador.
+   *
+   * Regra de punição: só pune com DECISÃO FINAL. Se a IA ficou
+   * indisponível, o resultado volta needs_review e NADA é apagado — uma
+   * queda do gateway não pode gerar warn.
+   *
+   * @param {string} text
+   * @param {object} [opts] { guildId, debug }
+   * @returns {Promise<object>}
+   */
+  static async decide(text, opts = {}) {
+    const base = await this.analyze(text, opts);
+    if (!base.requiresAI) return base;
 
-      if (itemTokens.length === 1) {
-        if (joinedTokens.some(t => t === normalizedItem)) {
-          return { word: item, level, reason: 'exact-token-match', confidence: 0.98 };
-        }
-      } else if (this.phraseMatch(joinedTokens, itemTokens)) {
-        return { word: item, level, reason: 'exact-phrase-match', confidence: 0.96 };
-      } else if (compact.includes(compactItem)) {
-        return { word: item, level, reason: 'compact-phrase-match', confidence: 0.94 };
-      }
-    }
-    return null;
+    const Classifier = require('./ModerationClassifier');
+    return Classifier.classifyAmbiguous(text, base, opts);
   }
 
-  // ============================================
-  // DETECTOR DE CONTEXTO
-  // ============================================
-  
-  static isQuoted(text, word) {
-    const patterns = [
-      new RegExp(`["'\`«»“”].*?${word}.*?["'\`«»“”]`, 'i'),
-      new RegExp(`disse\\s+["'\`].*?${word}`, 'i'),
-      new RegExp(`escreveu\\s+["'\`].*?${word}`, 'i'),
-      new RegExp(`digitou\\s+["'\`].*?${word}`, 'i'),
-    ];
-    return patterns.some(p => p.test(text));
+  /** Só uma decisão final pode punir. */
+  static shouldPunish(result) {
+    return !!(result && result.flagged && result.decision === DECISION.FINAL);
   }
 
-  static isAcademicOrTechnical(text) {
-    const words = [
-      'exemplo', 'cita', 'citação', 'citou', 'palavra', 'termo', 'termos',
-      'chamado', 'chamada', 'string', 'variável', 'log', 'logs',
-      'código', 'codigo', 'arquivo', 'classe', 'função', 'funcao',
-      'estudando', 'estudo', 'pesquisa', 'analisa', 'artigo',
-      'música', 'musica', 'meme', 'memes', 'internet',
-      'aparece', 'contém', 'contem', 'foi usado', 'usada', 'usado',
-      'linguagem', 'linguística', 'linguistica', 'português', 'portugues',
-      'insultos', 'ofensivas', 'ofensivo', 'ofensa',
-    ];
-    const lower = text.toLowerCase();
-    return words.some(w => lower.includes(w));
+  /** Termo mais forte encontrado, para a mensagem de aviso à staff. */
+  static findOffensiveWord(result) {
+    if (!result || !Array.isArray(result.matched) || !result.matched.length) return null;
+    const ranked = result.matched.slice().sort((a, b) => (b.confidence || 0) - (a.confidence || 0));
+    return ranked[0].text;
   }
 
-  static isHumor(text) {
-    const indicators = [
-      'kkkk', 'kkk', '😂', '🤣', 'brincadeira', 'brinks',
-      'zuera', 'zoeira', 'zoando', 'brincando',
-      'mas funciona', 'mas eu gosto', 'mas é bom',
-      'tá uma', 'ta uma', 'tá um', 'ta um',
-    ];
-    const lower = text.toLowerCase();
-    return indicators.some(w => lower.includes(w));
-  }
-
-  static isMention(text, word) {
-    const patterns = [
-      new RegExp(`(a|o|da|do|na|no|à|ao)\\s+palavra\\s+${word}`, 'i'),
-      new RegExp(`(termo|string|texto|frase)\\s+${word}`, 'i'),
-      new RegExp(`${word}\\s+(aparece|contém|foi|está|esta|é)`, 'i'),
-      new RegExp(`(citar|cita|citou|mencionou|digitou|escreveu|disse|mandou|enviou)\\s+(${word}|v1tnc|vtnc)`, 'i'),
-      new RegExp(`${word}\\s+(como|no|na|em)`, 'i'),
-    ];
-    return patterns.some(p => p.test(text));
-  }
-
-  static shouldBlock(text, word) {
-    // Frases claramente ofensivas NUNCA são suprimidas
-    if (/(que|qual)\s+(porra|merda|bosta|caralho)\s+[ée]\s+(essa|isso|isto)/i.test(text)) return true;
-    
-    if (/(digitou|escreveu|mandou|enviou)\s+(v1tnc|vtnc|vai tomar no cu)/i.test(text)) return false;
-    if (this.isQuoted(text, word)) return false;
-    if (this.isAcademicOrTechnical(text)) return false;
-    if (this.isHumor(text)) return false;
-    if (this.isMention(text, word)) return false;
-    return true;
-  }
-
-  // ============================================
-  // ANÁLISE PRINCIPAL
-  // ============================================
-  static async analyze(text) {
-    if (!text || typeof text !== 'string') return { offensive: false, word: null, level: null, reason: 'invalid', confidence: 0 };
-    
-    const illegal = this.matchList(text, this.illegal, 'illegal');
-    if (illegal) return { offensive: true, ...illegal };
-    
-    const hard = this.matchList(text, this.hardBlock, 'hard');
-    if (hard) {
-      if (!this.shouldBlock(text, hard.word)) {
-        return { offensive: false, word: hard.word, level: hard.level, reason: 'context-suppressed', confidence: 0.65 };
-      }
-      return { offensive: true, ...hard };
-    }
-    
-    const sensitive = this.matchList(text, this.sensitive, 'sensitive');
-    if (!sensitive) return { offensive: false, word: null, level: null, reason: 'clean', confidence: 0.99 };
-    
-    if (!this.shouldBlock(text, sensitive.word)) {
-      return { offensive: false, word: sensitive.word, level: sensitive.level, reason: 'context-suppressed', confidence: 0.65 };
-    }
-    return { offensive: true, word: sensitive.word, level: 'sensitive', reason: 'dictionary-match', confidence: 0.95 };
-  }
-
-  static async containsOffensiveWord(text) { return (await this.analyze(text)).offensive; }
-  static async findOffensiveWord(text) { const r = await this.analyze(text); return r.offensive ? r.word : null; }
 }
 
-FilterManager.init();
+if (!FilterManager.cacheCleaner) FilterManager.init();
 module.exports = FilterManager;

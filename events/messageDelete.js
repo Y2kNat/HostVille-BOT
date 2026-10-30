@@ -4,7 +4,16 @@ module.exports = {
     name: 'messageDelete',
     async execute(message) {
         if (!message.guild || !message.author) return;
-        
+
+        // A propria moderacao apaga a mensagem e JA logou tudo
+        // (MENSAGEM MODERADA, com usuario, canal e palavra). Repetir aqui
+        // mostrava o mesmo evento duas vezes, com menos informacao.
+        const marca = message.client && message.client.__moderationDelete;
+        if (marca && marca.channel === message.channel.id && (Date.now() - marca.ts) < 10000) {
+            message.client.__moderationDelete = null;
+            return;
+        }
+
         let deleter = 'Desconhecido';
         try {
             const auditLogs = await message.guild.fetchAuditLogs({ type: 72, limit: 1 });
@@ -13,7 +22,7 @@ module.exports = {
                 deleter = entry.executor.tag;
             }
         } catch (e) {}
-        
+
         console.log('\x1b[31m\x1b[40m\x1b[1m\n 🗑️ MENSAGEM DELETADA \x1b[0m');
         console.log('\x1b[31m────────────────────────────────\x1b[0m');
         console.log(`\x1b[31m   Autor:     ${message.author.tag}\x1b[0m`);

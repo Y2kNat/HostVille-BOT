@@ -29,6 +29,10 @@ module.exports = {
         const warnData = {
             reason,
             moderator: interaction.user.id,
+            // guildId: sem isto o aviso entrava como 'unknown' e contava em
+            // qualquer servidor do bot. Ver database/db.js.
+            guildId: interaction.guild.id,
+            auto: false,
             timestamp: Date.now()
         };
         
@@ -51,7 +55,7 @@ module.exports = {
         await interaction.reply({ embeds: [embed], flags: 64 });
         
         if (member) {
-            const punishment = await WarningManager.checkAutoPunishment(member);
+            const punishment = await WarningManager.checkAutoPunishment(member, interaction.guild.id);
             if (punishment) {
                 await interaction.followUp({ content: punishment, flags: 64 });
             }

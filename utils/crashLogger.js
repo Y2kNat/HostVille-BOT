@@ -5,6 +5,10 @@ const { Logger } = require('./logger');
 const consoleDir = path.join(__dirname, '..', 'console');
 const statusFile = path.join(consoleDir, 'bot-status.js');
 
+// Janela deslizante de falhas operacionais (rede/banco). Ver o handler de
+// uncaughtException: enquanto não lotar, o bot continua no ar.
+let _operacionais = [];
+
 // Garantir que a pasta console existe
 if (!fs.existsSync(consoleDir)) {
     fs.mkdirSync(consoleDir, { recursive: true });
@@ -231,6 +235,33 @@ function setupCrashHandlers() {
     
     // Exceção não capturada
     process.on('uncaughtException', (error) => {
+        // Erro OPERACIONAL (rede, DNS, banco, timeout) NÃO é crash: é o
+        // mundo falhar. Um "buffering timed out" do Mongoose chega aqui
+        // quando o 4G oscila, e o process.exit(1) matava o bot inteiro por
+        // causa disso — o bot sobrevive degradado, sem o que depende do banco.
+        //
+        // A janela de 30 erros em 60s cobre o caso oposto: se vier uma
+        // enxurrada, o processo está realmente quebrado e aí sim sair é certo.
+        const AGORA = Date.now();
+        const JANELA = 60000;
+        const LIMITE = 30;
+        const operacional = /EAI_AGAIN|ENOTFOUND|ECONNREFUSED|ECONNRESET|ETIMEDOUT|EPIPE|socket hang up|buffering timed out|connectTimeoutMS|MongooseServerSelectionError|getaddrinfo|network|timeout/i
+            .test(String((error && error.message) || ''));
+
+        if (operacional) {
+            _operacionais = _operacionais.filter(t => AGORA - t < JANELA);
+            _operacionais.push(AGORA);
+            Logger.warn('Falha operacional (bot continua no ar)', { error: error.message, contagem: _operacionais.length });
+            console.log(`\n⚠️ FALHA OPERACIONAL (ignorada, ${_operacionais.length}/${LIMITE} na janela): ${error.message}`);
+            if (_operacionais.length >= LIMITE) {
+                Logger.error('Rajada de falhas operacionais', { total: _operacionais.length });
+                console.log(`\n🛑 ${LIMITE} falhas operacionais em ${JANELA / 1000}s — encerrando.`);
+                createCrashLog('uncaught_exception', error);
+                process.exit(1);
+            }
+            return;
+        }
+
         Logger.error('Exceção não capturada', { error: error.message, stack: error.stack });
         console.log('\n💥 UNCAUGHT EXCEPTION - Salvando log de crash...');
         createCrashLog('uncaught_exception', error);

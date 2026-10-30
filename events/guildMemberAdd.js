@@ -1,12 +1,7 @@
-const WelcomeManager = require('../managers/WelcomeManager');
-
 module.exports = {
     name: 'guildMemberAdd',
     async execute(member) {
-        // Ignorar bots
+        // Boas-vindas desativadas (WelcomeManager/welcomeData removidos)
         if (member.user.bot) return;
-
-        // Enviar boas-vindas interativas
-        await WelcomeManager.sendWelcome(member);
     }
 };

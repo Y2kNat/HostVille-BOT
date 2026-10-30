@@ -1,13 +1,12 @@
 const db = require('../database/db');
-const BotModes = require('./BotModes');
 const DynamicCommands = require('./DynamicCommands');
 const { ActionRowBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } = require('discord.js');
 
 class AdminChatManager {
 
-    static isAdminCommand(message) {
+    static async isAdminCommand(message) {
         const ownerId = process.env.OWNER_ID;
-        const conn = db.getConnection(message.guild?.id);
+        const conn = await db.getConnection(message.guild?.id);
         const isStaff = message.member?.roles?.cache?.has(conn?.staffRoleId);
         
         if (message.author.id !== ownerId && !isStaff) return false;
@@ -18,7 +17,7 @@ class AdminChatManager {
 
     static async processAdminCommand(message) {
         const ownerId = process.env.OWNER_ID;
-        const conn = db.getConnection(message.guild?.id);
+        const conn = await db.getConnection(message.guild?.id);
         const isStaff = message.member?.roles?.cache?.has(conn?.staffRoleId);
 
         if (message.author.id !== ownerId && !isStaff) {
@@ -36,11 +35,11 @@ class AdminChatManager {
             const userId = userMatch ? userMatch[1] : null;
             if (!userId) return message.reply({ content: '❌ Mencione o usuário!' });
 
-            const guildConfig = db.getConnection(message.guild.id) || {};
+            const guildConfig = await db.getConnection(message.guild.id) || {};
             if (!guildConfig.mutedUsers) guildConfig.mutedUsers = [];
             if (!guildConfig.mutedUsers.includes(userId)) {
                 guildConfig.mutedUsers.push(userId);
-                db.saveConnection(message.guild.id, guildConfig);
+                await db.saveConnection(message.guild.id, guildConfig);
             }
             await message.reply({ content: `🔇 <@${userId}> foi **silenciado**! 🤫` });
             return true;
@@ -52,10 +51,10 @@ class AdminChatManager {
             const userId = userMatch ? userMatch[1] : null;
             if (!userId) return message.reply({ content: '❌ Mencione o usuário!' });
 
-            const guildConfig = db.getConnection(message.guild.id) || {};
+            const guildConfig = await db.getConnection(message.guild.id) || {};
             if (guildConfig.mutedUsers) {
                 guildConfig.mutedUsers = guildConfig.mutedUsers.filter(id => id !== userId);
-                db.saveConnection(message.guild.id, guildConfig);
+                await db.saveConnection(message.guild.id, guildConfig);
             }
             await message.reply({ content: `🔊 <@${userId}> pode voltar a falar!` });
             return true;
@@ -63,7 +62,7 @@ class AdminChatManager {
 
         // LISTAR SILENCIADOS
         if (content.includes('silenciados') || content.includes('mutados') || content.includes('lista mute')) {
-            const guildConfig = db.getConnection(message.guild.id) || {};
+            const guildConfig = await db.getConnection(message.guild.id) || {};
             const muted = guildConfig.mutedUsers || [];
             if (muted.length === 0) return message.reply({ content: '✅ Ninguém está silenciado!' });
             let list = '🔇 **Usuários Silenciados:**\n';
@@ -76,8 +75,9 @@ class AdminChatManager {
         if (content.includes('banir palavra') || content.includes('proibir palavra')) {
             const word = content.replace(/banir palavra|proibir palavra/gi, '').trim();
             if (!word) return message.reply({ content: '❌ Diga a palavra!' });
-            db.addCustomWord(word);
-            await message.reply({ content: `🚫 Palavra **"${word}"** banida!` });
+            const FM = require('./FilterManager');
+            await FM.addWord(message.guild.id, word);
+            await message.reply({ content: `🚫 Palavra **"${word}"** banida em ${message.guild.name}.` });
             return true;
         }
 
@@ -85,24 +85,25 @@ class AdminChatManager {
         if (content.includes('liberar palavra') || content.includes('permitir palavra')) {
             const word = content.replace(/liberar palavra|permitir palavra/gi, '').trim();
             if (!word) return message.reply({ content: '❌ Diga a palavra!' });
-            db.removeCustomWord(word);
-            await message.reply({ content: `✅ Palavra **"${word}"** liberada!` });
+            const FM = require('./FilterManager');
+            await FM.removeWord(message.guild.id, word);
+            await message.reply({ content: `✅ Palavra **"${word}"** liberada em ${message.guild.name}.` });
             return true;
         }
 
         // MODO VOZ / MODO TEXTO
         if (content.includes('voicemode') || content.includes('voice mode') || content.includes('modo voz')) {
-            const guildConfig = db.getConnection(message.guild.id) || {};
+            const guildConfig = await db.getConnection(message.guild.id) || {};
             guildConfig.voiceMode = true;
-            db.saveConnection(message.guild.id, guildConfig);
+            await db.saveConnection(message.guild.id, guildConfig);
             await message.reply({ content: '🔊 **MODO VOZ ATIVADO!**\nTodas as respostas serão em áudio!\nUse `HvBot admin textmode` para voltar.' });
             return true;
         }
 
         if (content.includes('textmode') || content.includes('text mode') || content.includes('modo texto')) {
-            const guildConfig = db.getConnection(message.guild.id) || {};
+            const guildConfig = await db.getConnection(message.guild.id) || {};
             guildConfig.voiceMode = false;
-            db.saveConnection(message.guild.id, guildConfig);
+            await db.saveConnection(message.guild.id, guildConfig);
             await message.reply({ content: '📝 **MODO TEXTO ATIVADO!**\nRespostas normais em texto.' });
             return true;
         }
@@ -129,37 +130,17 @@ class AdminChatManager {
             return true;
         }
 
-        // MUDAR MODO DO BOT
-        if (content.includes('modo') || content.includes('mode')) {
-            if (content.includes('hacker')) { BotModes.setMode(message.guild.id, 'hacker'); await message.reply({ content: '💻 **MODO HACKER ATIVADO!**' }); return true; }
-            if (content.includes('savage') || content.includes('xinga')) { BotModes.setMode(message.guild.id, 'savage'); await message.reply({ content: '🔥 **MODO SAVAGE ATIVADO!**' }); return true; }
-            if (content.includes('respeitoso') || content.includes('educado')) { BotModes.setMode(message.guild.id, 'respeitoso'); await message.reply({ content: '🤝 **MODO RESPEITOSO ATIVADO!**' }); return true; }
-            if (content.includes('boiola') || content.includes('bicha')) { BotModes.setMode(message.guild.id, 'boiola'); await message.reply({ content: '💅 **MODO BOIOLA ATIVADO!**' }); return true; }
-            if (content.includes('padrão') || content.includes('padrao') || content.includes('original')) { BotModes.setMode(message.guild.id, 'normal'); await message.reply({ content: '🎭 **MODO NORMAL ATIVADO!**' }); return true; }
-
-            const currentMode = BotModes.getMode(message.guild.id);
-            let modesList = '🎭 **Modos disponíveis:**\n';
-            for (const [key, mode] of Object.entries(BotModes.MODES)) {
-                modesList += `\n• \`${key}\` - ${mode.name}: ${mode.description}`;
-            }
-            modesList += `\n\n📌 **Atual:** ${currentMode.name}\nUse: \`HvBot admin modo <nome>\``;
-            await message.reply({ content: modesList });
-            return true;
-        }
-
         // ESTATÍSTICAS
         if (content.includes('stats') || content.includes('estatisticas')) {
             const stats = db.getTicketsStats ? db.getTicketsStats() : { total: 0, active: 0 };
-            const knowledge = db.getKnowledge(message.guild.id);
-            const mode = BotModes.getMode(message.guild.id);
-            const guildConfig = db.getConnection(message.guild.id) || {};
+            const knowledge = await db.getKnowledge(message.guild.id);
+            const guildConfig = await db.getConnection(message.guild.id) || {};
             const mutedCount = (guildConfig.mutedUsers || []).length;
             
             let resposta = '📊 **Estatísticas:**\n';
             resposta += `🔢 Tickets: **${stats.total || 0}** | 🟢 Ativos: **${stats.active || 0}**\n`;
             resposta += `🧠 Conhecimentos: **${Object.keys(knowledge).length}**\n`;
             resposta += `🔇 Silenciados: **${mutedCount}**\n`;
-            resposta += `🎭 Modo: **${mode.name}**\n`;
             resposta += `🔊 Voice mode: **${guildConfig.voiceMode ? 'ON' : 'OFF'}**\n`;
             await message.reply({ content: resposta });
             return true;
@@ -167,7 +148,7 @@ class AdminChatManager {
 
         // LISTAR CONHECIMENTO
         if (content.includes('listar') || content.includes('respostas') || content.includes('conhecimento')) {
-            const knowledge = db.getKnowledge(message.guild.id);
+            const knowledge = await db.getKnowledge(message.guild.id);
             const entries = Object.entries(knowledge);
             if (entries.length === 0) return message.reply({ content: '📭 Nenhuma resposta aprendida.' });
             let resposta = '🧠 **Respostas Aprendidas:**\n';
@@ -184,7 +165,7 @@ class AdminChatManager {
             const id = content.replace(/remover|deletar|apagar/gi, '').trim();
             if (!id) return message.reply({ content: '❌ Use: `HvBot admin remover <id>`' });
             let removed = db.removeKnowledge(message.guild.id, id);
-            const conn = db.getConnection(message.guild.id);
+            const conn = await db.getConnection(message.guild.id);
             if (conn && conn.communityGuildId) db.removeKnowledge(conn.communityGuildId, id);
             if (removed) await message.reply({ content: `🗑️ Resposta \`${id}\` removida!` });
             else await message.reply({ content: `❌ Resposta \`${id}\` não encontrada.` });
@@ -193,7 +174,7 @@ class AdminChatManager {
 
         // CONEXÃO
         if (content.includes('conexao') || content.includes('conexão') || content.includes('config')) {
-            const conn = db.getConnection(message.guild.id);
+            const conn = await db.getConnection(message.guild.id);
             if (!conn) return message.reply({ content: '❌ Nenhuma conexão configurada.' });
             let resposta = '🔗 **Conexão:**\n';
             resposta += `🏠 ${conn.communityGuildName}\n🏢 ${conn.staffGuildName}\n`;
@@ -225,7 +206,7 @@ class AdminChatManager {
 
         // LISTAR COMANDOS DINÂMICOS
         if (content.includes('comandos dinamicos') || content.includes('comandos dinâmicos') || content.includes('meus comandos')) {
-            const commands = DynamicCommands.list(message.guild.id);
+            const commands = await DynamicCommands.list(message.guild.id);
             if (commands.length === 0) return message.reply({ content: '📭 Nenhum comando dinâmico.' });
             let lista = '📋 **Comandos Dinâmicos:**\n';
             commands.forEach(cmd => { lista += `\n/${cmd.name} - Usos: ${cmd.uses}\n💬 ${cmd.response}...\n`; });
@@ -249,10 +230,10 @@ class AdminChatManager {
             if (userId || userName) { keywords.push(userId || userName); keywords.push('especial'); }
             const entryId = (userName || userId || 'especial').replace(/[^a-z0-9_]/g, '_').substring(0, 20);
             let finalId = entryId, counter = 1;
-            const knowledge = db.getKnowledge(message.guild.id);
+            const knowledge = await db.getKnowledge(message.guild.id);
             while (knowledge[finalId]) { finalId = `${entryId}_${counter}`; counter++; }
             db.addKnowledge(message.guild.id, finalId, keywords, response);
-            const conn = db.getConnection(message.guild.id);
+            const conn = await db.getConnection(message.guild.id);
             if (conn && conn.communityGuildId && conn.communityGuildId !== message.guild.id) db.addKnowledge(conn.communityGuildId, finalId, keywords, response);
             await message.reply({ content: `✅ **Ensinado!**\n🆔 \`${finalId}\`\n💬 ${response}` });
             return true;
@@ -269,10 +250,10 @@ class AdminChatManager {
             if (keywords.length === 0 || !response) return message.reply({ content: '❌ Formato: `HvBot admin quando alguém perguntar "..." você deve "..."`' });
             const entryId = keywords[0].replace(/[^a-z0-9_]/g, '_').substring(0, 30);
             let finalId = entryId, counter = 1;
-            const knowledge = db.getKnowledge(message.guild.id);
+            const knowledge = await db.getKnowledge(message.guild.id);
             while (knowledge[finalId]) { finalId = `${entryId}_${counter}`; counter++; }
             db.addKnowledge(message.guild.id, finalId, keywords, response);
-            const conn = db.getConnection(message.guild.id);
+            const conn = await db.getConnection(message.guild.id);
             if (conn && conn.communityGuildId && conn.communityGuildId !== message.guild.id) db.addKnowledge(conn.communityGuildId, finalId, keywords, response);
             await message.reply({ content: `✅ **Ensinado!**\n🆔 \`${finalId}\`\n🔑 ${keywords.join(', ')}\n💬 ${response}` });
             return true;

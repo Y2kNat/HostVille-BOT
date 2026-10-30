@@ -30,7 +30,7 @@ class VoiceMessage {
         const fileName = `voz-${Date.now()}.mp3`;
         const filePath = path.join(dir, fileName);
 
-        const guildConfig = db.getConnection(message.guild?.id) || {};
+        const guildConfig = await db.getConnection(message.guild?.id) || {};
         const selectedVoice = forceVoice || guildConfig.selectedVoice || 'default';
         const voiceName = this.VOICE_NAMES[selectedVoice] || 'Padrão';
 

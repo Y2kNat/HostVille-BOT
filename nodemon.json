@@ -1,0 +1,28 @@
+{
+  "watch": [
+    "index.js",
+    "config.js",
+    "ai",
+    "commands",
+    "database",
+    "events",
+    "handlers",
+    "managers",
+    "models",
+    "utils"
+  ],
+  "ignore": [
+    "data/*",
+    "logs/*",
+    "console/*",
+    "media/*",
+    "temp/*",
+    "transcripts/*",
+    "node_modules/*",
+    ".env",
+    "*.log",
+    "*.json"
+  ],
+  "delay": 1500,
+  "verbose": false
+}

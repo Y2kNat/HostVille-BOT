@@ -1,34 +1,17 @@
-const Groq = require('groq-sdk');
-const knowledgeBase = require('../data/ticketKnowledge');
+const kilo = require('../managers/KiloClient');
 const db = require('../database/db');
 
-// Inicializar Groq com verificação
-const groqApiKey = process.env.GROQ_API_KEY;
-if (!groqApiKey) {
-    console.warn('⚠️ GROQ_API_KEY não configurada. IA desativada.');
-}
-const groq = groqApiKey ? new Groq({ apiKey: groqApiKey }) : null;
-
 /**
- * Perguntar para IA (Groq)
+ * Perguntar para a IA (gateway do Kilo)
  */
 async function askAI(question, category, context = [], guildId) {
-    // Se não tem API key, retorna null (usa fallback)
-    if (!groq) return null;
 
     try {
         let learnedText = '';
         if (guildId) {
-            const learnedKnowledge = db.getKnowledge(guildId);
+            const learnedKnowledge = await db.getKnowledge(guildId);
             for (const [id, entry] of Object.entries(learnedKnowledge)) {
                 learnedText += `- ${entry.keywords.slice(0, 5).join(', ')} → ${entry.response.substring(0, 100)}\n`;
-            }
-        }
-
-        let fileKnowledge = '';
-        if (knowledgeBase[category]) {
-            for (const entry of knowledgeBase[category].questions) {
-                fileKnowledge += `- ${entry.keywords.slice(0, 5).join(', ')} → ${entry.response.substring(0, 100)}\n`;
             }
         }
 
@@ -36,7 +19,6 @@ async function askAI(question, category, context = [], guildId) {
 CATEGORIA: ${category}
 
 CONHECIMENTO:
-${fileKnowledge || 'Nenhum.'}
 ${learnedText || 'Nenhum.'}
 
 REGRAS RÍGIDAS:
@@ -67,8 +49,7 @@ SEGURANÇA MÁXIMA:
 
         messages.push({ role: 'user', content: sanitizeInput(question) });
 
-        const completion = await groq.chat.completions.create({
-            model: 'llama-3.3-70b-versatile',
+        const completion = await kilo.chat({
             messages,
             temperature: 0.3,
             max_tokens: 200,
@@ -77,7 +58,7 @@ SEGURANÇA MÁXIMA:
             presence_penalty: 0.2
         });
 
-        let answer = completion.choices[0]?.message?.content?.trim();
+        let answer = completion;
 
         if (!answer || answer.includes('ENCAMINHAR_STAFF')) return null;
 
@@ -145,31 +126,14 @@ function sanitizeResponse(response) {
 /**
  * Buscar por palavra-chave (fallback)
  */
-function searchKeywords(question, category, guildId) {
+async function searchKeywords(question, category, guildId) {
     const q = sanitizeInput(question).toLowerCase();
 
     if (guildId) {
-        const learned = db.getKnowledge(guildId);
+        const learned = await db.getKnowledge(guildId);
         for (const [id, entry] of Object.entries(learned)) {
             if (entry.keywords.some(kw => q.includes(kw.toLowerCase()))) {
                 return { found: true, response: entry.response, source: 'learned' };
-            }
-        }
-    }
-
-    if (knowledgeBase[category]) {
-        for (const entry of knowledgeBase[category].questions) {
-            if (entry.keywords.some(kw => q.includes(kw.toLowerCase()))) {
-                return { found: true, response: entry.response, source: 'file' };
-            }
-        }
-    }
-
-    for (const [cat, data] of Object.entries(knowledgeBase)) {
-        if (cat === category) continue;
-        for (const entry of data.questions) {
-            if (entry.keywords.some(kw => q.includes(kw.toLowerCase()))) {
-                return { found: true, response: entry.response, source: 'file_other' };
             }
         }
     }

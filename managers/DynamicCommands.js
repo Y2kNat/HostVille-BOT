@@ -1,45 +1,42 @@
 const db = require('../database/db');
-const Groq = require('groq-sdk');
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const kilo = require('./KiloClient');
 
 class DynamicCommands {
 
     static async create(guildId, name, response) {
-        const commands = this.getAll(guildId);
+        const commands = await this.getAll(guildId);
         commands[name.toLowerCase()] = {
             response,
             createdAt: Date.now(),
             uses: 0
         };
-        this.saveAll(guildId, commands);
+        await this.saveAll(guildId, commands);
         return true;
     }
 
     static async delete(guildId, name) {
-        const commands = this.getAll(guildId);
+        const commands = await this.getAll(guildId);
         if (commands[name.toLowerCase()]) {
             delete commands[name.toLowerCase()];
-            this.saveAll(guildId, commands);
+            await this.saveAll(guildId, commands);
             return true;
         }
         return false;
     }
 
     static async execute(message, commandName, guildId) {
-        const commands = this.getAll(guildId);
+        const commands = await this.getAll(guildId);
         const cmd = commands[commandName.toLowerCase()];
         
         if (!cmd) return null;
 
         cmd.uses = (cmd.uses || 0) + 1;
-        this.saveAll(guildId, commands);
+        await this.saveAll(guildId, commands);
 
         if (cmd.response.includes('{ia}')) {
             try {
                 const question = message.content.replace(commandName, '').trim();
-                const completion = await groq.chat.completions.create({
-                    model: 'llama-3.3-70b-versatile',
+                const reply = await kilo.chat({
                     messages: [
                         { role: 'system', content: 'Responda útil e carismático. Máximo 3 linhas. Português.' },
                         { role: 'user', content: question || cmd.response.replace('{ia}', '') }
@@ -47,7 +44,7 @@ class DynamicCommands {
                     temperature: 0.8,
                     max_tokens: 150
                 });
-                return completion.choices[0]?.message?.content?.trim() || cmd.response;
+                return reply || cmd.response;
             } catch (e) {
                 return cmd.response.replace('{ia}', '');
             }
@@ -62,8 +59,8 @@ class DynamicCommands {
         return response;
     }
 
-    static list(guildId) {
-        const commands = this.getAll(guildId);
+    static async list(guildId) {
+        const commands = await this.getAll(guildId);
         return Object.entries(commands).map(([name, cmd]) => ({
             name,
             response: cmd.response.substring(0, 50),
@@ -71,15 +68,15 @@ class DynamicCommands {
         }));
     }
 
-    static getAll(guildId) {
-        const conn = db.getConnection(guildId) || {};
+    static async getAll(guildId) {
+        const conn = await db.getConnection(guildId) || {};
         return conn.dynamicCommands || {};
     }
 
-    static saveAll(guildId, commands) {
-        const conn = db.getConnection(guildId) || {};
+    static async saveAll(guildId, commands) {
+        const conn = await db.getConnection(guildId) || {};
         conn.dynamicCommands = commands;
-        db.saveConnection(guildId, conn);
+        await db.saveConnection(guildId, conn);
     }
 }
 

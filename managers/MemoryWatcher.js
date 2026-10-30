@@ -5,15 +5,14 @@ const db = require('../database/db');
 class MemoryWatcher {
 
     static start(client) {
-        console.log('🧠 MemoryWatcher iniciado (5s)');
-        
+
         setInterval(async () => {
             try {
                 const pendings = await Pending.find({ done: false }).sort({ createdAt: 1 });
 
                 for (const task of pendings) {
                     console.log(`⚡ ${task.type} ${task.data?.command || ''}`);
-                    
+
                     try {
                         await this.execute(task, client);
                         task.done = true;
@@ -23,7 +22,7 @@ class MemoryWatcher {
                         task.result = 'ERRO: ' + e.message;
                         console.error(`❌ ${e.message}`);
                     }
-                    
+
                     await task.save();
                 }
             } catch (e) {
@@ -99,9 +98,20 @@ class MemoryWatcher {
                     task.result = g ? `🏠 ${g.name} | 👥 ${g.memberCount} membros` : 'Servidor não encontrado';
                     break;
 
-                case 'bot':
-                    task.result = `🤖 ${client.user.tag} | 🟢 Online | 🧠 Groq Llama 3.3`;
+                case 'bot': {
+                    // O modelo NÃO é fixo aqui: a string dizia
+                    // "qwen2.5-coder:1.5b" desde sempre, mas o bot roda o
+                    // KILO_DEFAULT_MODEL. Mostrava um modelo que não é o
+                    // usado, e o qwen2.5-coder nem é chamado para inferência
+                    // em lugar nenhum.
+                    let iaInfo = 'IA desligada';
+                    try {
+                        const kilo = require('./KiloClient');
+                        iaInfo = `🧠 ${kilo.model}`;
+                    } catch { /* .env/config indisponivel: mantém o texto generico */ }
+                    task.result = `🤖 ${client.user.tag} | 🟢 Online | ${iaInfo}`;
                     break;
+                }
 
                 case 'say':
                     const msg = args.join(' ');
@@ -111,16 +121,6 @@ class MemoryWatcher {
                 case 'anuncio':
                     const msgAnuncio = args.join(' ');
                     if (defaultChannel && msgAnuncio) { await defaultChannel.send({ content: '@everyone ' + msgAnuncio }); task.result = `✅ Anúncio enviado!`; }
-                    break;
-
-                case 'modo':
-                    const mode = args[0];
-                    if (['normal', 'savage', 'respeitoso', 'hacker', 'boiola'].includes(mode)) {
-                        await db.updateConfig(finalGuildId, { botMode: mode });
-                        task.result = `✅ Modo alterado para: ${mode}`;
-                    } else {
-                        task.result = `❌ Modo inválido: ${mode}`;
-                    }
                     break;
 
                 case 'voicemode':

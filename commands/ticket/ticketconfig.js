@@ -47,7 +47,7 @@ module.exports = {
             });
         }
 
-        db.saveConnection(communityGuildId, {
+        await db.saveConnection(communityGuildId, {
             communityGuildId,
             communityGuildName,
             staffGuildId,

@@ -1,10 +1,10 @@
 // HostVille • BOT - Status File
-// Atualizado: 04/07/2026, 19:51:45
+// Atualizado: 29/10/2026, 22:30:56
 
 module.exports = {
     status: "online",
     message: "Bot is on service",
-    startedAt: "2026-07-04T22:51:45.924Z",
-    startedAtBR: "04/07/2026, 19:51:45",
-    pid: 18981
+    startedAt: "2026-10-30T01:30:56.709Z",
+    startedAtBR: "29/10/2026, 22:30:56",
+    pid: 9985
 };

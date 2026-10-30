@@ -18,7 +18,7 @@ module.exports = {
         const channel = interaction.options.getChannel('canal');
         const guildId = interaction.guild.id;
 
-        const connection = db.getConnection(guildId);
+        const connection = await db.getConnection(guildId);
         if (!connection) {
             return interaction.editReply({ content: '❌ Use /ticket-config primeiro.' });
         }

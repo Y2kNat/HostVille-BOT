@@ -1,7 +1,6 @@
-const Groq = require('groq-sdk');
+const kilo = require('./KiloClient');
+const TaskRunner = require('./TaskRunner');
 const db = require('../database/db');
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 // Memória de fatos sobre usuários (usuário → lista de coisas que ele disse)
 const userFacts = new Map();
@@ -16,13 +15,6 @@ class AutoInteraction {
 
     // Servidor de onde pegar os emojis (precisa estar nesse servidor)
     static EMOJI_GUILD_ID = '1519076712413925416';
-
-    // Gatilhos especiais: quando alguém digitar essas palavras, o bot manda uma imagem
-    static SPECIAL_TRIGGERS = {
-        '67': 'https://cdn.discordapp.com/attachments/1521717074240602262/1522778676175835237/the-angry-birds-red-with-ear-meme-actually-is-sourced-from-v0-1ynv2vrzwwkg1.jpg',
-        'six seven': 'https://cdn.discordapp.com/attachments/1521717074240602262/1522778676175835237/the-angry-birds-red-with-ear-meme-actually-is-sourced-from-v0-1ynv2vrzwwkg1.jpg',
-        'seis sete': 'https://cdn.discordapp.com/attachments/1521717074240602262/1522778676175835237/the-angry-birds-red-with-ear-meme-actually-is-sourced-from-v0-1ynv2vrzwwkg1.jpg',
-    };
 
     // Vídeo enviado quando o chat fica 7 horas sem ninguém falar
     static INACTIVE_VIDEO = './media/inactive.mp4';
@@ -104,15 +96,115 @@ class AutoInteraction {
         userMessageCount.set(userId, (userMessageCount.get(userId) || 0) + 1);
     }
 
+    // Persona padrão (modos personalizados removidos)
+    static DEFAULT_PROMPT = `Você é o HostBot, robô BRASILEIRO com modo GLOBAL.
+Responda DIRETAMENTE o que foi pedido, sem rodeios. NÃO use gírias ("mano", "pô", "tá ligado", "tmj", "slc", "suave").
+Não enrole, vá direto ao ponto. Tom neutro e natural. Português brasileiro. Máximo 3 linhas.`;
+
     // ============================================
-    // 🎯 VERIFICAR GATILHOS ESPECIAIS (67 = imagem)
+    // 🧠 CONSTRUIR PROMPT COM CONTEXTO
     // ============================================
-    static checkSpecialTriggers(content) {
-        const lower = content.toLowerCase();
-        for (const [trigger, url] of Object.entries(this.SPECIAL_TRIGGERS)) {
-            if (lower.includes(trigger)) return url;
+    static async buildPrompt(guildId, contextType, contextData = {}) {
+        let basePrompt = this.DEFAULT_PROMPT;
+
+        // Instruções específicas do AutoInteraction
+        const autoInteractionRules = [
+            '',
+            'REGRAS ADICIONAIS PARA INTERAÇÃO AUTOMÁTICA:',
+            '- Máximo 2 linhas',
+            '- NATURAL, como amigo de longa data',
+            '- NUNCA formal ou analista',
+            '- NUNCA use "parece que", "a galera está"',
+            '- Seja ÚNICO e NATURAL'
+        ];
+
+        // Adicionar emoji se disponível
+        if (contextData.randomEmoji) {
+            autoInteractionRules.push(`- USE EXATAMENTE 1 EMOJI NO FINAL: ${contextData.randomEmoji}`);
         }
-        return null;
+
+        // Adicionar menção da roleta
+        if (contextData.roulette) {
+            if (contextData.roulette.type === 'user') {
+                autoInteractionRules.push(`- VOCÊ DEVE MENCIONAR ${contextData.roulette.mention} na sua resposta (use exatamente ${contextData.roulette.mention})`);
+            } else if (contextData.roulette.type === 'everyone') {
+                autoInteractionRules.push('- USE @everyone! RARÍSSIMO! RESPONSABILIDADE!');
+            }
+        }
+
+        // Contexto específico por tipo de interação
+        let contextPrompt = '';
+        switch (contextType) {
+            case 'reply':
+                contextPrompt = `\n\n<@${contextData.userId}> respondeu sua mensagem anterior com: "${contextData.content}"`;
+                break;
+            case 'respond_to_message':
+                contextPrompt = `\n\nVocê está respondendo especificamente uma mensagem de <@${contextData.userId}> que disse: "${contextData.content}"`;
+                break;
+            case 'remember_fact':
+                contextPrompt = `\n\nVocê lembrou de algo sobre ${contextData.username} do nada. A pessoa disse: "${contextData.fact}"
+- Comente com humor sobre isso`;
+                break;
+            case 'random':
+                contextPrompt = `\n\nO chat está assim no momento:\n${contextData.lastMessages || 'Vazio...'}
+- Puxe assunto, zoe, brinque, ou comente algo`;
+                break;
+        }
+
+        return basePrompt + '\n' + autoInteractionRules.join('\n') + contextPrompt;
+    }
+
+    // ============================================
+    // 🤖 GERAR RESPOSTA USANDO A IA (gateway Kilo) + MODO
+    // ============================================
+
+    /**
+     * Monta o turno de usuário da conversa.
+     *
+     * Não é enfeite: sem um turno 'user' o modelo não consegue aplicar o
+     * chat template e devolve HTTP 200 com finish_reason="load", usage
+     * zerada e content vazio em ~150ms.
+     * O modelo nunca chega a começar, então repetir a chamada não resolve.
+     */
+    static buildUserTurn(contextType, contextData = {}) {
+        switch (contextType) {
+            case 'reply':
+            case 'respond_to_message':
+                return `<@${contextData.userId}> disse: "${contextData.content || ''}"`;
+            case 'remember_fact':
+                return `${contextData.username} falou antes: "${contextData.fact || ''}"`;
+            case 'random':
+                return `Últimas mensagens do chat:\n${contextData.lastMessages || '(nenhuma)'}`;
+            default:
+                return 'Responda ao chat.';
+        }
+    }
+
+    static async generateResponse(guildId, contextType, contextData = {}) {
+        const systemPrompt = await this.buildPrompt(guildId, contextType, contextData);
+
+        const completion = await kilo.chat({
+            messages: [
+                { role: 'system', content: systemPrompt },
+                { role: 'user', content: this.buildUserTurn(contextType, contextData) }
+            ],
+            temperature: 0.7,
+            max_tokens: 120
+        });
+
+        let phrase = completion;
+
+        // Garantir que tem o emoji no final
+        if (phrase && contextData.randomEmoji && !phrase.includes(contextData.randomEmoji)) {
+            phrase = phrase.trim() + ' ' + contextData.randomEmoji;
+        }
+
+        // Adicionar @everyone se a roleta escolheu
+        if (contextData.roulette?.type === 'everyone' && phrase && !phrase.includes('@everyone')) {
+            phrase = '@everyone ' + phrase;
+        }
+
+        return phrase;
     }
 
     // ============================================
@@ -125,33 +217,25 @@ class AutoInteraction {
             if (!referenced || referenced.author.id !== client.user.id) return false;
 
             this.registerMessage(message.author.id);
+
+            // Se o reply pedir código/arquivo, rotear para o TaskRunner (cria arquivo completo)
+            if (await TaskRunner.isTaskRequest(message.content)) {
+                const taskResult = await TaskRunner.run(message);
+                if (taskResult) {
+                    await message.reply({ content: taskResult });
+                    console.log(`📋 Tarefa via reply para ${message.author.username}`);
+                    return true;
+                }
+            }
+
             const randomEmoji = this.getRandomEmoji(client);
 
-            const systemPrompt = `Você é o HostBot, robô da HostVille.
-<@${message.author.id}> respondeu sua mensagem anterior com: "${message.content}"
-
-PERSONALIDADE:
-- BRASILEIRO, ZOEIRO, CARISMÁTICO e AMIGÁVEL
-- Fala como AMIGO: "mano", "pô", "tá ligado", "slc", "tmj", "suave", "fechou", "bora", "partiu"
-- NUNCA seja agressivo, ignorante ou rude
-- NUNCA use "se manca", "acorda pra vida", "tá de sacanagem" de forma ofensiva
-- Seja LEVE, DIVERTIDO e RESPEITOSO
-- USE EXATAMENTE 1 EMOJI NO FINAL: ${randomEmoji}
-- NATURAL, como amigo de longa data
-- NUNCA formal ou analista
-- NUNCA use "parece que", "a galera está"
-- Máximo 2 linhas`;
-
-            const completion = await groq.chat.completions.create({
-                model: 'llama-3.3-70b-versatile',
-                messages: [{ role: 'system', content: systemPrompt }],
-                temperature: 0.9, max_tokens: 120
+            const phrase = await this.generateResponse(message.guild.id, 'reply', {
+                userId: message.author.id,
+                content: message.content,
+                randomEmoji
             });
 
-            let phrase = completion.choices[0]?.message?.content?.trim();
-            if (phrase && randomEmoji && !phrase.includes(randomEmoji)) {
-                phrase = phrase.trim() + ' ' + randomEmoji;
-            }
             if (phrase && phrase.length > 3) {
                 await message.reply({ content: phrase });
                 console.log(`💬 Resposta na hora para ${message.author.username}`);
@@ -176,6 +260,9 @@ PERSONALIDADE:
 
         setInterval(async () => {
             try {
+                // Manutenção ativa → nenhuma interação automática
+                if (require('./MaintenanceManager').isEnabled()) return;
+
                 // ============================================
                 // VERIFICAR INATIVIDADE (7 horas sem mensagens)
                 // ============================================
@@ -185,6 +272,10 @@ PERSONALIDADE:
                 if (inactiveTime > sevenHours) {
                     const guilds = client.guilds.cache;
                     for (const [id, guild] of guilds) {
+                        // 👇 Verificar se auto-interação está LIGADA
+                        const isEnabled = await db.getAutoInteractionStatus(guild.id);
+                        if (!isEnabled) continue;
+
                         const channels = guild.channels.cache.filter(c =>
                             this.ALLOWED_CHANNELS.includes(c.id) &&
                             c.permissionsFor(guild.members.me).has('SendMessages')
@@ -204,9 +295,13 @@ PERSONALIDADE:
                 // ============================================
                 // INTERAÇÕES NORMAIS
                 // ============================================
-                const guilds = client.guilds.cache.filter(g => true);
+                const guilds = client.guilds.cache;
 
                 for (const [id, guild] of guilds) {
+                    // 👇 VERIFICAR SE AUTO-INTERAÇÃO ESTÁ LIGADA
+                    const isEnabled = await db.getAutoInteractionStatus(guild.id);
+                    if (!isEnabled) continue;
+
                     // 40% de chance de interagir nesse ciclo
                     if (Math.random() > 0.40) continue;
 
@@ -247,7 +342,11 @@ PERSONALIDADE:
 
                     const action = Math.random();
                     let phrase = null;
-                    let systemPrompt = '';
+
+                    const contextData = {
+                        randomEmoji,
+                        roulette
+                    };
 
                     // ============================================
                     // 30% - Responder uma mensagem específica
@@ -256,23 +355,11 @@ PERSONALIDADE:
                         const randomMsg = lastAuthors[Math.floor(Math.random() * lastAuthors.length)];
                         this.learnFact(randomMsg.username, randomMsg.id, randomMsg.content);
 
-                        systemPrompt = `Você é o HostBot, robô da HostVille.
-                        
-Você está respondendo especificamente uma mensagem de <@${randomMsg.id}> que disse: "${randomMsg.content}"
-
-PERSONALIDADE:
-- BRASILEIRO, ZOEIRO, CARISMÁTICO e AMIGÁVEL
-- Fala como AMIGO: "mano", "pô", "tá ligado", "slc", "tmj", "suave", "fechou", "bora", "partiu"
-- NUNCA seja agressivo, ignorante ou rude
-- NUNCA use "se manca", "acorda pra vida", "tá de sacanagem" de forma ofensiva
-- Seja LEVE, DIVERTIDO e RESPEITOSO
-- USE EXATAMENTE 1 EMOJI NO FINAL: ${randomEmoji}
-- NATURAL, como amigo de longa data
-- NUNCA formal ou analista
-- NUNCA use "parece que", "a galera está"
-- Máximo 2 linhas
-${roulette.type === 'user' ? `- VOCÊ DEVE MENCIONAR ${roulette.mention} na sua resposta (use exatamente ${roulette.mention})` : ''}
-${roulette.type === 'everyone' ? '- USE @everyone! RARÍSSIMO! RESPONSABILIDADE!' : ''}`;
+                        phrase = await this.generateResponse(guild.id, 'respond_to_message', {
+                            ...contextData,
+                            userId: randomMsg.id,
+                            content: randomMsg.content
+                        });
                     }
                     // ============================================
                     // 25% - Lembrar de um fato antigo
@@ -280,63 +367,20 @@ ${roulette.type === 'everyone' ? '- USE @everyone! RARÍSSIMO! RESPONSABILIDADE!
                     else if (action < 0.55 && this.getRandomFact()) {
                         const fact = this.getRandomFact();
 
-                        systemPrompt = `Você é o HostBot, robô da HostVille.
-                        
-Você lembrou de algo sobre ${fact.username} do nada. A pessoa disse: "${fact.fact}"
-
-PERSONALIDADE:
-- BRASILEIRO, ZOEIRO, CARISMÁTICO e AMIGÁVEL
-- Fala como AMIGO: "mano", "pô", "tá ligado", "slc", "tmj", "suave"
-- NUNCA seja agressivo, ignorante ou rude
-- Seja LEVE, DIVERTIDO e RESPEITOSO
-- USE EXATAMENTE 1 EMOJI NO FINAL: ${randomEmoji}
-- NATURAL, como amigo de longa data
-- Comente com humor sobre isso
-- Máximo 2 linhas
-${roulette.type === 'user' ? `- VOCÊ DEVE MENCIONAR ${roulette.mention} na sua fala (use exatamente ${roulette.mention})` : ''}
-${roulette.type === 'everyone' ? '- USE @everyone! RARÍSSIMO!' : ''}`;
+                        phrase = await this.generateResponse(guild.id, 'remember_fact', {
+                            ...contextData,
+                            username: fact.username,
+                            fact: fact.fact
+                        });
                     }
                     // ============================================
                     // 45% - Frase aleatória
                     // ============================================
                     else {
-                        systemPrompt = `Você é o HostBot, robô da HostVille.
-                        
-O chat está assim no momento:
-${lastMessages || 'Vazio...'}
-
-PERSONALIDADE:
-- BRASILEIRO, ZOEIRO, CARISMÁTICO e AMIGÁVEL
-- Fala como AMIGO: "mano", "pô", "tá ligado", "slc", "tmj", "suave", "fechou", "bora", "partiu"
-- NUNCA seja agressivo, ignorante ou rude
-- NUNCA use "se manca", "acorda pra vida", "tá de sacanagem" de forma ofensiva
-- Seja LEVE, DIVERTIDO e RESPEITOSO
-- USE EXATAMENTE 1 EMOJI NO FINAL: ${randomEmoji}
-- NATURAL, como amigo de longa data
-- Puxe assunto, zoe, brinque, ou comente algo
-- NUNCA formal ou analista
-- Seja ÚNICO e NATURAL
-- Máximo 2 linhas
-${roulette.type === 'user' ? `- VOCÊ DEVE MENCIONAR ${roulette.mention} na sua fala (use exatamente ${roulette.mention})` : ''}
-${roulette.type === 'everyone' ? '- USE @everyone! RARÍSSIMO! RESPONSABILIDADE!' : ''}`;
-                    }
-
-                    const completion = await groq.chat.completions.create({
-                        model: 'llama-3.3-70b-versatile',
-                        messages: [{ role: 'system', content: systemPrompt }],
-                        temperature: 0.95,
-                        max_tokens: 120
-                    });
-                    phrase = completion.choices[0]?.message?.content?.trim();
-
-                    // Garantir que tem o emoji no final
-                    if (phrase && randomEmoji && !phrase.includes(randomEmoji)) {
-                        phrase = phrase.trim() + ' ' + randomEmoji;
-                    }
-
-                    // Adicionar @everyone se a roleta escolheu
-                    if (roulette.type === 'everyone' && phrase && !phrase.includes('@everyone')) {
-                        phrase = '@everyone ' + phrase;
+                        phrase = await this.generateResponse(guild.id, 'random', {
+                            ...contextData,
+                            lastMessages
+                        });
                     }
 
                     // Enviar a frase
@@ -346,9 +390,22 @@ ${roulette.type === 'everyone' ? '- USE @everyone! RARÍSSIMO! RESPONSABILIDADE!
                     }
                 }
             } catch (error) {
-                // Silencioso - não quebra o bot
+                console.error('Erro nas interações aleatórias:', error.message);
             }
         }, 20 * 60 * 1000); // A cada 20 minutos
+    }
+
+    // ============================================
+    // 🔧 TOGGLE AUTO INTERACTION (ON/OFF)
+    // ============================================
+    static async setAutoInteraction(guildId, enabled) {
+        await db.setAutoInteractionStatus(guildId, enabled);
+        console.log(`🔧 Auto-interação ${enabled ? 'LIGADA' : 'DESLIGADA'} para guild ${guildId}`);
+        return enabled;
+    }
+
+    static async getAutoInteraction(guildId) {
+        return await db.getAutoInteractionStatus(guildId);
     }
 
     // ============================================

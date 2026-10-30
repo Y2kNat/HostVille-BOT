@@ -1,0 +1,39 @@
+# Segredos — nunca versionar
+.env
+.env.*
+!.env.example
+
+# Dependências
+node_modules/
+
+# Artefatos gerados
+logs/
+*.log
+crash.log
+temp/
+transcripts/
+data/responseQueue.json
+# ranking local de padrões (reconstrói sozinho; não versionar)
+data/learnedPatterns.json
+data/chatMemory.json
+data/chatMemory.json.bak
+db.json
+db_backup.json
+
+# Transcrições acumuladas
+data/transcripts/
+
+# Backups e runtime de dados
+backups/
+data/backups/
+data/warnings.json
+data/warnings.json.bak
+data/warnings.json.pre-backfill.bak
+data/moderacao.json
+data/moderacao.json.bak
+data/maintenance.json
+data/ticketChannels.json
+data/tierCooldowns.json
+
+# NOTA: assets/fonts/ e ESSENCIAL (o PDF nao funciona sem as TTF).
+# Nao adicionar aqui.

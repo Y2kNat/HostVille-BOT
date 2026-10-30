@@ -18,11 +18,17 @@ module.exports = {
         }
         
         const target = interaction.options.getUser('user');
-        await WarningManager.clearWarnings(target.id);
+
+        // Escopo por guild: antes, um admin do servidor B apagava o
+        // histórico de punição do servidor A, que é onde a decisão tem
+        // efeito. Aviso limpo num servidor não pode apagar o do outro.
+        // Avisos legados ('unknown') continuam em todos os servidores — são
+        // infrações reais de origem desconhecida, e apagar them daria reset.
+        await WarningManager.clearWarnings(target.id, interaction.guild.id);
         StatsManager.trackCommand('clearwarns');
-        
+
         await interaction.reply({
-            content: `✅ Avisos de ${target.tag} removidos com sucesso.`,
+            content: `✅ Avisos de ${target.tag} neste servidor removidos com sucesso.`,
             flags: 64
         });
     }

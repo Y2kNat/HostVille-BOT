@@ -1,11 +1,9 @@
-const Groq = require('groq-sdk');
+const kilo = require('./KiloClient');
 const db = require('../database/db');
 const Memory = require('../models/Memory');
 const Pending = require('../models/Pending');
 const TicketManager = require('./TicketManager');
-const BotModes = require('./BotModes');
-
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const { isAdmin } = require('../utils/permissions');
 
 class StaffLearner {
 
@@ -14,6 +12,14 @@ class StaffLearner {
     static async process(message) {
         if (message.channel.id !== this.LEARN_CHANNEL) return false;
         if (message.author.bot) return false;
+
+        // Chave `canal_estudo` do /adm. Sem ela o canal volta a ser um canal
+        // comum: nada é aprendido e nada é executado a partir do que é
+        // escrito nele.
+        try {
+            const Features = require('./FeatureRegistry');
+            if (!Features.ligadoSync('canal_estudo')) return false;
+        } catch (e) { /* registry indisponível: mantém o comportamento */ }
 
         const msg = message.content.trim();
         if (!msg || msg.length < 3) return false;
@@ -36,7 +42,6 @@ class StaffLearner {
 - Tickets hoje: ${ticketsHoje} | Ativos: ${ticketsAtivos}
 - Memórias: ${totalMemorias}
 - Conhecimentos: ${Object.keys(knowledge).length}
-- Modo: ${guildConfig.botMode || 'normal'}
 - Voz: ${guildConfig.voiceMode ? 'ON' : 'OFF'}
 - Servidor: ${conn?.communityGuildName || 'HostVille'}
 - StaffRole: ${conn?.staffRoleId || 'N/A'}`;
@@ -54,7 +59,6 @@ VALOR: o que for necessário
 
 AÇÕES QUE VOCÊ PODE EXECUTAR:
 - FECHAR_TICKET: fecha ticket por número
-- MUDAR_MODO: muda modo (normal, savage, respeitoso, hacker, boiola)
 - ATIVAR_VOZ: ativa modo voz
 - DESATIVAR_VOZ: desativa modo voz  
 - MUTAR: silencia usuário (precisa ID)
@@ -69,14 +73,11 @@ AÇÕES QUE VOCÊ PODE EXECUTAR:
 Se não for ação, responda como assistente normal.
 Máximo 4 linhas. Português brasileiro.`;
 
-            const completion = await groq.chat.completions.create({
-                model: 'llama-3.3-70b-versatile',
+            const response = await kilo.chat({
                 messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: msg }],
                 temperature: 0.3,
                 max_tokens: 400
             });
-
-            const response = completion.choices[0]?.message?.content?.trim();
 
             await Memory.create({
                 user: message.author.username,
@@ -111,6 +112,17 @@ Máximo 4 linhas. Português brasileiro.`;
         }
     }
 
+    static canModerate(message, conn) {
+        const member = message.member;
+        if (!member) return false;
+        if (message.author.id === process.env.OWNER_ID) return true;
+        try {
+            if (isAdmin(member)) return true;
+        } catch (e) {}
+        if (conn?.staffRoleId && member.roles.cache.has(conn.staffRoleId)) return true;
+        return false;
+    }
+
     static async executeAnyAction(response, message, mainGuild, conn) {
         if (!response) return null;
 
@@ -122,6 +134,26 @@ Máximo 4 linhas. Português brasileiro.`;
         const valorMatch = response.match(/VALOR\s*:\s*([\s\S]+)/i);
         const alvo = alvoMatch ? alvoMatch[1].trim() : '';
         const valor = valorMatch ? valorMatch[1].trim() : '';
+
+        // Bloquear ações de punição/gerenciamento sem permissão de staff.
+        //
+        // B24: RESPONDER_CANAL não estava nesta lista, e era a lacuna mais
+        // grave do canal de aprendizado. Qualquer membro daquele canal
+        // escrevia "ACAO: RESPONDER_CANAL / ALVO: <id> / VALOR: <texto>",
+        // o modelo obedecia, e o bot postava a mensagem — em QUALQUER
+        // canal de QUALQUER servidor onde estivesse, porque o lookup era
+        // `global.client.channels.cache.get(chId)`, o cache global, sem
+        // comparar com mainGuild. O conteúdo ainda era texto gerado por IA.
+        //
+        // ADICIONAR_PENDENCIA entra junto: cria tarefa para o bot executar
+        // depois, o que é a mesma coisa com um passo de atraso.
+        const EXIGEM_PERMISSAO = [
+            'FECHAR_TICKET', 'MUTAR', 'DESMUTAR', 'EXPULSAR', 'BANIR', 'LIMPAR',
+            'RESPONDER_CANAL', 'ADICIONAR_PENDENCIA'
+        ];
+        if (EXIGEM_PERMISSAO.includes(acao) && !this.canModerate(message, conn)) {
+            return '❌ Sem permissão para executar essa ação.';
+        }
 
         console.log(`⚡ Executando: ${acao}`);
 
@@ -135,20 +167,11 @@ Máximo 4 linhas. Português brasileiro.`;
                         const d = JSON.parse(t.answer || '{}');
                         if (d.number === num) {
                             const ch = global.client?.channels?.cache?.get(d.channelId);
-                            if (ch) { await TicketManager.closeTicket(ch, message.author); return `✅ Ticket #${String(num).padStart(4, '0')} fechado!`; }
+                            if (ch) { await TicketManager.closeTicket(ch, message.author, 'Fechado via comando da staff'); return `✅ Ticket #${String(num).padStart(4, '0')} fechado!`; }
                             else { await db.closeTicket(d.channelId); return `✅ Ticket #${String(num).padStart(4, '0')} fechado (canal já removido).`; }
                         }
                     }
                     return `❌ Ticket #${String(num).padStart(4, '0')} não encontrado.`;
-                }
-
-                case 'MUDAR_MODO': {
-                    const modo = alvo.toLowerCase();
-                    if (!BotModes.MODES[modo]) return `❌ Modo inválido: ${modo}`;
-                    const gc = await db.getConnection(mainGuild) || {};
-                    gc.botMode = modo;
-                    await db.saveConnection(mainGuild, gc);
-                    return `✅ Modo: ${modo}`;
                 }
 
                 case 'ATIVAR_VOZ': {
@@ -220,6 +243,14 @@ Máximo 4 linhas. Português brasileiro.`;
                 case 'RESPONDER_CANAL': {
                     const chId = alvo.replace(/\D/g, '');
                     const ch = global.client?.channels?.cache?.get(chId);
+                    // B24: mesmo já exigindo permissão acima, o canal ainda
+                    // precisa ser DESTA guild. `client.channels.cache` é o
+                    // cache global e devolve canais de qualquer servidor
+                    // onde o bot esteja; sem esta comparação, um admin da
+                    // staff de um servidor manda o bot escrever em outro.
+                    if (ch && mainGuild && ch.guildId !== mainGuild) {
+                        return '❌ Esse canal não é deste servidor.';
+                    }
                     if (ch) { await ch.send(valor); return '✅ Mensagem enviada!'; }
                     return '❌ Canal não encontrado';
                 }
