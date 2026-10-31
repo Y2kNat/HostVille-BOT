@@ -29,6 +29,10 @@ data/backups/
 
 # Status do bot rodando (reescreve sozinho com timestamp/pid)
 console/bot-status.js
+
+# Notas/planos locais e scripts de execução local (raiz apenas — fixtures de testes continuam versionados)
+/*.txt
+/*.sh
 data/warnings.json
 data/warnings.json.bak
 data/warnings.json.pre-backfill.bak
