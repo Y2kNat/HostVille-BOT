@@ -3,6 +3,7 @@ const db = require('../../database/db');
 const { isAdmin } = require('../../utils/permissions');
 const StatsManager = require('../../managers/StatsManager');
 const TicketManager = require('../../managers/TicketManager');
+const TicketQueue = require('../../managers/TicketQueue');
 
 /**
  * /ai-ticket — liga ou desliga a resposta automática da IA num ticket.
@@ -70,6 +71,9 @@ module.exports = {
 
         const desligar = action === 'off';
         await TicketManager.setTicketAi(interaction.guild.id, canal.id, desligar);
+        if (desligar) {
+            try { TicketQueue.cancel(canal.id, { removerRefs: true }); } catch (e) {}
+        }
         await TicketManager.refreshTicketAi(true);
 
         // Se reativou, a sessão precisa perder o aviso de "IA desligada"

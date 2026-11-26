@@ -11,6 +11,7 @@
  */
 
 const db = require('../database/db');
+const config = require('../config');
 const engine = require('../utils/moderation/OffensiveEngine');
 const { DECISION } = require('../utils/moderation/constants');
 
@@ -189,6 +190,7 @@ class FilterManager {
    */
   static async decide(text, opts = {}) {
     const base = await this.analyze(text, opts);
+    if (config.MODERATION_AI_ALL) return base;
     if (!base.requiresAI) return base;
 
     const Classifier = require('./ModerationClassifier');

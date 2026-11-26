@@ -1,4 +1,17 @@
 require('dotenv').config();
+const { parseKeys } = require('./utils/apiKeyPool');
+const KILO_API_KEYS = parseKeys([
+    process.env.KILO_API_KEY,
+    process.env.KILO_API_KEYS,
+    ...[1, 2, 3, 4, 5].map(n => process.env[`KILO_API_${n}`]),
+    ...[1, 2, 3, 4, 5].map(n => process.env[`KILO_API_KEY${n}`])
+]);
+const MODERATION_API_KEYS = parseKeys([
+    process.env.MODERATION_API_KEY,
+    process.env.MODERATION_API_KEYS,
+    ...[1, 2, 3, 4, 5].map(n => process.env[`MODERATION_API_${n}`]),
+    ...[1, 2, 3, 4, 5].map(n => process.env[`MODERATION_API_KEY${n}`])
+]);
 
 module.exports = {
     // Bot
@@ -61,7 +74,8 @@ module.exports = {
     //
     // TODO O RESTO É OPCIONAL: tem default aqui e só existe para afinar
     // tempo/orçamento quando o modelo escolhido pedir.
-    KILO_API_KEY: process.env.KILO_API_KEY || '',
+    KILO_API_KEY: KILO_API_KEYS[0] || '',
+    KILO_API_KEYS,
     KILO_BASE_URL: (process.env.KILO_BASE_URL || 'https://ai-gateway.kilo.ai/api/v1').replace(/\/+$/, ''),
     KILO_DEFAULT_MODEL: process.env.KILO_DEFAULT_MODEL || '',
 
@@ -85,6 +99,59 @@ module.exports = {
     KILO_MAX_TOKENS: parseInt(process.env.KILO_MAX_TOKENS) || 1500,
     KILO_TEMPERATURE: parseFloat(process.env.KILO_TEMPERATURE) || 0.7,
     KILO_TOP_P: parseFloat(process.env.KILO_TOP_P) || 0.9,
+
+    // ============================================================
+    // HONEYPOT (canal-armadilha)
+    // ============================================================
+    // Um canal isca: o bot fixa um aviso de "não mande mensagem aqui". Quem
+    // mandar (e não for isento: dono/staff/admin) é banido na hora, tem as
+    // mensagens apagadas, recebe DM e o staff recebe um alerta com o que foi
+    // enviado (texto + mídia salva para não expirar).
+    HONEYPOT: {
+        ENABLED: process.env.HONEYPOT_ENABLED !== 'false',
+        CHANNEL_ID: process.env.HONEYPOT_CHANNEL_ID || '1573807154291548322',
+        // Canal do ALERTA (embed do "o que aconteceu" + @everyone) + DM ao dono.
+        ALERT_CHANNEL_ID: process.env.HONEYPOT_ALERT_CHANNEL_ID || '1521666605887656148',
+        // Canal onde a MÍDIA é salva para não expirar (fica separado do alerta).
+        MEDIA_CHANNEL_ID: process.env.HONEYPOT_MEDIA_CHANNEL_ID || '1521717074240602262',
+        GUILD_ID: process.env.HONEYPOT_GUILD_ID || '1519076712413925416',
+        // Dias de mensagem apagados pelo ban (0..7). 7 = máximo do Discord.
+        DELETE_DAYS: Math.min(7, Math.max(0, parseInt(process.env.HONEYPOT_DELETE_DAYS) || 7)),
+        // Varredura extra de mensagens antigas (best-effort) além do ban.
+        EXTRA_SCAN: process.env.HONEYPOT_EXTRA_SCAN !== 'false',
+        // Usuário de TESTE: quando ele posta no honeypot, o bot roda o fluxo
+        // completo como demonstração, mas NÃO bane e NÃO apaga mensagens em
+        // outros canais (só a mensagem do honeypot + alerta marcado como teste).
+        // Vazio = usa o OWNER_ID. É isento de punição real, serve só pra testar.
+        TEST_USER_ID: (process.env.HONEYPOT_TEST_USER_ID || process.env.OWNER_ID || '').trim(),
+        // Watchdog: verifica periodicamente se o canal-armadilha ainda existe
+        // (alguém pode deletar). Se sumir, avisa no canal de alerta. O evento
+        // channelDelete cobre o caso em tempo real; isto é o backup.
+        CHECK_ENABLED: process.env.HONEYPOT_CHECK_ENABLED !== 'false',
+        // Intervalo da checagem, em SEGUNDOS (cache-first: so faz REST quando o canal some do cache).
+        CHECK_INTERVAL_SEC: parseInt(process.env.HONEYPOT_CHECK_INTERVAL_SEC) || 10,
+    },
+
+    // ============================================================
+    // ANTI-RAID (Protect)
+    // ============================================================
+    // Detecta raids em andamento (delete/ban em massa, @everyone spam) e
+    // bane o executor automaticamente. Só executa se ANTI_RAID_ENABLED !==
+    // 'false'. Se o bot não tiver permissão View Audit Log, a feature
+    // desativa com aviso no boot.
+    ANTI_RAID: {
+        ENABLED: process.env.ANTI_RAID_ENABLED !== 'false',
+        WINDOW_MS: parseInt(process.env.ANTI_RAID_WINDOW_MS) || 180000,
+        DELETE_THRESHOLD: parseInt(process.env.ANTI_RAID_CHANNEL_DELETE_THRESHOLD) || 3,
+        CREATE_THRESHOLD: parseInt(process.env.ANTI_RAID_CHANNEL_CREATE_THRESHOLD) || 3,
+        BAN_THRESHOLD: parseInt(process.env.ANTI_RAID_BAN_THRESHOLD) || 3,
+        EVERYONE_THRESHOLD: parseInt(process.env.ANTI_RAID_EVERYONE_THRESHOLD) || 3,
+        ALERT_CHANNEL_ID: process.env.ANTI_RAID_ALERT_CHANNEL_ID || '',
+        GUILD_ID: process.env.ANTI_RAID_GUILD_ID || '',
+        TRUSTED: process.env.ANTI_RAID_TRUSTED
+            ? process.env.ANTI_RAID_TRUSTED.split(',').map(id => id.trim().replace(/[<@>]/g, '')).filter(Boolean)
+            : [],
+    },
 
     // Piso de max_tokens. Modelos de raciocínio consomem o mesmo orçamento
     // antes de responder; abaixo disso a resposta volta vazia.
@@ -157,6 +224,7 @@ module.exports = {
     TIER_JUDGE_MODEL: process.env.TIER_JUDGE_MODEL || process.env.KILO_DEFAULT_MODEL || '',
     TIER_JUDGE_BASE_URL: (process.env.TIER_JUDGE_BASE_URL || process.env.KILO_BASE_URL || 'https://ai-gateway.kilo.ai/api/v1').replace(/\/+$/, ''),
     TIER_JUDGE_API_KEY: process.env.TIER_JUDGE_API_KEY || process.env.KILO_API_KEY || '',
+    TIER_JUDGE_API_KEYS: parseKeys(process.env.TIER_JUDGE_API_KEY || process.env.TIER_JUDGE_API_KEYS || process.env.KILO_API_KEY),
     // Timeout do juiz. MEDIDO: ~17s no gateway (free tier é lento). Com
     // 2500ms o juiz estourava SEMPRE e o seletor de tier nunca abria.
     TIER_JUDGE_TIMEOUT_MS: parseInt(process.env.TIER_JUDGE_TIMEOUT_MS) || 30000,
@@ -170,6 +238,7 @@ module.exports = {
     GUARD_MODEL: process.env.GUARD_MODEL || process.env.KILO_DEFAULT_MODEL || '',
     GUARD_BASE_URL: (process.env.GUARD_BASE_URL || process.env.KILO_BASE_URL || 'https://ai-gateway.kilo.ai/api/v1').replace(/\/+$/, ''),
     GUARD_API_KEY: process.env.GUARD_API_KEY || process.env.KILO_API_KEY || '',
+    GUARD_API_KEYS: parseKeys(process.env.GUARD_API_KEY || process.env.GUARD_API_KEYS || process.env.KILO_API_KEY),
     // Timeout do guard. MEDIDO no gateway: ~21s com o modelo de
     // content-safety (o free tier do Kilo é lento). Com 2500ms o guard
     // estourava o tempo SEMPRE e o protection de injeção ficava morto.
@@ -192,8 +261,14 @@ module.exports = {
     MODERATION_ENABLED: String(process.env.MODERATION_ENABLED ?? 'true').toLowerCase() !== 'false',
     MODERATION_MODEL: process.env.MODERATION_MODEL || process.env.KILO_DEFAULT_MODEL || '',
     MODERATION_BASE_URL: (process.env.MODERATION_BASE_URL || process.env.KILO_BASE_URL || 'https://ai-gateway.kilo.ai/api/v1').replace(/\/+$/, ''),
-    // Vazio = reaproveita KILO_API_KEY (mesmo gateway, modelos diferentes)
-    MODERATION_API_KEY: process.env.MODERATION_API_KEY || process.env.KILO_API_KEY || '',
+    // Vazio = herda o pool do KILO_API_KEY. Com vírgula = pool próprio.
+    MODERATION_API_KEYS: MODERATION_API_KEYS.length ? MODERATION_API_KEYS : KILO_API_KEYS,
+    MODERATION_API_KEY: (MODERATION_API_KEYS.length ? MODERATION_API_KEYS : KILO_API_KEYS)[0] || '',
+    MODERATION_FALLBACK_MODEL: process.env.MODERATION_FALLBACK_MODEL || '',
+    MODERATION_AI_ALL: String(process.env.MODERATION_AI_ALL ?? 'true').toLowerCase() !== 'false',
+    MODERATION_CONCURRENCY: Math.max(1, parseInt(process.env.MODERATION_CONCURRENCY) || 4),
+    MODERATION_IMAGE_CHECK: String(process.env.MODERATION_IMAGE_CHECK ?? 'true').toLowerCase() !== 'false',
+    MODERATION_MIN_SEVERITY: process.env.MODERATION_MIN_SEVERITY || 'medium',
     MODERATION_TIMEOUT_MS: parseInt(process.env.MODERATION_TIMEOUT_MS) || 30000,
     // Confiança mínima da IA para bloquear (abaixo disso, libera)
     MODERATION_MIN_CONFIDENCE: parseFloat(process.env.MODERATION_MIN_CONFIDENCE) || 0.6,

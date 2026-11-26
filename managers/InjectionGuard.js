@@ -25,6 +25,7 @@ const MODEL = config.GUARD_MODEL;
 const TIMEOUT_MS = config.GUARD_TIMEOUT_MS;
 const ENABLED = config.GUARD_ENABLED;
 const API_KEY = config.GUARD_API_KEY;
+const API_KEYS = (config.GUARD_API_KEYS && config.GUARD_API_KEYS.length) ? config.GUARD_API_KEYS : (config.KILO_API_KEYS || []);
 const BASE_URL = config.GUARD_BASE_URL;
 const MAX_TOKENS = config.GUARD_MAX_TOKENS;
 // 'none' DESLIGA o raciocínio do modelo. Medido no gateway: com
@@ -95,7 +96,7 @@ async function check(texto) {
     const textoLimpo = String(texto || '').trim();
     if (!textoLimpo) return { blocked: false, checked: false };
     if (!ENABLED) return { blocked: false, checked: false };
-    if (!API_KEY) return { blocked: false, checked: false, reason: 'sem KILO_API_KEY' };
+    if (!API_KEYS.length) return { blocked: false, checked: false, reason: 'sem KILO_API_KEY' };
     if (!temMarcador(textoLimpo)) return { blocked: false, checked: false };
 
     const k = chaveDe(textoLimpo);
@@ -113,7 +114,7 @@ async function check(texto) {
             // enquanto ele responde. Sem o deadline, 3 tentativas de 30s
             // dariam 90s de espera na frente do usuário.
             deadlineMs: TIMEOUT_MS,
-            apiKey: API_KEY,
+            apiKey: API_KEYS,
             baseUrl: BASE_URL,
         });
 

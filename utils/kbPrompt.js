@@ -32,8 +32,22 @@ function securityBlock() {
 ${lista(rules.security)}`;
 }
 
+function dataAtualBlock() {
+    const agora = new Date();
+    const fmt = agora.toLocaleString('pt-BR', {
+        timeZone: 'America/Sao_Paulo',
+        weekday: 'long',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+    return `DATA ATUAL (America/Sao_Paulo): ${fmt}. Use esta data para responder perguntas sobre "hoje", "amanha" ou "proximo sabado".`;
+}
+
 function responseRules() {
-    return [taskBlock(), antiInventionBlock(), commandsBlock(), securityBlock()].join('\n\n');
+    return [taskBlock(), antiInventionBlock(), commandsBlock(), securityBlock(), dataAtualBlock()].join('\n\n');
 }
 
 function withKnowledge(question, extra = '') {
@@ -49,5 +63,6 @@ module.exports = {
     responseRules,
     taskBlock,
     commandsBlock,
-    securityBlock
+    securityBlock,
+    dataAtualBlock
 };

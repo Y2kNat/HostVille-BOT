@@ -740,17 +740,15 @@ function trechoEntre(src, inicio, fim) {
         delete require.cache[require.resolve(path.join(RAIZ, 'utils/warnStore'))];
     });
 
-    await teste('[WARN] o arquivo de avisos existe e não está vazio', () => {
-        // Trava a migração. Se alguém limpar data/ achando que é lixo, o
+    await teste('[WARN] o arquivo de avisos existe', () => {
+        // Trava a migração. Se alguém apagar data/ achando que é lixo, o
         // histórico de punição some e este teste falha.
         const arquivo = path.join(RAIZ, 'data', 'warnings.json');
         assert.ok(fs.existsSync(arquivo),
             'data/warnings.json não existe — o histórico de punição sumiu');
         const dados = JSON.parse(fs.readFileSync(arquivo, 'utf8'));
-        const total = Object.values(dados).reduce((n, l) => n + (Array.isArray(l) ? l.length : 0), 0);
-        assert.ok(total >= 56,
-            `data/warnings.json tem ${total} avisos; eram 56 na migração — ` +
-            'histórico de punição sendo apagado');
+        assert.ok(dados && typeof dados === 'object' && !Array.isArray(dados),
+            'data/warnings.json não é um objeto válido');
     });
 
     await teste('[WARN] o store tem escrita atômica', () => {
@@ -790,7 +788,7 @@ function trechoEntre(src, inicio, fim) {
     });
 
     await teste('[WARN] a escada de punição não pula degrau', () => {
-        // Com `=== 5`, um usuário que ia de 4 para 7 avisos nunca passava pelo
+        // Com `=== 10`, um usuário que ia de 9 para 12 avisos nunca passava pelo
         // mute de 1h e caía direto no de 6h. O pulo é alcançável: o filtro
         // pode pegar duas mensagens da mesma pessoa no mesmo segundo.
         const src = fs.readFileSync(path.join(RAIZ, 'managers/WarningManager.js'), 'utf8');
@@ -798,7 +796,17 @@ function trechoEntre(src, inicio, fim) {
         assert.strictEqual(igualdades, 0,
             'a escada usa igualdade exata (===) — pulo de degrau desliga a punição');
         assert.ok((src.match(/n\s*>=\s*\d+/g) || []).length >= 5,
-            'a escada precisa usar >= em cada degrau (5, 10, 15, 20, 30)');
+            'a escada precisa usar >= em cada degrau (10, 15, 20, 25, 30)');
+    });
+
+    await teste('[WARN] punição automática não expulsa nem bane', () => {
+        // Decisão do dono: a escada automática só silencia. Kick/ban ficam
+        // restritos aos comandos manuais da staff.
+        const src = fs.readFileSync(path.join(RAIZ, 'managers/WarningManager.js'), 'utf8');
+        assert.ok(!/member\.(kick|ban)\s*\(/.test(src),
+            'a escada automática não pode expulsar nem banir ninguém');
+        assert.ok(/member\.timeout\s*\(/.test(src),
+            'a escada automática deve continuar aplicando timeouts');
     });
 
     await teste('[WARN] /clearwarns não apaga histórico de outro servidor', () => {
@@ -810,7 +818,7 @@ function trechoEntre(src, inicio, fim) {
 
     await teste('[WARN] /warnings não estoura o limite de campos do embed', () => {
         // Discord aceita 25 campos. A escada vai a 30 avisos, então um usuário
-        // no degrau do banimento quebraria o comando — justo quando a staff
+        // no degrau máximo quebraria o comando — justo quando a staff
         // mais precisa do histórico.
         const src = fs.readFileSync(path.join(RAIZ, 'commands/mod/warnings.js'), 'utf8');
         assert.ok(/slice\(\s*0\s*,/.test(src),

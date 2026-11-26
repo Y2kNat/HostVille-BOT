@@ -44,3 +44,14 @@ data/tierCooldowns.json
 
 # NOTA: assets/fonts/ e ESSENCIAL (o PDF nao funciona sem as TTF).
 # Nao adicionar aqui.
+
+# Backups locais e runtime (nao versionar)
+*.backup-*
+data/deleted-messages.json*
+data/battery-alert.json
+data/honeypot-channel.json
+data/mostAsked.json
+data/ticketKbCache.json
+data/warnings.pre-reset-*.json
+PLANO_COMPLETO.md
+plano-protect.md

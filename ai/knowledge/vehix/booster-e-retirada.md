@@ -11,12 +11,12 @@
 - **Como vejo meu booster?** `'boost` ou `'booster` — mostra o nível atual, o multiplicador, o teto base do seu tier e o limite já multiplicado, além do histórico de mudanças.
 - **Os cargos de booster são dados pelo Discord?** Sim. A staff atribui manualmente; o bot só **observa** o cargo e recalcula o multiplicador (verificação diária). O bot não conta, não cria e não remove boost.
 - **Se meu booster cair, o que acontece?** O teto volta ao valor base do tier e, se algum veículo estiver acima do novo teto, ele é sinalizado para remoção pela verificação automática.
-- **Como apago meu próprio veículo?** No canal de **retirada de veículo** (<#1553042999720542218>) há o botão **"Deletar um veículo"**. O fluxo inteiro é por botões e privado: escolher tipo (pessoal ou trabalho) → escolher veículo → confirmar. A ação é **permanente**.
-- **Quantas vezes posso apagar por semana?** **3 veículos por semana**. A semana do limite **começa aos domingos**.
+- **Como apago meu próprio veículo?** No canal de **retirada** (<#1553042999720542218>) há o botão **"Deletar um veículo"** (Vehix) e também o botão **"Deletar um imóvel"** (Atlas). O fluxo do Vehix é por botões e privado: escolher tipo (pessoal ou trabalho) → escolher veículo (a lista mostra nome e placa; ao clicar num veículo aparece o embed com a foto) → confirmar. A ação é **permanente**.
+- **Quantas vezes posso apagar por semana?** **2 veículos por semana**. A semana do limite **começa aos domingos**.
 - **Posso cancelar a retirada?** Sim, até o final, pelo botão de cancelar do próprio painel.
 
 ## IMPORTANTE
-- O limite semanal de retirada (3) é separado do limite de veículos por tier: apagar não devolve vaga de tier, só remove o registro.
+- O limite semanal de retirada (2) é separado do limite de veículos por tier: apagar não devolve vaga de tier, só remove o registro.
 - A verificação automática (que roda ao ligar o bot e depois disso periodicamente) remove veículos de quem saiu do servidor, perdeu o cargo de tier, está com preço acima do teto (considerando o booster) ou acima do limite de veículos pessoais.
 - Comandos novos: `'boost`/`'booster`, `'antigos` (limpa registros com +30 dias), `'orfaos` (limpa dados de quem não está mais no servidor), `'verificar`/`'verify`.
 

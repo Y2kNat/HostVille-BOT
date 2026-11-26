@@ -37,6 +37,7 @@ const BASE = String(config.TIER_JUDGE_BASE_URL || '').replace(/\/+$/, '');
 const TIMEOUT_MS = config.TIER_JUDGE_TIMEOUT_MS;
 const MAX_TOKENS = config.TIER_JUDGE_MAX_TOKENS;
 const API_KEY = config.TIER_JUDGE_API_KEY || process.env.KILO_API_KEY || '';
+const API_KEYS = (config.TIER_JUDGE_API_KEYS && config.TIER_JUDGE_API_KEYS.length) ? config.TIER_JUDGE_API_KEYS : (config.KILO_API_KEYS || []);
 // 'none' DESLIGA o raciocínio. Medido no gateway: com reasoning_effort=none
 // o juiz responde "PROJETO"/"SIMPLES" direto, em ~4 tokens. Sem isso, o
 // orçamento inteiro vai para raciocínio e o `content` volta VAZIO — o juiz
@@ -156,7 +157,7 @@ function porPalavras(texto) {
  */
 async function juiz(texto) {
     if (!ENABLED) return null;
-    if (!API_KEY) return null;
+    if (!API_KEYS.length) return null;
 
     const chave = `j:${texto}`;
     if (cache.has(chave)) return cache.get(chave);
@@ -171,7 +172,7 @@ async function juiz(texto) {
             timeoutMs: TIMEOUT_MS,
             // Orçamento TOTAL: o juiz roda no meio do atendimento do usuário.
             deadlineMs: TIMEOUT_MS,
-            apiKey: API_KEY,
+            apiKey: API_KEYS,
             baseUrl: BASE,
         });
 

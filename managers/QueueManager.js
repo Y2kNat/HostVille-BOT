@@ -316,8 +316,13 @@ class QueueManager {
         try {
             const recent = await channel.messages.fetch({ limit: 20 });
             const botId = channel.client.user.id;
+            const PENSANDO = /^\s*-?#?\s*pensando\b/i;
             for (const m of recent.values()) {
                 if (m.author && m.author.bot && m.author.id === botId && m.createdTimestamp > target.createdTimestamp) {
+                    const content = m.content || '';
+                    const hasEmbeds = !!(m.embeds && (typeof m.embeds.size === 'number' ? m.embeds.size : (Array.isArray(m.embeds) ? m.embeds.length : 0)));
+                    // ignora placeholder "Pensando..." sem conteúdo real
+                    if (PENSANDO.test(content) && !hasEmbeds) continue;
                     return true;
                 }
             }

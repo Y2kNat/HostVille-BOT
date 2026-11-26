@@ -364,9 +364,32 @@ module.exports = {
         MemoryWatcher.start(client);
        logSuccess('MemoryWatcher iniciado');
 
+        const BatteryAlertManager = require('../managers/BatteryAlertManager');
+        BatteryAlertManager.start(client);
+
         const QueueManager = require('../managers/QueueManager');
         QueueManager.start(client);
        logSuccess('Fila de respostas iniciada');
+
+        // ============================================
+        // ANTI-RAID (Protect): detecção + ban de raids
+        // ============================================
+        try {
+            const AntiRaidManager = require('../managers/AntiRaidManager');
+            await AntiRaidManager.start(client);
+        } catch (e) {
+            logWarn('Anti-Raid não iniciou: ' + e.message);
+        }
+
+        // ============================================
+        // HONEYPOT (canal-armadilha): posta o aviso no canal isca
+        // ============================================
+        try {
+            const HoneypotManager = require('../managers/HoneypotManager');
+            await HoneypotManager.start(client);
+        } catch (e) {
+            logWarn('Honeypot não iniciou: ' + e.message);
+        }
 
         // ============================================
         // SALVE AUTOMATICO: REMOVIDO

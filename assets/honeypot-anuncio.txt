@@ -1,0 +1,45 @@
+============================================================
+  HONEYPOT — MENSAGEM DE ANÚNCIO DO CANAL
+============================================================
+
+Título do embed:
+⚠️ Canal de segurança — não envie mensagens
+
+------------------------------------------------------------
+Descrição (corpo do embed):
+------------------------------------------------------------
+Este é um **canal monitorado**. Ele existe para detectar acessos
+indesejados.
+
+**Qualquer mensagem enviada aqui resulta em banimento automático e
+imediato**, sem aviso prévio.
+
+Se você chegou aqui por engano, **saia do canal** e não escreva
+nada. Se foi um erro, contate a staff.
+
+------------------------------------------------------------
+Rodapé do embed:
+------------------------------------------------------------
+HostVille • Honeypot
+
+------------------------------------------------------------
+Cor do embed:
+------------------------------------------------------------
+0xED4245 (vermelho)
+
+============================================================
+  OBSERVAÇÕES
+============================================================
+- Este é exatamente o texto postado pelo bot (HoneypotManager.
+  buildIntroEmbed) no canal-armadilha.
+- O aviso é IDEMPOTENTE: o bot só posta se o embed ainda não
+  existir no canal. Se alguém apagar, o bot limpa o canal e
+  reenvia no próximo boot.
+- Qualquer um que mandar mensagem aqui (menos dono/staff/admin)
+  é banido automaticamente, tem as mensagens apagadas (até 7
+  dias + varredura) e recebe uma DM.
+- O usuário de TESTE (por padrão o dono) recebe uma simulação:
+  marca @everyone e manda a DM de banido, mas NÃO é banido de
+  verdade nem tem o histórico de outros canais apagado.
+
+============================================================

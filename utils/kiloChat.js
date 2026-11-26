@@ -26,6 +26,7 @@
  */
 const config = require('../config');
 const { fetch: httpFetch } = require('./httpDispatcher');
+const { getPool } = require('./apiKeyPool');
 
 /**
  * Quantas vezes repetir uma chamada que falhou por motivo TRANSITÓRIO.
@@ -135,10 +136,10 @@ async function chat(opts) {
     } = opts;
 
     const base = String(baseUrl || config.KILO_BASE_URL || 'https://ai-gateway.kilo.ai/api/v1').replace(/\/+$/, '');
-    const key = String(apiKey || config.KILO_API_KEY || '');
+    const pool = getPool(apiKey || config.KILO_API_KEYS || config.KILO_API_KEY);
 
     if (!model) throw new ErroKilo('Kilo: modelo nao informado', 0);
-    if (!key) throw new ErroKilo('Kilo: KILO_API_KEY vazia', 401);
+    if (!pool.size) throw new ErroKilo('Kilo: KILO_API_KEY vazia', 401);
 
     const corpo = {
         model,
@@ -153,16 +154,20 @@ async function chat(opts) {
     const sobra = () => (deadlineMs ? deadlineMs - (Date.now() - inicio) : Infinity);
 
     let ultimo = null;
-    for (let tentativa = 0; tentativa <= MAX_RETRIES; tentativa++) {
+    const maxTentativas = Math.max(MAX_RETRIES + 1, Math.min(pool.size, 6));
+    for (let tentativa = 0; tentativa < maxTentativas; tentativa++) {
         const restante = sobra();
         if (restante <= 0) {
             throw ultimo || new ErroKilo('Kilo: deadline de ' + deadlineMs + 'ms estourado', 408);
         }
+        const key = pool.next();
+        if (!key) throw ultimo || new ErroKilo('Kilo: todas as keys em cooldown', 429);
         try {
             const resposta = await _post(
                 `${base}/chat/completions`, corpo, key,
                 Math.min(timeoutMs, restante), !!reasoning_effort, fetchImpl
             );
+            pool.ok(key);
             const msg = resposta?.choices?.[0]?.message || {};
             return {
                 content: typeof msg.content === 'string' ? msg.content : '',
@@ -173,12 +178,15 @@ async function chat(opts) {
             };
         } catch (e) {
             ultimo = e;
-            if (!_eTransitorio(e) || tentativa === MAX_RETRIES) throw e;
-            const espera = BACKOFF_MS[Math.min(tentativa, BACKOFF_MS.length - 1)];
+            pool.fail(key, e);
+            const trocaKey = e.status === 401 || e.status === 402 || e.status === 403;
+            if (!_eTransitorio(e) && !trocaKey) throw e;
+            if (tentativa === maxTentativas - 1) throw e;
+            const espera = e.status === 429 ? 0 : BACKOFF_MS[Math.min(tentativa, BACKOFF_MS.length - 1)];
             // A espera tambem conta no orçamento: nao adianta repetir se ja
             // nao ha mais tempo.
             if (sobra() <= espera) throw e;
-            console.warn(`[kilo] falha transitoria (${e.status || 'rede'}): ${String(e.message).slice(0, 90)} — repetindo em ${espera}ms`);
+            console.warn(`[kilo] falha (${e.status || 'rede'}) na key ${pool.mask(key)} — próxima em ${espera}ms`);
             await new Promise(r => setTimeout(r, espera));
         }
     }

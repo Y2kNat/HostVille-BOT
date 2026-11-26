@@ -53,7 +53,7 @@ const FEATURES = {
     },
     ia_moderacao: {
         label: 'IA de moderação', group: 'mod', scope: 'guild', default: config.MODERATION_ENABLED,
-        desc: 'IA (Kilo) que desambigua caso duvidoso (p.ex. "pedo" = dinheiro). Sem ela o caso vira needs_review e NÃO pune.',
+        desc: 'Chave-mestra da moderação por IA. Ligada: toda mensagem suspeita passa pela IA; desligada: o filtro determinístico volta a punir.',
         motivo: 'Sem a IA, o filtro só acerta o obvious e o ambíguo passa.'
     },
     anti_spam: {
@@ -66,8 +66,18 @@ const FEATURES = {
     },
     punicao_auto: {
         label: 'Punição automática', group: 'mod', scope: 'guild', default: true,
-        desc: 'Escada de avisos: 5 → timeout 1h, 10 → 6h, 15 → 24h, 20 → kick, 30 → ban.',
+        desc: 'Escada de avisos: 10 → timeout 1h, 15 → 6h, 20 → 24h, 25 → 7 dias, 30 → 28 dias. Sem kick nem ban.',
         motivo: 'Desligar só a ESCADA. O aviso continua sendo registrado e mostrado no /warnings.'
+    },
+    anti_raid: {
+        label: 'Anti-Raid', group: 'mod', scope: 'guild', default: config.ANTI_RAID.ENABLED,
+        desc: 'Detecta e bane executor de raid: 3+ canais apagados, 3+ bans ou 3+ @everyone em 3 min.',
+        motivo: 'Desligar deixa o servidor vulnerável a raids coordenados (delete/ban em massa, @everyone spam).'
+    },
+    honeypot: {
+        label: 'Honeypot (canal-armadilha)', group: 'mod', scope: 'guild', default: config.HONEYPOT.ENABLED,
+        desc: 'Canal-armadilha: quem manda mensagem nele é banido automaticamente.',
+        motivo: 'Desligar desativa a armadilha anti-raid (o canal vira um canal comum).'
     },
 
     // ─── INTELIGÊNCIA ─────────────────────────────────────────────────────

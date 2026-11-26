@@ -1,5 +1,6 @@
-const { ChannelType, EmbedBuilder, Colors, PermissionFlagsBits } = require('discord.js');
+const { ChannelType, EmbedBuilder, Colors, PermissionFlagsBits, AttachmentBuilder } = require('discord.js');
 const config = require('../config');
+const SystemInfoManager = require('../managers/SystemInfoManager');
 const db = require('../database/db');
 const { isAdmin, isStaff } = require('../utils/permissions');
 const { logInfo, logModeration, logError } = require('../utils/logger');
@@ -37,9 +38,13 @@ const AdminChatManager = require('../managers/AdminChatManager');
 const ContextMemory = require('../managers/ContextMemory');
 const ImageAnalyzer = require('../managers/ImageAnalyzer');
 const DynamicCommands = require('../managers/DynamicCommands');
+const LogExporter = require('../managers/LogExporter');
+const MessageCache = require('../utils/messageCache');
 const StaffLearner = require('../managers/StaffLearner');
 const AutoInteraction = require('../managers/AutoInteraction');
 const MaintenanceManager = require('../managers/MaintenanceManager');
+const AntiRaidManager = require('../managers/AntiRaidManager');
+const HoneypotManager = require('../managers/HoneypotManager');
 const kilo = require('../managers/KiloClient');
 const urlBypass = require('../utils/moderation/urlBypass');
 const { DECISION, AI_STATUS } = require('../utils/moderation/constants');
@@ -198,7 +203,68 @@ module.exports = {
         } catch (e) { /* nunca quebra o fluxo */ }
 
         if (message.author.bot) return;
+        MessageCache.add(message);
 
+        // !export — dono/staff exporta o log estruturado mais recente em Markdown.
+        if (message.content === '!export' || message.content.startsWith('!export ') || message.content === '!export-deleted' || message.content.startsWith('!export-deleted ')) {
+            if (!isStaff(message.author.id) && !isAdmin(message.member)) {
+                const denied = await message.reply({ content: '❌ Sem permissão para exportar o log.' });
+                setTimeout(async () => { try { await denied.delete(); } catch (e) {} }, 6000);
+                return;
+            }
+            const args = message.content.trim().split(/\s+/);
+            const soDeletadas = args[0] === '!export-deleted' || (args[0] === '!export' && args[1] === 'deleted');
+            const result = soDeletadas ? LogExporter.exportDeleted() : LogExporter.exportLatest();
+            if (!result) {
+                await message.reply({ content: '❌ Nenhum log estruturado encontrado.' });
+                return;
+            }
+            const file = new AttachmentBuilder(result.buffer, { name: result.filename });
+            const resumo = soDeletadas
+                ? `🗑️ **Mensagens deletadas exportadas**\nArquivo: \`${result.filename}\`\nTotal: **${result.total}**`
+                : `📄 **Log exportado**\nArquivo: \`${result.filename}\`\nLinhas: **${result.stats.total}**`;
+            await message.reply({ content: resumo, files: [file] });
+            return;
+        }
+
+        // ============================================
+        // HONEYPOT (canal-armadilha)
+        // ============================================
+        // Roda CEDO, antes de qualquer outro fluxo: uma mensagem no canal-
+        // armadilha é punição imediata, não pode cair num `return` de ticket/
+        // comando/aprendizado. Só age no canal configurado; nos outros é no-op.
+        try {
+            if (message.guild && message.channel && message.channel.id === HoneypotManager.getCanalId()) {
+                await HoneypotManager.handleMessage(message);
+                return;
+            }
+        } catch (e) {
+            logError('Erro no honeypot: ' + e.message);
+        }
+
+        // ============================================
+        // ANTI-RAID: contagem de @everyone / @here
+        // ============================================
+        // Roda CEDO, antes de qualquer `return` dos fluxos de ticket/comando/
+        // aprendizado: um raid por menção massiva não pode passar despercebido
+        // só porque a mensagem cairia num caminho que retorna antes. É
+        // independente do resto e nunca derruba o fluxo (try/catch próprio).
+        try {
+            if (message.guild && message.mentions && (message.mentions.everyone || /@everyone|@here/.test(message.content || ''))) {
+                await AntiRaidManager.handleEveryoneMention(message, message.author.id);
+            }
+        } catch (e) { /* nunca quebra o fluxo */ }
+
+        // ============================================
+        // COMANDO DE SISTEMA (-hv%): status do PC/servidor
+        // ============================================
+        // So o dono executa; tentativa de outro usuario e registrada no log.
+        // Roda antes da manutencao para o dono poder diagnosticar mesmo com
+        // o bot em manutencao.
+        if (SystemInfoManager.isSystemCommand(message)) {
+            await SystemInfoManager.execute(message);
+            return;
+        }
         // ============================================
         // MANUTENÇÃO GLOBAL - toda ação vira um embed
         // ============================================
@@ -305,6 +371,7 @@ module.exports = {
         const filtroAtivo =
             Features.ligadoSync('filtro_palavras', message.guild.id) &&
             FilterManager.isChannelEnabled(message.guild.id, message.channel.id);
+        const aiAll = !!config.MODERATION_AI_ALL;
         if (filtroAtivo) {
         // Uma única chamada: o motor decide, o classificador resolve o
         // ambíguo. Só há punição quando a decisão é FINAL — se a IA de
@@ -384,7 +451,7 @@ module.exports = {
             }
         }
 
-        if (FilterManager.shouldPunish(modResult)) {
+        if (!aiAll && FilterManager.shouldPunish(modResult)) {
             const foundWord = FilterManager.findOffensiveWord(modResult);
 
             // BUG 15: a staff não é punida pelo filtro de LINGUAGEM, mas o
@@ -430,7 +497,14 @@ module.exports = {
 
                 // Marca no client: o evento messageDelete vai disparar em seguida
                 // e nao deve repetir este log, porque a moderacao ja logou.
-                message.client.__moderationDelete = { channel: message.channel.id, ts: Date.now() };
+                message.client.__moderationDelete = {
+                    channel: message.channel.id,
+                    ts: Date.now(),
+                    foundWord,
+                    severity: modResult.severity,
+                    category: modResult.category,
+                    aiStatus: modResult.aiStatus
+                };
                 await message.delete();
                 StatsManager.incrementMessagesDeleted();
                 await StatsManager.saveStats();
@@ -480,6 +554,9 @@ module.exports = {
                 logError(`Erro ao moderar mensagem: ${err.message}`);
             }
             }   // fim: modo resposta fixa desligado
+        }
+        if (aiAll && !soUrl) {
+            require('../managers/ModerationQueue').enqueue(message, modResult);
         }
         }   // fim: filtroAtivo
 

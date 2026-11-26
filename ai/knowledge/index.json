@@ -913,6 +913,27 @@
       "source": "data/offensiveWords.js, commands/config/filter.js, commands/config/linksettings.js, managers/LinkManager.js, managers/SpamManager.js, config.js",
       "confidence": "high",
       "lastVerified": "2026-09-25"
+    },
+    {
+      "id": "servidor-rp",
+      "title": "RP — tem RP hoje? (sábado às 20:00)",
+      "path": "ai/knowledge/servidor/rp.md",
+      "category": "servidor",
+      "priority": 8,
+      "keywords": [
+        "hoje",
+        "sabado",
+        "horario",
+        "sessao",
+        "roleplay",
+        "participar",
+        "proximo",
+        "rp"
+      ],
+      "commands": [],
+      "source": "Ascend",
+      "confidence": "high",
+      "lastVerified": "2026-11-10"
     }
   ]
 }

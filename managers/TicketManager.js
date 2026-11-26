@@ -16,15 +16,21 @@ const TICKET_CHANNELS_FILE = process.env.TICKET_CHANNELS_FILE
 
 function loadTicketChannels() {
     try {
+        if (!fs.existsSync(TICKET_CHANNELS_FILE)) return {};
         return JSON.parse(fs.readFileSync(TICKET_CHANNELS_FILE, 'utf8')) || {};
     } catch (e) {
+        console.error('❌ Erro ao ler registro de tickets:', e.message);
         return {};
     }
 }
 
 function saveTicketChannels(channels) {
     try {
-        fs.writeFileSync(TICKET_CHANNELS_FILE, JSON.stringify(channels, null, 2));
+        const dir = path.dirname(TICKET_CHANNELS_FILE);
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+        const tmp = TICKET_CHANNELS_FILE + '.tmp-' + process.pid;
+        fs.writeFileSync(tmp, JSON.stringify(channels, null, 2));
+        fs.renameSync(tmp, TICKET_CHANNELS_FILE);
     } catch (e) {
         console.error('❌ Erro ao salvar registro de tickets:', e.message);
     }
@@ -178,6 +184,13 @@ class TicketManager {
             }
             const session = activeSessions.get(channelId);
             if (session) continue;
+            // não reativa ticket já assumido pela staff
+            let claimed = false;
+            try {
+                const t = await db.getTicket(channelId);
+                if (t && t.claimedBy) claimed = true;
+            } catch (e) {}
+            if (claimed) continue;
             activeSessions.set(channelId, {
                 state: 'active',
                 step: 1,
@@ -218,6 +231,10 @@ class TicketManager {
     }
 
     static async deactivateTicketChannel(channelId) {
+        try {
+            const TicketQueue = require('./TicketQueue');
+            TicketQueue.cancel(channelId, { removerRefs: true });
+        } catch (e) {}
         const channels = loadTicketChannels();
         if (channels[channelId]) {
             channels[channelId].status = 'desativado';
@@ -337,6 +354,10 @@ class TicketManager {
     }
 
     static async handleChannelDeleted(channel) {
+        try {
+            const TicketQueue = require('./TicketQueue');
+            TicketQueue.cancel(channel.id, { removerRefs: true });
+        } catch (e) {}
         // consome o marcador ANTES de olhar o registro: se o registro já
         // tiver sumido, sair aqui sem consumir deixava a entrada na
         // memória para sempre (vazamento, um por ticket fechado)
@@ -363,6 +384,15 @@ class TicketManager {
         }
 
         console.log(`🗑️ Canal de ticket deletado manualmente: ${channel.name} (#${String(registry.number).padStart(4, '0')})`);
+
+        // Extrai Q&A do transcript e alimenta a KB automatica (antes do cleanup)
+        try {
+            const TicketKB = require('./TicketKB');
+            const t = await db.getTicket(channel.id).catch(() => null);
+            const ticket = t || { userId: registry.userId, number: registry.number, userTag: registry.userTag };
+            const pares = TicketKB.extract(channel.id, ticket);
+            TicketKB.record(channel.id, ticket, pares);
+        } catch (e) { console.error('[TicketKB] channelDelete:', e && e.message); }
 
         // O canal JA foi deletado: o historico nao pode ser lido do Discord.
         // Por isso usamos o arquivo de mensagens accumulated pelo messageCreate.
@@ -566,8 +596,6 @@ class TicketManager {
     }
 
     static async processAutoAttendant(message) {
-        // Chave `atendente_auto` do /adm. O ticket continua existindo e a
-        // staff continua conseguindo atender — só o bot não responde sozinho.
         try {
             const Features = require('./FeatureRegistry');
             if (!Features.ligadoSync('atendente_auto', message.guild?.id)) return false;
@@ -619,43 +647,92 @@ class TicketManager {
             QueueManager.markRefInFlight(message.id);
         } catch (e) { /* protege contra a fila reprocessar enquanto respondemos */ }
 
-        // IA desligada neste ticket: nao gera resposta, chama a staff.
-        // A denuncia tem formulario proprio e nao usa IA, entao segue normal.
+        // Enfileira na fila do ticket (debounce/coalescência) em vez de
+        // processar direto. A IA é chamada uma vez por lote.
+        try {
+            const TicketQueue = require('./TicketQueue');
+            TicketQueue.enqueue(message, session, (lote) => this._processTicketBatch(lote));
+        } catch (e) {
+            console.error('[ticket] falha ao enfileirar:', e.message);
+        }
+        return true;
+    }
+
+    /**
+     * Processa um lote de mensagens de ticket (debounce/coalescência).
+     * Chamado por TicketQueue quando o debounce expira.
+     */
+    static async _processTicketBatch(lote) {
+        if (!Array.isArray(lote) || !lote.length) return;
+        const session = (lote[lote.length - 1].session) || lote[0].session;
+        const messages = lote.map(x => x.message);
+        const channel = messages[0].channel;
+
+        // Lote só de saudação: resposta pronta, sem IA.
+        const GREETING = /^\s*(oi|ola|olá|eai|e ai|salve|bom dia|boa tarde|boa noite|opa|hey|hi|hello|fala|beleza|blz|tudo bem|td bem|tudo bom)[!?.\s]*$/i;
+        const allGreeting = messages.every(m => GREETING.test(String(m.content || '').trim()));
+        if (allGreeting) {
+            try { await channel.send('Olá! 👋 Como posso ajudar?'); } catch (e) {}
+            for (const m of messages) {
+                try { const QM = require('./QueueManager'); QM.removeRefByMessage(m.id); } catch (e) {}
+            }
+            return;
+        }
+
+        // IA desligada neste ticket: não gera resposta, chama a staff.
         const usaIA = session.category !== 'denuncias';
-        if (usaIA && !TicketManager.isAiEnabled(message.guild.id, message.channel.id)) {
+        if (usaIA && !TicketManager.isAiEnabled(session.guildId, channel.id)) {
             if (!session.aiAvisou) {
                 session.aiAvisou = true;
-                const conn = await db.getConnection(session.guildId);
-                const aviso = '🤖 A resposta automática está desligada neste ticket. A equipe vai te responder por aqui.';
-                await message.channel.send(conn?.staffRoleId ? `${aviso}\n<@&${conn.staffRoleId}>` : aviso).catch(() => {});
+                try {
+                    const conn = await db.getConnection(session.guildId);
+                    const aviso = '🤖 A resposta automática está desligada neste ticket. A equipe vai te responder por aqui.';
+                    await channel.send(conn?.staffRoleId ? `${aviso}\n<@&${conn.staffRoleId}>` : aviso).catch(() => {});
+                } catch (e) {}
             }
-            return true;
+            for (const m of messages) {
+                try { const QM = require('./QueueManager'); QM.removeRefByMessage(m.id); } catch (e) {}
+            }
+            return;
         }
+
+        // Mensagem combinada: shallow clone com content unificado.
+        const base = messages[0];
+        const combined = {
+            content: messages.map(m => m.content || '').join('\n'),
+            channel: base.channel,
+            author: base.author,
+            client: base.client,
+            guild: base.guild,
+            id: base.id,
+            createdTimestamp: base.createdTimestamp,
+            attachments: base.attachments,
+            embeds: base.embeds,
+            reference: base.reference,
+            _viaQueue: true,
+        };
 
         let delivered = true;
         try {
             if (session.category === 'denuncias') {
-                await TicketDenuncias.process(message, session);
+                await TicketDenuncias.process(combined, session);
             } else if (session.category === 'suporte') {
-                await TicketSuporte.process(message, session);
+                await TicketSuporte.process(combined, session);
             } else if (session.category === 'duvidas') {
-                await TicketDuvidas.process(message, session);
+                await TicketDuvidas.process(combined, session);
             } else if (session.category === 'atendimento') {
-                await TicketAtendimento.process(message, session);
+                await TicketAtendimento.process(combined, session);
             }
         } catch (e) {
             delivered = false;
             console.error(`[ticket] ERRO ao processar ${session.category}:`, e);
         }
 
-        // Só remove a referência se a resposta foi realmente entregue.
         if (delivered) {
-            try {
-                const QueueManager = require('./QueueManager');
-                QueueManager.removeRefByMessage(message.id);
-            } catch (e) { /* não impede */ }
+            for (const m of messages) {
+                try { const QM = require('./QueueManager'); QM.removeRefByMessage(m.id); } catch (e) {}
+            }
         }
-        return true;
     }
 
     /**
@@ -906,7 +983,18 @@ class TicketManager {
             const ticket = await db.getTicket(channel.id);
             if (!ticket) return;
 
+            // Extrai Q&A do transcript e alimenta a KB automatica (antes do cleanup)
+            try {
+                const TicketKB = require('./TicketKB');
+                const pares = TicketKB.extract(channel.id, ticket);
+                TicketKB.record(channel.id, ticket, pares);
+            } catch (e) { console.error('[TicketKB] close:', e && e.message); }
+
             activeSessions.delete(channel.id);
+            try {
+                const TicketQueue = require('./TicketQueue');
+                TicketQueue.cancel(channel.id, { removerRefs: true });
+            } catch (e) {}
             await this.deactivateTicketChannel(channel.id);
 
             const openedAt = ticket.createdAt || null;
@@ -1077,6 +1165,10 @@ class TicketManager {
         if (!ticket || ticket.claimedBy) { await channel.send('❌ Já assumido.'); return false; }
         await db.claimTicket(channel.id, staff.id);
         activeSessions.delete(channel.id);
+        try {
+            const TicketQueue = require('./TicketQueue');
+            TicketQueue.cancel(channel.id, { removerRefs: true });
+        } catch (e) {}
         await channel.send({ embeds: [new EmbedBuilder().setColor(0x5865F2).setDescription(`🙋 ${staff} assumiu o atendimento.`)] });
         sendLog('🙋 Ticket #' + String(ticket.number).padStart(4, '0') + ' assumido por ' + staff.user.tag, 'info', 'tickets');
         return true;

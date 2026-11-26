@@ -30,7 +30,7 @@ module.exports = {
             embed.setDescription('✅ Nenhum aviso registrado.');
         } else {
             // Discord aceita no máximo 25 campos por embed. Com a escada
-            // indo a 30 avisos, um usuário no degrau do banimento estouraria
+            // indo a 30 avisos, um usuário no degrau máximo estouraria
             // o limite e o comando quebraria — ou seja, exatamente no
             // momento em que a staff mais precisa ver o histórico.
             const LIMITE = 24;

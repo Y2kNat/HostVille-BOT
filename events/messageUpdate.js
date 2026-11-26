@@ -1,9 +1,11 @@
 const { TranscriptArchive } = require('../utils/TranscriptArchive');
+const MessageCache = require('../utils/messageCache');
 
 module.exports = {
     name: 'messageUpdate',
     async execute(oldMessage, newMessage) {
         if (!oldMessage.guild || !oldMessage.author) return;
+        MessageCache.update(newMessage);
 
         // Se o bot edita a mensagem "Pensando..." com a resposta final,
         // a transcricao precisa guardar a versao nova, senao fica so o

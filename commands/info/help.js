@@ -18,9 +18,10 @@ module.exports = {
                 { name: '🛡️ Moderação', value: '`/warn` `/warnings` `/clearwarns` `/kick` `/ban` `/timeout` `/purge`', inline: false },
                 { name: '🔧 Configuração', value: '`/filter` `/linksettings`', inline: false },
                 { name: '📊 Informações', value: '`/ping` `/help` `/adm` `/avatar` `/serverinfo` `/userinfo`', inline: false },
+                { name: '🖥️ Sistema', value: '`-hv%` (status do PC/servidor; detalhado na DM)', inline: false },
                 { name: '📨 Comunicação', value: '`/private` `/report`', inline: false }
             )
-            .setFooter({ text: 'Comandos de texto na DM: !clear !clearAll !MonitorOn !MonitorOff' })
+            .setFooter({ text: 'Comandos de texto: -hv% (status do PC) | !export (log) | !export deleted (deletadas) | DM: !clear !clearAll !MonitorOn !MonitorOff' })
             .setTimestamp();
         
         await interaction.reply({ embeds: [embed], flags: 64 });

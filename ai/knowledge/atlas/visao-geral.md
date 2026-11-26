@@ -6,6 +6,7 @@ O **Atlas** é o sistema de registro de **imóveis** (casas, apartamentos, comé
 ## Respostas diretas
 - **Onde registro meu imóvel?** No canal de registro <#1491408052015071342>, clicando no botão **"🏠 Registrar Imóvel"** do painel. Não é por comando de texto.
 - **Onde meu imóvel aparece depois de registrado?** No canal de imóveis <#1491408375882317896>.
+- **Como apago meu próprio imóvel?** No canal de retirada <#1553042999720542218>, clique no botão **"🗑️ Deletar um imóvel"** do painel do Atlas. O fluxo é privado por botões: escolher categoria → escolher imóvel (mostra embed com foto) → confirmar. A ação é permanente e também apaga o anúncio público do imóvel.
 - **Custa alguma coisa registrar?** Não. O sistema não tem preço, venda nem aluguel.
 - **O registro é por qual bot?** Pelo painel do Atlas (clique no botão) — quem registra é quem clica, não precisa de comando.
 

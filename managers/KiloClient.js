@@ -1,6 +1,7 @@
 const config = require('../config');
 const { logInfo, logWarn, logError } = require('../utils/logger');
 const { fetch: httpFetch } = require('../utils/httpDispatcher');
+const { getPool } = require('../utils/apiKeyPool');
 
 /**
  * Timeout do GET/HEAD /models. Precisa ser MAIOR que o connect timeout do
@@ -61,6 +62,7 @@ class KiloClient {
         this.reasoning = config.KILO_REASONING || 'none';
         // Autenticação: o gateway sempre exige a chave.
         this.apiKey = config.KILO_API_KEY || '';
+        this.keyPool = getPool(config.KILO_API_KEYS || config.KILO_API_KEY || '');
         if (!this.apiKey) {
             console.warn('[KiloClient] KILO_API_KEY vazia — todas as chamadas ao gateway vão falhar com 401. Configure no .env.');
         }
@@ -95,7 +97,7 @@ class KiloClient {
             const k = String(apiKey || '').trim();
             const m = String(model || '').trim();
             if (!k || !b || !m) return; // rota incompleta = desligada
-            rotas.push({ nome, baseUrl: b, apiKey: k, model: m, timeoutMs: timeoutMs || 60000, provider });
+            rotas.push({ nome, baseUrl: b, apiKey: k, model: m, timeoutMs: timeoutMs || 60000, provider, keyPool: this.keyPool });
         };
         add('kilo-alternativa', this.baseUrl, this.apiKey,
             config.KILO_FALLBACK_MODEL, config.KILO_FALLBACK_TIMEOUT_MS, 'kilo');
@@ -111,6 +113,7 @@ class KiloClient {
             apiKey: this.apiKey,
             model: this.model,
             timeoutMs: this.timeoutMs,
+            keyPool: this.keyPool,
         };
     }
 
@@ -160,10 +163,17 @@ class KiloClient {
     async _request(rota, body) {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), rota.timeoutMs);
+        let key = null;
         try {
+            key = rota.keyPool ? rota.keyPool.next() : rota.apiKey;
+            if (!key) {
+                const e = new Error('Kilo: todas as keys em cooldown');
+                e.status = 429;
+                throw e;
+            }
             const response = await httpFetch(`${rota.baseUrl}/chat/completions`, {
                 method: 'POST',
-                headers: this._headers(rota),
+                headers: this._headers({ ...rota, apiKey: key }),
                 body: JSON.stringify(body),
                 signal: controller.signal,
                 // Connect timeout próprio: o do undici (10s) é menor que o
@@ -176,9 +186,14 @@ class KiloClient {
                 const text = await response.text().catch(() => '');
                 const erro = new Error(`HTTP ${response.status}: ${text.substring(0, 200)}`);
                 erro.status = response.status;
+                if (rota.keyPool) rota.keyPool.fail(key, erro);
                 throw erro;
             }
+            if (rota.keyPool) rota.keyPool.ok(key);
             return await response.json();
+        } catch (e) {
+            if (rota.keyPool && key) rota.keyPool.fail(key, e);
+            throw e;
         } finally {
             clearTimeout(timer);
         }
@@ -292,7 +307,7 @@ class KiloClient {
         // TENTATIVA 1: rota principal
         // -----------------------------------------------
         let errors = [];
-        let attempts = Math.max(1, this.maxRetries + 1);
+        let attempts = Math.max(this.maxRetries + 1, Math.min(this.keyPool.size, 6));
         let feitos = 0;
         let rotaAtual = this._rotaPrincipal();
         let usarFallback = false;
@@ -322,7 +337,7 @@ class KiloClient {
                 // então o bloco de fallback abaixo ainda avalia se vale trocar
                 // de rota (é o caso do 401, coberto por _valeFallback).
                 const st = error.status;
-                const clienteFinal = st && st >= 400 && st < 500 && st !== 408 && st !== 429;
+                const clienteFinal = st && st >= 400 && st < 500 && st !== 408 && st !== 429 && st !== 401 && st !== 402 && st !== 403;
                 if (clienteFinal) break;
             } finally {
                 this._releaseSlot();

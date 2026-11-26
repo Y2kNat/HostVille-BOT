@@ -8,6 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const { PdfBuilder, CORES, decodePng } = require('./PdfBuilder');
+const { MessageFlags } = require('discord.js');
 
 const DATA_DIR = path.join(__dirname, '..', 'data', 'transcripts');
 const OUT_DIR = path.join(__dirname, '..', 'transcripts');
@@ -17,6 +18,7 @@ const buffers = new Map();
 /** channelId -> Map(messageId -> indice no buffer), para editar mensagens */
 const indice = new Map();
 const MAX_MESSAGES = 3000;
+const PENSANDO = /^\s*-?#?\s*pensando\b/i;
 
 function ensure(dir) {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -216,6 +218,12 @@ class TranscriptArchive {
      */
     static record(message, { forcar = false } = {}) {
         if (!message || !message.channelId) return;
+        try {
+            const ephemeral = message.flags && typeof message.flags.has === 'function'
+                ? message.flags.has(MessageFlags.Ephemeral)
+                : ((message.flags || 0) & MessageFlags.Ephemeral) === MessageFlags.Ephemeral;
+            if (ephemeral) return;
+        } catch (e) {}
         const id = message.channelId;
 
         // respeita a config do servidor (evita gravar quando esta desligado)
@@ -298,6 +306,12 @@ class TranscriptArchive {
      */
     static update(message, { forcar = false } = {}) {
         if (!message || !message.channelId || !message.id) return false;
+        try {
+            const ephemeral = message.flags && typeof message.flags.has === 'function'
+                ? message.flags.has(MessageFlags.Ephemeral)
+                : ((message.flags || 0) & MessageFlags.Ephemeral) === MessageFlags.Ephemeral;
+            if (ephemeral) return false;
+        } catch (e) {}
         const id = message.channelId;
 
         if (!forcar && !this._enabledNow(message)) return false;
@@ -313,8 +327,9 @@ class TranscriptArchive {
         const novosEmbeds = montarListaEmbeds(message.embeds);
         let mudou = false;
 
-        // o placeholder "Pensando..." nao deve sobrar no arquivo
-        if (novoConteudo && novoConteudo !== alvo.content) {
+        // o placeholder "Pensando..." nao deve sobrar no arquivo; permite limpar
+        // conteudo (inclusive deixar vazio) quando a mensagem foi editada
+        if (novoConteudo !== alvo.content) {
             alvo.content = novoConteudo;
             mudou = true;
         }
@@ -381,7 +396,10 @@ class TranscriptArchive {
         // monta a transcricao em texto, como o modelo vai ler
         const linhas = [];
         for (const m of msgs) {
-            if (!m.content && !(m.embedsRaw || []).length && !(m.attachments || []).length) continue;
+            // ignora placeholder "Pensando..." no texto, mas mantem embeds/anexos
+            let conteudoMsg = m.content || '';
+            if (m.bot && PENSANDO.test(conteudoMsg)) conteudoMsg = '';
+            if (!conteudoMsg && !(m.embedsRaw || []).length && !(m.attachments || []).length) continue;
 
             const quando = new Date(m.t).toLocaleString('pt-BR', {
                 day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit',
@@ -389,7 +407,7 @@ class TranscriptArchive {
             const quem = limparNome(m.author) + (m.bot ? ' (bot)' : '');
             const partes = [`[${quando}] ${quem}:`];
 
-            if (m.content) partes.push(m.content);
+            if (conteudoMsg) partes.push(conteudoMsg);
 
             for (const e of m.embedsRaw || []) {
                 const pedacos = [];
@@ -426,7 +444,10 @@ class TranscriptArchive {
     }
 
     static resumoHeuristico(msgs) {
-        const comTexto = msgs.filter(m => m.content && m.content.trim().length > 3);
+        const comTexto = msgs.filter(m => {
+            const c = (m.bot && PENSANDO.test(m.content || '')) ? '' : (m.content || '');
+            return c.trim().length > 3;
+        });
         const primeira = comTexto[0];
         const ultima = comTexto[comTexto.length - 1];
         const corta = (s, n) => {
@@ -440,7 +461,20 @@ class TranscriptArchive {
     }
 
     static get(channelId) {
-        return buffers.get(channelId) || [];
+        if (buffers.has(channelId)) return buffers.get(channelId);
+        // carrega do disco se o buffer não estiver em memória (ex.: bot reiniciado)
+        try {
+            if (fs.existsSync(jsonlPath(channelId))) {
+                const list = [];
+                const lines = fs.readFileSync(jsonlPath(channelId), 'utf8').split('\n').filter(Boolean);
+                for (const l of lines) {
+                    try { list.push(JSON.parse(l)); } catch (e) {}
+                }
+                buffers.set(channelId, list);
+                return list;
+            }
+        } catch (e) {}
+        return [];
     }
 
     static count(channelId) {

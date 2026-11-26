@@ -52,6 +52,7 @@ module.exports = {
     'Confira cada número na tabela antes de escrever.',
     'Se a pergunta for indireta ("e meus carros?", "e os de trabalho?") ou parecida com uma que JÁ respondeu no HISTÓRICO, responda de novo normalmente com a mesma informação. NUNCA diga que não tem informação só porque o assunto já apareceu antes.',
     'Se não afirme que algo é gratuito, tem custo ou é pago, a menos que o CONHECIMENTO diga.',
+    'Se a pergunta envolver hoje, amanha ou proximo sabado, use a DATA ATUAL fornecida no prompt para decidir. RP acontece todo sabado as 20:00; se hoje nao for sabado, o proximo RP e no proximo sabado as 20:00.',
   ],
 
   // ---------------------------------------------------------

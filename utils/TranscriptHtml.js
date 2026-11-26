@@ -142,18 +142,16 @@ function buildHtml(msgs, ticket = {}, opts = {}) {
     // (a edicao falhou), o placeholder so polui a transcricao. Ele fica
     // de fora quando existe resposta logo em seguida do mesmo bot.
     const limpo = [];
-    for (let i = 0; i < msgs.length; i++) {
-        const m = msgs[i];
+    for (const m of msgs) {
         const ePlaceholder = m.bot && PENSANDO.test(m.content || '');
         if (ePlaceholder) {
-            const proximo = msgs[i + 1];
-            if (proximo && proximo.bot && proximo.authorId === m.authorId) {
-                const idxProx = limpo.findIndex(x => x.messageId === proximo.messageId);
-                if (idxProx >= 0) limpio.splice(idxProx, 1);
-            } else if (!proximo || proximo.authorId !== m.authorId) {
-                // placeholder sem resposta nenhuma: descarta
-                continue;
-            }
+            const temExtra = (m.embedsRaw && m.embedsRaw.length)
+                || (m.attachments && m.attachments.length)
+                || (m.embedsImgs && m.embedsImgs.length);
+            if (!temExtra) continue; // placeholder sem resposta: descarta
+            // nunca renderiza o texto do placeholder; mantem embed/anexo
+            limpo.push({ ...m, content: '' });
+            continue;
         }
         limpo.push(m);
     }

@@ -17,7 +17,8 @@ const { sendLog } = require('../utils/realtime');
  *      gravação do aviso depende de rede, o aviso se perde na hora em que o
  *      filtro pegou alguém.
  *   2. O que se perde não é conforto do usuário, é a ESCADA de punição:
- *      mute → expulsão → banimento zera, e quem tinha 19 avisos volta a 0.
+ *      mute de 1h → 6h → 24h → 7 dias → 28 dias zera, e quem tinha 19
+ *      avisos volta a 0.
  *   3. O processo morre o tempo todo (RestartManager chama process.exit(0),
  *      watchdog, low-memory killer do Android) e o ARQUIVO atravessa isso.
  *
@@ -89,36 +90,49 @@ class WarningManager {
 
         if (n >= 30) {
             try {
-                await member.ban({ reason: '30 avisos - banimento automático (HostVille • BOT)' });
-                logInfo(`${member.user.tag} foi banido (30 avisos)`);
-                sendLog('🔨 ' + member.user.tag + ' banido (30 avisos)', 'error', 'moderation');
-                return '🔨 Usuário banido (30 avisos)';
+                await member.timeout(2419200000, '30 avisos - mute automático de 28 dias (HostVille • BOT)');
+                logInfo(`${member.user.tag} foi silenciado por 28 dias (30 avisos)`);
+                sendLog('🔇 ' + member.user.tag + ' silenciado por 28 dias (30 avisos)', 'warn', 'moderation');
+                return '🔇 Usuário silenciado por 28 dias (30 avisos)';
             } catch (err) {
-                logError(`Erro ao banir: ${err.message}`);
-                sendLog('❌ Erro ao banir ' + member.user.tag + ': ' + err.message, 'error', 'system');
+                logError(`Erro ao aplicar mute: ${err.message}`);
+                sendLog('❌ Erro ao aplicar mute em ' + member.user.tag + ': ' + err.message, 'error', 'system');
+            }
+            return null;
+        }
+
+        if (n >= 25) {
+            try {
+                await member.timeout(604800000, '25 avisos - mute automático de 7 dias (HostVille • BOT)');
+                logInfo(`${member.user.tag} foi silenciado por 7 dias (25 avisos)`);
+                sendLog('🔇 ' + member.user.tag + ' silenciado por 7 dias (25 avisos)', 'warn', 'moderation');
+                return '🔇 Usuário silenciado por 7 dias (25 avisos)';
+            } catch (err) {
+                logError(`Erro ao aplicar mute: ${err.message}`);
+                sendLog('❌ Erro ao aplicar mute em ' + member.user.tag + ': ' + err.message, 'error', 'system');
             }
             return null;
         }
 
         if (n >= 20) {
             try {
-                await member.kick('20 avisos - expulsão automática (HostVille • BOT)');
-                logInfo(`${member.user.tag} foi expulso (20 avisos)`);
-                sendLog('👢 ' + member.user.tag + ' expulso (20 avisos)', 'warn', 'moderation');
-                return '👢 Usuário expulso (20 avisos)';
+                await member.timeout(86400000, '20 avisos - mute automático de 24h (HostVille • BOT)');
+                logInfo(`${member.user.tag} foi silenciado por 24h (20 avisos)`);
+                sendLog('🔇 ' + member.user.tag + ' silenciado por 24h (20 avisos)', 'warn', 'moderation');
+                return '🔇 Usuário silenciado por 24h (20 avisos)';
             } catch (err) {
-                logError(`Erro ao expulsar: ${err.message}`);
-                sendLog('❌ Erro ao expulsar ' + member.user.tag + ': ' + err.message, 'error', 'system');
+                logError(`Erro ao aplicar mute: ${err.message}`);
+                sendLog('❌ Erro ao aplicar mute em ' + member.user.tag + ': ' + err.message, 'error', 'system');
             }
             return null;
         }
 
         if (n >= 15) {
             try {
-                await member.timeout(86400000, '15 avisos - mute automático de 24h (HostVille • BOT)');
-                logInfo(`${member.user.tag} foi silenciado por 24h (15 avisos)`);
-                sendLog('🔇 ' + member.user.tag + ' silenciado por 24h (15 avisos)', 'warn', 'moderation');
-                return '🔇 Usuário silenciado por 24h (15 avisos)';
+                await member.timeout(21600000, '15 avisos - mute automático de 6h (HostVille • BOT)');
+                logInfo(`${member.user.tag} foi silenciado por 6h (15 avisos)`);
+                sendLog('🔇 ' + member.user.tag + ' silenciado por 6h (15 avisos)', 'warn', 'moderation');
+                return '🔇 Usuário silenciado por 6h (15 avisos)';
             } catch (err) {
                 logError(`Erro ao aplicar mute: ${err.message}`);
                 sendLog('❌ Erro ao aplicar mute em ' + member.user.tag + ': ' + err.message, 'error', 'system');
@@ -128,23 +142,10 @@ class WarningManager {
 
         if (n >= 10) {
             try {
-                await member.timeout(21600000, '10 avisos - mute automático de 6h (HostVille • BOT)');
-                logInfo(`${member.user.tag} foi silenciado por 6h (10 avisos)`);
-                sendLog('🔇 ' + member.user.tag + ' silenciado por 6h (10 avisos)', 'warn', 'moderation');
-                return '🔇 Usuário silenciado por 6h (10 avisos)';
-            } catch (err) {
-                logError(`Erro ao aplicar mute: ${err.message}`);
-                sendLog('❌ Erro ao aplicar mute em ' + member.user.tag + ': ' + err.message, 'error', 'system');
-            }
-            return null;
-        }
-
-        if (n >= 5) {
-            try {
-                await member.timeout(3600000, '5 avisos - mute automático de 1h (HostVille • BOT)');
-                logInfo(`${member.user.tag} foi silenciado por 1h (5 avisos)`);
-                sendLog('🔇 ' + member.user.tag + ' silenciado por 1h (5 avisos)', 'warn', 'moderation');
-                return '🔇 Usuário silenciado por 1h (5 avisos)';
+                await member.timeout(3600000, '10 avisos - mute automático de 1h (HostVille • BOT)');
+                logInfo(`${member.user.tag} foi silenciado por 1h (10 avisos)`);
+                sendLog('🔇 ' + member.user.tag + ' silenciado por 1h (10 avisos)', 'warn', 'moderation');
+                return '🔇 Usuário silenciado por 1h (10 avisos)';
             } catch (err) {
                 logError(`Erro ao aplicar mute: ${err.message}`);
                 sendLog('❌ Erro ao aplicar mute em ' + member.user.tag + ': ' + err.message, 'error', 'system');
