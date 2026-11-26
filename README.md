@@ -5,13 +5,11 @@
 <p align="center">
   <img src="https://img.shields.io/badge/branch-dev-orange?style=for-the-badge">
   <img src="https://img.shields.io/badge/status-em_desenvolvimento-yellow?style=for-the-badge">
-</p>
 <p align="center">
   <img src="https://img.shields.io/badge/version-6.0.0-4f46e5?style=for-the-badge">
   <img src="https://img.shields.io/badge/node-18%2B-22c55e?style=for-the-badge">
   <img src="https://img.shields.io/badge/discord.js-v14-5865F2?style=for-the-badge">
   <img src="https://img.shields.io/badge/mongodb-Mongoose-47A248?style=for-the-badge">
-  <img src="https://img.shields.io/badge/status-online-22c55e?style=for-the-badge">
 </p>
 
 <h1 align="center">𝙷𝚘𝚜𝚝𝚅𝚒𝚕𝚕𝚎 • 𝙱𝙾𝚃</h1>
