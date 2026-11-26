@@ -9,7 +9,7 @@ Define o que é o HostVille • BOT, em quais servidores ele atua e o que ele fa
 | Dado | Valor |
 |---|---|
 | Nome | HostVille • BOT |
-| Versão | 5.0.0 |
+| Versão | 6.0.0 |
 | Cor | #341539 |
 | Servidor principal (comunidade) | HostVille GVRP [ROBLOX] — `928614664840052757` |
 | Servidor da staff | Administração HostVille — `1519076712413925416` |
