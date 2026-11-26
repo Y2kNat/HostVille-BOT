@@ -3,6 +3,12 @@
 </p>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/branch-dev-orange?style=for-the-badge">
+  <img src="https://img.shields.io/badge/WARNING-NAO_E_A_MAIN-red?style=for-the-badge">
+  <img src="https://img.shields.io/badge/status-em_desenvolvimento-yellow?style=for-the-badge">
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/version-5.0.0-4f46e5?style=for-the-badge">
   <img src="https://img.shields.io/badge/node-18%2B-22c55e?style=for-the-badge">
   <img src="https://img.shields.io/badge/discord.js-v14-5865F2?style=for-the-badge">
