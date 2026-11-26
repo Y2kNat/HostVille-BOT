@@ -4,7 +4,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/branch-dev-orange?style=for-the-badge">
-  <img src="https://img.shields.io/badge/WARNING-NAO_E_A_MAIN-red?style=for-the-badge">
+  <img src="https://img.shields.io/badge/WARNING-NAO_É_A_MAIN-red?style=for-the-badge">
   <img src="https://img.shields.io/badge/status-em_desenvolvimento-yellow?style=for-the-badge">
 </p>
 
