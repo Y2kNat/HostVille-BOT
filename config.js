@@ -17,7 +17,7 @@ module.exports = {
     // Bot
     TOKEN: process.env.TOKEN,
     BOT_NAME: 'HostVille • BOT',
-    BOT_VERSION: '6.0.0',
+    BOT_VERSION: '6.3.1',
     BOT_COLOR: '#341539',
 
     // Canais

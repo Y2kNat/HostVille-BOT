@@ -116,12 +116,20 @@ function buildDeletedMarkdown(entries, generatedAt) {
     return md;
 }
 
-function exportDeleted() {
-    const entries = deletedStore.all().filter(e => e.content !== '[sem texto]' && !/^\[embed:/.test(String(e.content || '')));
+function exportDeleted(opts = {}) {
+    const days = Math.min(7, Math.max(1, parseInt(opts.days, 10) || 3));
+    const userId = opts.userId ? String(opts.userId) : null;
+    const limite = Date.now() - days * 24 * 60 * 60 * 1000;
+    const entries = deletedStore.all().filter(e =>
+        (e.ts || 0) >= limite &&
+        e.content !== '[sem texto]' &&
+        !/^\[embed:/.test(String(e.content || '')) &&
+        (!userId || String(e.authorId) === userId)
+    );
     const generatedAt = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
     const md = buildDeletedMarkdown(entries, generatedAt);
     const day = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }).replace(/\//g, '-');
-    return { buffer: Buffer.from(md, 'utf8'), filename: `deletadas-${day}.md`, total: entries.length };
+    return { buffer: Buffer.from(md, 'utf8'), filename: `deletadas-${days}d-${day}.md`, total: entries.length, days, userId };
 }
 
 module.exports = { exportLatest, exportDeleted, parse, buildMarkdown, buildDeletedMarkdown, latestFile };

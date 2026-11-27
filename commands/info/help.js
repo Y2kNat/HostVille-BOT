@@ -21,7 +21,7 @@ module.exports = {
                 { name: '🖥️ Sistema', value: '`-hv%` (status do PC/servidor; detalhado na DM)', inline: false },
                 { name: '📨 Comunicação', value: '`/private` `/report`', inline: false }
             )
-            .setFooter({ text: 'Comandos de texto: -hv% (status do PC) | !export (log) | !export deleted (deletadas) | DM: !clear !clearAll !MonitorOn !MonitorOff' })
+            .setFooter({ text: 'Comandos de texto: -hv% (status do PC) | !export (log) | !export deleted [@user] [1-7 dias] | DM: !clear !clearAll !MonitorOn !MonitorOff' })
             .setTimestamp();
         
         await interaction.reply({ embeds: [embed], flags: 64 });

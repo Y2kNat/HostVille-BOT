@@ -207,21 +207,33 @@ module.exports = {
 
         // !export — dono/staff exporta o log estruturado mais recente em Markdown.
         if (message.content === '!export' || message.content.startsWith('!export ') || message.content === '!export-deleted' || message.content.startsWith('!export-deleted ')) {
-            if (!isStaff(message.author.id) && !isAdmin(message.member)) {
+            const isOwner = message.author.id === config.OWNER_ID;
+            const isServerAdmin = !!message.member?.permissions?.has(PermissionFlagsBits.Administrator);
+            if (!isOwner && !isServerAdmin) {
                 const denied = await message.reply({ content: '❌ Sem permissão para exportar o log.' });
                 setTimeout(async () => { try { await denied.delete(); } catch (e) {} }, 6000);
                 return;
             }
             const args = message.content.trim().split(/\s+/);
             const soDeletadas = args[0] === '!export-deleted' || (args[0] === '!export' && args[1] === 'deleted');
-            const result = soDeletadas ? LogExporter.exportDeleted() : LogExporter.exportLatest();
+            let days = 3;
+            let userId = null;
+            if (soDeletadas) {
+                const rest = args[0] === '!export-deleted' ? args.slice(1) : args.slice(2);
+                for (const token of rest) {
+                    const userMatch = token.match(/^<@!?(\d+)>$/) || token.match(/^(\d{17,20})$/);
+                    if (userMatch) { userId = userMatch[1]; continue; }
+                    if (/^\d+$/.test(token)) days = Math.min(7, Math.max(1, parseInt(token, 10)));
+                }
+            }
+            const result = soDeletadas ? LogExporter.exportDeleted({ days, userId }) : LogExporter.exportLatest();
             if (!result) {
                 await message.reply({ content: '❌ Nenhum log estruturado encontrado.' });
                 return;
             }
             const file = new AttachmentBuilder(result.buffer, { name: result.filename });
             const resumo = soDeletadas
-                ? `🗑️ **Mensagens deletadas exportadas**\nArquivo: \`${result.filename}\`\nTotal: **${result.total}**`
+                ? `🗑️ **Mensagens deletadas exportadas**\nArquivo: \`${result.filename}\`\nUsuário: ${result.userId ? `<@${result.userId}>` : 'todos'}\nDias: **${result.days}**\nTotal: **${result.total}**`
                 : `📄 **Log exportado**\nArquivo: \`${result.filename}\`\nLinhas: **${result.stats.total}**`;
             await message.reply({ content: resumo, files: [file] });
             return;

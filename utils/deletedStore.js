@@ -4,6 +4,7 @@ const path = require('path');
 const DIR = path.join(__dirname, '..', 'data');
 const FILE = path.join(DIR, 'deleted-messages.json');
 const MAX = 3000;
+const DIAS_MAX = 7;
 
 let cache = null;
 let cacheMtime = 0;
@@ -55,7 +56,8 @@ function agendar() {
 }
 
 function add(entry) {
-    const dados = ler();
+    const limite = Date.now() - DIAS_MAX * 24 * 60 * 60 * 1000;
+    const dados = ler().filter(e => (e.ts || 0) >= limite);
     dados.push(Object.assign({ ts: Date.now() }, entry));
     if (dados.length > MAX) dados.splice(0, dados.length - MAX);
     cache = dados;
@@ -66,4 +68,11 @@ function add(entry) {
 function all() { return ler().slice(); }
 function clear() { cache = []; salvar(); }
 
-module.exports = { add, all, clear, FILE };
+const limpezaDiaria = setInterval(() => {
+    const limite = Date.now() - DIAS_MAX * 24 * 60 * 60 * 1000;
+    const dados = ler().filter(e => (e.ts || 0) >= limite);
+    if (dados.length !== cache.length) { cache = dados; salvar(); }
+}, 24 * 60 * 60 * 1000);
+if (limpezaDiaria.unref) limpezaDiaria.unref();
+
+module.exports = { add, all, clear, FILE, DIAS_MAX };
