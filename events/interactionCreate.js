@@ -1,4 +1,4 @@
-const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, EmbedBuilder } = require('discord.js');
+const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, EmbedBuilder, Colors } = require('discord.js');
 const { logError } = require('../utils/logger');
 const MaintenanceManager = require('../managers/MaintenanceManager');
 const StatsManager = require('../managers/StatsManager');
@@ -7,6 +7,9 @@ const { handleMonitorButtons, handleServerSelection } = require('../handlers/mon
 const TicketManager = require('../managers/TicketManager');
 const db = require('../database/db');
 const { sendLog } = require('../utils/realtime');
+const WarnStore = require('../utils/warnStore');
+const ModerationLog = require('../utils/ModerationLog');
+const { formatDate } = require('../utils/formatters');
 
 const commands = {
     warn: require('../commands/mod/warn'),
@@ -35,7 +38,13 @@ const commands = {
     adicionar: require('../commands/ticket/adicionar'),
     ticket: require('../commands/ticket/ticket'),
     autointeraction: require('../commands/config/autointeraction'),
-    maintenance: require('../commands/config/maintenance')
+    maintenance: require('../commands/config/maintenance'),
+    'ban-info': require('../commands/mod/ban-info'),
+    case: require('../commands/mod/case'),
+    slowmode: require('../commands/mod/slowmode'),
+    lock: require('../commands/mod/lock'),
+    unlock: require('../commands/mod/unlock'),
+    setup: require('../commands/config/setup')
 };
 
 module.exports = {
@@ -51,6 +60,37 @@ module.exports = {
                     await interaction.reply({ embeds: [MaintenanceManager.buildEmbed()], flags: 64 }).catch(() => {});
                     return;
                 }
+            }
+
+            // SETUP WIZARD
+            if (interaction.customId?.startsWith('setup_')) {
+                const { handleSetup } = require('../handlers/setupWizard');
+                return handleSetup(interaction);
+            }
+
+            // BAN-INFO: detalhes
+            if (interaction.isButton() && interaction.customId.startsWith('baninfo_detalhes:')) {
+                const userId = interaction.customId.split(':')[1];
+                const warns = WarnStore.get(userId, interaction.guild.id);
+                const casos = ModerationLog.recentes(100, interaction.guild.id).filter(r => r.userId === userId);
+                const embed = new EmbedBuilder()
+                    .setColor(Colors.Orange)
+                    .setTitle(`📋 Detalhes de <@${userId}>`)
+                    .setDescription(warns.length
+                        ? warns.map((w, i) => `**#${i + 1}** ${formatDate(w.timestamp)} — ${w.reason}`).join('\n').slice(0, 4096)
+                        : 'Nenhum aviso registrado.');
+                if (casos.length) embed.addFields({
+                    name: '🛡️ Casos no log de moderação',
+                    value: casos.slice(0, 10).map(c => `${formatDate(c.ts)} — ${c.acao} (${c.origem})`).join('\n').slice(0, 1024),
+                    inline: false
+                });
+                return interaction.reply({ embeds: [embed], flags: 64 });
+            }
+
+            // PAGINAÇÃO
+            if (interaction.isButton() && /_(prev|next|info)$/.test(interaction.customId)) {
+                const { clicar } = require('../utils/paginator');
+                if (await clicar(interaction)) return;
             }
 
             // SELECIONAR VOZ

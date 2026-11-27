@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const StatsManager = require('../../managers/StatsManager');
 const { logInfo } = require('../../utils/logger');
+const { comRetry } = require('../../utils/retry');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -37,7 +38,7 @@ module.exports = {
         const ms = minutes * 60 * 1000;
         
         try {
-            await target.timeout(ms, `Silenciado por ${interaction.user.tag} - ${reason} (HostVille • BOT)`);
+            await comRetry(() => target.timeout(ms, `Silenciado por ${interaction.user.tag} - ${reason} (HostVille • BOT)`), { tentativas: 2, baseMs: 500, contexto: 'timeout' });
             StatsManager.trackCommand('timeout');
             
             await interaction.reply({

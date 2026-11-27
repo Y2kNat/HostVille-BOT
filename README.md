@@ -3,7 +3,12 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-6.3.1-4f46e5?style=for-the-badge">
+  <img src="https://img.shields.io/badge/branch-dev-orange?style=for-the-badge">
+  <img src="https://img.shields.io/badge/status-em_desenvolvimento-yellow?style=for-the-badge">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/version-7.0.0-4f46e5?style=for-the-badge">
   <img src="https://img.shields.io/badge/node-18%2B-22c55e?style=for-the-badge">
   <img src="https://img.shields.io/badge/discord.js-v14-5865F2?style=for-the-badge">
   <img src="https://img.shields.io/badge/mongodb-Mongoose-47A248?style=for-the-badge">
@@ -25,7 +30,7 @@ Bot multifuncional para Discord com Inteligência Artificial, moderação avanç
 
 O **HostVille BOT** é uma plataforma completa para servidores Discord, reunindo IA, moderação, atendimento automático, sistema de tickets, memória de conversas e diversas ferramentas administrativas.
 
-Toda a IA utiliza o modelo **Llama 3.3 70B** através da API da **Groq**, com memória armazenada em **MongoDB**.
+Toda a IA utiliza o **Kilo Code AI Gateway** (`KILO_BASE_URL`, `KILO_DEFAULT_MODEL`), com memória armazenada em **MongoDB**.
 
 ---
 
@@ -121,9 +126,9 @@ Isso permite que a IA:
 
 A IA funciona utilizando:
 
-• API da Groq
+• Kilo Code AI Gateway
 
-• Llama 3.3 70B
+• Modelo configurável no `.env`
 
 • MongoDB
 
@@ -156,12 +161,40 @@ Coleções utilizadas:
 ```json
 {
   "discord.js": "^14",
-  "mongoose": "^8",
-  "groq-sdk": "^0.x",
+  "mongoose": "^9",
   "dotenv": "^16",
   "chalk": "^4"
 }
 ```
+
+---
+
+# ✦ Configuração
+
+1. `npm ci`
+2. `cp .env.example .env` e preencha
+3. `npm run validar:env`
+4. `npm start`
+
+---
+
+# ✦ Testes
+
+```bash
+npm ci
+npm run test:all
+```
+
+> O `test:all` roda cada arquivo de teste em loop e não para no primeiro erro.
+> Os testes live (`kilo.live`, `kilo-fallback`) ficam de fora.
+
+---
+
+# ✦ MemoryWatcher
+
+> O `MemoryWatcher` está desligado desde a v6.0.0. O código fica em
+> `managers/MemoryWatcher.js` para referência. Pendings criados pelo
+> `StaffLearner` não são executados.
 
 ---
 
@@ -193,7 +226,7 @@ Coleções utilizadas:
 
 💾 MongoDB
 
-🤖 Groq AI
+🤖 Kilo AI
 
 ---
 

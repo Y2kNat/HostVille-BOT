@@ -440,7 +440,7 @@ async function teste(nome, fn) {
         const naRede = ['mod', 'ia', 'ticket', 'sistema']
             .flatMap(g => Features.grupoDe(g, 'global').map(i => i.key));
         assert.deepStrictEqual(naRede.sort(),
-            ['autokb', 'canal_estudo', 'guard', 'manutencao', 'roast', 'tier_judge'],
+            ['autokb', 'canal_estudo', 'guard', 'manutencao', 'roast'],
             'a rede tem exatamente as chaves de escopo global');
 
         // E o inverso: o painel de um servidor não mostra chave global.

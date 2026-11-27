@@ -1,13 +1,15 @@
 {
   "name": "hostville-bot",
-  "version": "6.3.1",
+  "version": "7.0.0",
   "description": "Bot de Moderacao Completo - HostVille",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "node tests/fallback.test.js && node tests/fechar-ticket.test.js && node tests/numeracao-ticket.test.js && node tests/validador.test.js && node tests/registry-ticket.test.js && node tests/auto-kb.test.js && node tests/learned-patterns.test.js && node tests/auto-kb-miner.test.js && node tests/auto-kb-botoes.test.js && node tests/auto-interaction-turno.test.js && node tests/zip.test.js && node tests/tier.test.js && node tests/fixture-respostas.test.js && node tests/kilo-fallback.test.js && node tests/kilo-chat.test.js && node tests/guard.test.js && node tests/resumo.test.js && node tests/ticket-queue.test.js && node tests/warnstore.test.js && node tests/log-export.test.js && node tests/moderacao-filtro.test.js && node tests/moderacao-seguranca.test.js && node tests/painel-features.test.js && node tests/anti-raid.test.js && node tests/honeypot.test.js && node tests/protect.test.js",
-    "test:integration": "node tests/kilo.live.test.js"
+    "test:integration": "node tests/kilo.live.test.js",
+    "validar:env": "node scripts/validar-env.js",
+    "test:all": "node scripts/run-tests.js"
   },
   "author": "Y2k_Nat",
   "license": "ISC",

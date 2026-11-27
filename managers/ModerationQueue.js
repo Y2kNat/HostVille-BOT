@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const { comRetry } = require('../utils/retry');
 const config = require('../config');
 const { logInfo, logError } = require('../utils/logger');
 const FilterManager = require('./FilterManager');
@@ -65,7 +66,10 @@ async function process(item) {
     let result = cacheGet(h);
     if (!result) {
         try {
-            result = await ModerationClassifier.classifyMessage(text, modResult || {}, { guildId: message.guild.id });
+            result = await comRetry(
+                () => ModerationClassifier.classifyMessage(text, modResult || {}, { guildId: message.guild.id }),
+                { tentativas: 3, baseMs: 1000, contexto: 'moderacao' }
+            );
             cacheSet(h, result);
         } catch (e) {
             logError(`[ModerationQueue] erro ao classificar: ${e.message}`);

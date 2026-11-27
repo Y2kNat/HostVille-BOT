@@ -821,9 +821,8 @@ function trechoEntre(src, inicio, fim) {
         // no degrau máximo quebraria o comando — justo quando a staff
         // mais precisa do histórico.
         const src = fs.readFileSync(path.join(RAIZ, 'commands/mod/warnings.js'), 'utf8');
-        assert.ok(/slice\(\s*0\s*,/.test(src),
-            '/warnings adiciona um campo por aviso sem limite — acima de 25 ' +
-            'avisos o comando lança erro');
+        assert.ok(/Paginator\.criar|porPagina/.test(src),
+            '/warnings não pagina — acima de 25 avisos o comando lança erro');
         assert.ok(/moderator\s*\?/.test(src),
             '/warnings mostra <@undefined> quando o aviso não tem staff registrada');
     });

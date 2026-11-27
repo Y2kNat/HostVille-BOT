@@ -17,7 +17,7 @@ module.exports = {
     // Bot
     TOKEN: process.env.TOKEN,
     BOT_NAME: 'HostVille • BOT',
-    BOT_VERSION: '6.3.1',
+    BOT_VERSION: '7.0.0',
     BOT_COLOR: '#341539',
 
     // Canais
@@ -278,5 +278,16 @@ module.exports = {
     // 'none' = classificador SEM raciocínio (enviado ao gateway como
     // reasoning_effort=none): a resposta sai direta, sem gastar orçamento
     // pensando. Medido no gateway: reasoning_tokens=0 com esse valor.
-    MODERATION_REASONING_EFFORT: process.env.MODERATION_REASONING_EFFORT || 'none'
+    MODERATION_REASONING_EFFORT: process.env.MODERATION_REASONING_EFFORT || 'none',
+
+    // ============================================================
+    // ANÁLISE DE IMAGEM (multimodal)
+    // ============================================================
+    IMAGE_ANALYZER: {
+        ENABLED: String(process.env.IMAGE_ANALYZER_ENABLED ?? 'false').toLowerCase() === 'true',
+        CHANNEL_ID: process.env.IMAGE_ANALYZER_CHANNEL_ID || '',
+        MAX_TOKENS: parseInt(process.env.IMAGE_ANALYZER_MAX_TOKENS) || 1200,
+        TIMEOUT_MS: parseInt(process.env.IMAGE_ANALYZER_TIMEOUT_MS) || 60000,
+        MODEL: process.env.IMAGE_ANALYZER_MODEL || ''
+    }
 };

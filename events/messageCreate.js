@@ -575,39 +575,27 @@ module.exports = {
         // ============================================
 // ANÁLISE DE IMAGENS (apenas canais permitidos)
 // ============================================
-// const ALLOWED_IMAGE_CHANNELS = ['1392306491683373077', '1392306454756720742'];
-      const ALLOWED_IMAGE_CHANNELS = [];
+        // ============================================
+        // ANÁLISE DE IMAGENS (canal único, via config)
+        // ============================================
+        const cfgImg = config.IMAGE_ANALYZER;
+        const canalOk = cfgImg.CHANNEL_ID && message.channel.id === cfgImg.CHANNEL_ID;
+        const temAnexoImg = message.attachments.size > 0
+            && message.attachments.first().contentType?.startsWith('image/');
 
-
-if (ALLOWED_IMAGE_CHANNELS.includes(message.channel.id)) {
-    // Só processa se tiver anexo de imagem
-    const hasImage = message.attachments.size > 0 && message.attachments.first().contentType?.startsWith('image/');
-
-    if (hasImage) {
-        if (ChatManager.isBotCalled(message)) {
-            const msgContent = message.content.toLowerCase();
-
-            // Traduzir imagem
-            if (msgContent.includes('traduz') || msgContent.includes('traduza') || msgContent.includes('traduzir')) {
-                const translateResponse = await ImageAnalyzer.translateImage(message);
-                if (translateResponse) {
-                    await message.reply({ content: translateResponse });
-                    return;
+        if (cfgImg.ENABLED && canalOk && temAnexoImg) {
+            if (ChatManager.isBotCalled(message)) {
+                const msgContent = message.content.toLowerCase();
+                if (msgContent.includes('traduz') || msgContent.includes('traduza') || msgContent.includes('traduzir')) {
+                    const r = await ImageAnalyzer.translateImage(message);
+                    if (r) { await message.reply({ content: r }); return; }
                 }
+                const r = await ImageAnalyzer.analyzeWithAI(message, message.content);
+                if (r) { await message.reply({ content: r }); return; }
+            } else {
+                await message.reply({ content: '📸 Se quiser que eu analise essa imagem, me menciona junto! Ex: `HvBot o que tem nessa imagem?`' });
             }
-
-            // Analisar imagem
-            const imageResponse = await ImageAnalyzer.analyzeWithAI(message);
-            if (imageResponse) {
-                await message.reply({ content: imageResponse });
-                return;
-            }
-        } else {
-            // Imagem sem menção: avisa e NÃO dá return
-            await message.reply({ content: '📸 Se quiser que eu analise essa imagem, me menciona junto! Ex: `HvBot o que tem nessa imagem?`' });
         }
-    }
-}
 
         // ============================================
         // VERIFICAR SE USUÁRIO TEM CONTEXTO PENDENTE

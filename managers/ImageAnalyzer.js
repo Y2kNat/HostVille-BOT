@@ -1,25 +1,74 @@
-class ImageAnalyzer {
+const { logInfo, logWarn, logError } = require('../utils/logger');
+const { chat } = require('../utils/kiloChat');
+const config = require('../config');
 
+const LIMITE = 4096;
+
+class ImageAnalyzer {
     static async analyze(message) {
-        if (message.attachments.size === 0) return null;
-        const attachment = message.attachments.first();
-        const isImage = attachment.contentType?.startsWith('image/');
-        if (!isImage) return null;
-        return { type: 'image', url: attachment.url, name: attachment.name, contentType: attachment.contentType };
+        if (!message.attachments || message.attachments.size === 0) return null;
+        const a = message.attachments.first();
+        if (!a.contentType?.startsWith('image/')) return null;
+        return { type: 'image', url: a.url, name: a.name, contentType: a.contentType, size: a.size };
     }
 
-    /**
- * Analisar imagem com IA.
- *
- * NOTA: a análise multimodal está DESATIVADA no projeto
- * (ALLOWED_IMAGE_CHANNELS = [] em events/messageCreate.js) e o modelo
- * local configurado (qwen2.5-coder:1.5b) não é um modelo de visão.
- * Este método preserva a assinatura original para compatibilidade com
- * a chamada existente, mas retorna indisponibilidade em vez de chamar IA.
- */
-static async analyzeWithAI(message, imageUrl = null) {
-    return '📸 Análise de imagem não está disponível neste servidor.';
-}
+    static async analyzeWithAI(message, instrucao = '') {
+        const img = await this.analyze(message);
+        if (!img) return null;
+        const cfg = config.IMAGE_ANALYZER;
+        if (!cfg.MODEL) return '📸 O modelo configurado não consegue analisar imagens.';
+        const prompt = (instrucao || 'Descreva o que aparece nesta imagem.').slice(0, 500);
+        try {
+            const r = await chat({
+                model: cfg.MODEL,
+                messages: [{ role: 'user', content: [
+                    { type: 'text', text: prompt },
+                    { type: 'image_url', image_url: { url: img.url } }
+                ] }],
+                temperature: 0.4,
+                max_tokens: cfg.MAX_TOKENS,
+                reasoning_effort: 'none',
+                timeoutMs: cfg.TIMEOUT_MS,
+                deadlineMs: cfg.TIMEOUT_MS,
+                apiKey: config.KILO_API_KEYS
+            });
+            const texto = String(r.content || '').trim();
+            if (!texto) return '📸 O modelo respondeu vazio para esta imagem.';
+            logInfo(`ImageAnalyzer: analisou ${img.name}`);
+            return texto.slice(0, LIMITE);
+        } catch (e) {
+            logError(`ImageAnalyzer: falha: ${e.message}`);
+            return '📸 Não consegui analisar a imagem agora.';
+        }
+    }
+    static async translateImage(message) {
+        const img = await this.analyze(message);
+        if (!img) return null;
+        const cfg = config.IMAGE_ANALYZER;
+        if (!cfg.MODEL) return '📸 O modelo configurado não consegue analisar imagens.';
+        try {
+            const r = await chat({
+                model: cfg.MODEL,
+                messages: [{ role: 'user', content: [
+                    { type: 'text', text: 'Transcreva TODO o texto visível nesta imagem e traduza para português brasileiro. Responda em duas seções: Texto original e Tradução. Se não houver texto, responda "Nenhum texto encontrado na imagem."' },
+                    { type: 'image_url', image_url: { url: img.url } }
+                ] }],
+                temperature: 0.2,
+                max_tokens: cfg.MAX_TOKENS,
+                reasoning_effort: 'none',
+                timeoutMs: cfg.TIMEOUT_MS,
+                deadlineMs: cfg.TIMEOUT_MS,
+                apiKey: config.KILO_API_KEYS
+            });
+            const texto = String(r.content || '').trim();
+            if (!texto) return '📸 O modelo respondeu vazio para esta imagem.';
+            logInfo(`ImageAnalyzer: traduziu ${img.name}`);
+            return texto.slice(0, LIMITE);
+        } catch (e) {
+            logError(`ImageAnalyzer: falha na tradução: ${e.message}`);
+            return '📸 Não consegui traduzir a imagem agora.';
+        }
+    }
 }
 
 module.exports = ImageAnalyzer;
