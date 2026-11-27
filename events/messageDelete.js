@@ -1,5 +1,6 @@
 const deletedStore = require('../utils/deletedStore');
 const MessageCache = require('../utils/messageCache');
+const { expirar } = require('../utils/paginator');
 
 function descrever(msg) {
     const partes = [];
@@ -15,6 +16,7 @@ module.exports = {
     name: 'messageDelete',
     async execute(message) {
         if (!message.guild) return;
+        expirar(message.id);
 
         const cached = MessageCache.get(message.id);
         let msg = message;

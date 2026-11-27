@@ -90,11 +90,6 @@ const FEATURES = {
         label: 'Arrastar/responder o bot', group: 'ia', scope: 'guild', default: true,
         desc: 'Responder à mensagem arrastada para o lado.'
     },
-    tier_judge: {
-        label: 'Juiz de tier', group: 'ia', scope: 'global', default: config.TIER_JUDGE,
-        ownerOnly: true,
-        desc: 'IA (Kilo) que escolhe o tier de geração quando o funil fica ambíguo.'
-    },
     guard: {
         label: 'Guard de injeção', group: 'ia', scope: 'global', default: config.GUARD_ENABLED,
         ownerOnly: true,
@@ -110,6 +105,15 @@ const FEATURES = {
         label: 'Auto-KB', group: 'ia', scope: 'global', default: config.AUTO_KB.ENABLED,
         ownerOnly: true,
         desc: 'Minera conversa e propõe documento novo para a base de conhecimento.'
+    },
+
+    image_analyzer: {
+        label: 'Análise de imagem',
+        group: 'ia',
+        scope: 'guild',
+        default: config.IMAGE_ANALYZER.ENABLED,
+        desc: 'Lê imagem no canal configurado e responde à menção. Tradução e descrição.',
+        motivo: 'Desligar aqui mantém o canal livre de resposta automática a anexo.'
     },
 
     // ─── TICKETS ──────────────────────────────────────────────────────────

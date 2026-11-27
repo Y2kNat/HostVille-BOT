@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const StatsManager = require('../../managers/StatsManager');
 const { logInfo } = require('../../utils/logger');
+const { comRetry } = require('../../utils/retry');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -28,7 +29,7 @@ module.exports = {
         }
         
         try {
-            await target.kick(`Expulso por ${interaction.user.tag} - ${reason} (HostVille • BOT)`);
+            await comRetry(() => target.kick(`Expulso por ${interaction.user.tag} - ${reason} (HostVille • BOT)`), { tentativas: 2, baseMs: 500, contexto: 'kick' });
             StatsManager.trackCommand('kick');
             
             await interaction.reply({

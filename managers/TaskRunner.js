@@ -197,12 +197,6 @@ static detectLanguage(text) {
             // Só entra aqui se o pedido for um projeto E o seletor estiver
             // ligado. Para qualquer outra coisa segue o caminho antigo de
             // geração única, que é mais rápido e não vale interromper.
-            const tierEscolhido = await this.resolverTier(message, ctx, task);
-            if (tierEscolhido === 'CANCELADO') return null;
-            if (tierEscolhido) {
-                return await this.gerarComTier(message, tierEscolhido, task);
-            }
-
             const langHint = this.detectLanguage(task);
             const targetHint = langHint
                 ? `\nLINGUAGEM OBRIGATÓRIA: ${langHint.langLabel} (extensão .${langHint.ext}). NÃO use outra linguagem. Gere o código COMPLETO em ${langHint.langLabel}.`
@@ -268,7 +262,7 @@ FORMATO:
             // mesmo formato. Com o includes() antigo, um "[FILE: x.tsx]" caia
             // no fluxo de código solto e perdia o nome que o modelo já tinha
             // escolhido.
-            if (require('./ProjectGenerator').extrairNomeMarcado(result)) {
+            if (require('../utils/codeFile').extrairNomeMarcado(result)) {
                 await message.react('📄').catch(() => {});
                 return await this.createFile(message, result);
             }
@@ -362,7 +356,7 @@ FORMATO:
     static async gerarComTier(message, tier, task) {
         const config = require('../config');
         const cfg = config.GEN_TIERS[tier];
-        const ProjectGenerator = require('./ProjectGenerator');
+        const codeFile = require('../utils/codeFile');
         const dir = path.join(__dirname, '..', 'temp');
         const pedido = String(task).replace(/(?:^|\s)!(min|med|high|max)\b/i, '').trim();
 
@@ -376,7 +370,7 @@ FORMATO:
             if (arquivoUnico) {
                 await message.react('📝').catch(() => {});
                 await message.channel.send({ content: `📝 Gerando HTML único (tier ${cfg.label})…` }).catch(() => {});
-                const html = await ProjectGenerator.gerarHtmlUnico({
+                const html = await codeFile.gerarHtmlUnico({
                     chat: (args) => clienteTarefa.chat({ ...args, contexto: args.contexto }),
                     pedido,
                     maxTokens: cfg.tokens,
@@ -385,8 +379,8 @@ FORMATO:
                     await message.reply({ content: '❌ O modelo devolveu HTML vazio. Tenta de novo!' }).catch(() => {});
                     return null;
                 }
-                const nome = require('../utils/ZipBuilder').nomeDeArquivo('index.html');
-                require('../utils/ZipBuilder').garantirPasta(path.join(dir, nome));
+                const nome = require('../utils/codeFile').nomeDeArquivo('index.html');
+                require('../utils/codeFile').garantirPasta(path.join(dir, nome));
                 fs.writeFileSync(path.join(dir, nome), html, 'utf8');
                 const embed = new EmbedBuilder()
                     .setColor(0x57F287)
@@ -408,7 +402,7 @@ FORMATO:
             // Multi-arquivo: o plano vai aparecendo no canal conforme gera.
             const enviado = await message.channel.send({ content: '🧠 Projetando o que precisa ser criado…' }).catch(() => null);
             let ultimo = '';
-            resultado = await ProjectGenerator.gerarProjeto({
+            resultado = await codeFile.gerarProjeto({
                 chat: (args) => clienteTarefa.chat({ ...args, contexto: args.contexto }),
                 pedido,
                 tierLabel: cfg.label,
@@ -521,15 +515,15 @@ FORMATO:
         // O modelo alterna entre [ARQUIVO: x] e [FILE: x] na mesma sessão.
         // Aceitar só um fazia o arquivo cair no nome genérico
         // arquivo-<timestamp>.txt e perder a extensão .tsx/.html/etc.
-        const ProjectGenerator = require('./ProjectGenerator');
-        const marcado = ProjectGenerator.extrairNomeMarcado(result);
+        const codeFile = require('../utils/codeFile');
+        const marcado = codeFile.extrairNomeMarcado(result);
         // O nome vem do MODELO, sem nenhuma garantia. "src/index.tsx" é um
         // pedido legítimo de subpasta, mas "../../../../tmp/EVIL.txt" sai de
         // temp/ e grava em qualquer lugar do sistema. nomeDeArquivo garante
         // que o resultado fique dentro de temp/; garantirPasta cria a
         // subpasta, que antes fazia o writeFileSync estourar ENOENT.
         const bruto = marcado || `arquivo-${Date.now()}.txt`;
-        const fileName = require('../utils/ZipBuilder').nomeDeArquivo(bruto);
+        const fileName = require('../utils/codeFile').nomeDeArquivo(bruto);
         // O corpo NÃO é a resposta menos a tag [ARQUIVO:]. O modelo devolve
         // a resposta inteira no formato do prompt:
         //     FILE:  [ARQUIVO: src/Calculator.tsx]
@@ -539,13 +533,13 @@ FORMATO:
         // Gravar isso como .tsx produzia um arquivo que não compila: tinha
         // "AÇÃO:", a cerca ``` e a prosa dentro do fonte. extrairConteudo
         // pega só o que é código.
-        const fileContent = ProjectGenerator.extrairConteudo(result, fileName);
+        const fileContent = codeFile.extrairConteudo(result, fileName);
 
         const dir = path.join(__dirname, '..', 'temp');
         if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
         const filePath = path.join(dir, fileName);
-        require('../utils/ZipBuilder').garantirPasta(filePath);
+        require('../utils/codeFile').garantirPasta(filePath);
         fs.writeFileSync(filePath, fileContent, 'utf8');
 
         // O nome enviado ao Discord é só o basename: um anexo chamado

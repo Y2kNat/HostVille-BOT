@@ -17,6 +17,11 @@ const commands = [
     require('../commands/mod/ban').data,
     require('../commands/mod/timeout').data,
     require('../commands/mod/purge').data,
+    require('../commands/mod/ban-info').data,
+    require('../commands/mod/case').data,
+    require('../commands/mod/slowmode').data,
+    require('../commands/mod/lock').data,
+    require('../commands/mod/unlock').data,
     require('../commands/config/filter').data,
     require('../commands/config/modtest').data,
     require('../commands/config/linksettings').data,
@@ -34,6 +39,7 @@ const commands = [
     require('../commands/ticket/ticket').data,
     require('../commands/ticket/adicionar').data,
     require('../commands/config/maintenance').data,
+    require('../commands/config/setup').data,
     // Este existia no mapa de handlers mas nunca foi registrado no Discord:
     // o comando aparecia no codigo e nao existia pra staff.
     require('../commands/config/autointeraction').data,
@@ -167,6 +173,11 @@ module.exports = {
     async execute(client) {
         // o client global e usado por varios managers (StaffLearner etc.)
         global.client = client;
+
+        if (config.IMAGE_ANALYZER.ENABLED && !config.IMAGE_ANALYZER.CHANNEL_ID) {
+            logWarn('⚠ IMAGE_ANALYZER.ENABLED=true sem CHANNEL_ID — feature desligada.');
+            config.IMAGE_ANALYZER.ENABLED = false;
+        }
 
         // Verificar se foi restart por comando
         const restartFlag = fs.existsSync('./temp/restart_flag.txt');
@@ -360,9 +371,21 @@ module.exports = {
         // AutoInteraction.startRandomInteractions(client);
         // console.log('💬 Interações aleatórias ativadas');
 
-        const MemoryWatcher = require('../managers/MemoryWatcher');
-        MemoryWatcher.start(client);
-       logSuccess('MemoryWatcher iniciado');
+        // MemoryWatcher DESLIGADO na v6.0.0.
+        // setInterval de 5s com query Mongo, IDs hardcoded, sem retry,
+        // e StaffLearner criando pendings que ninguém executa.
+        // Código preservado em managers/MemoryWatcher.js.
+        // const MemoryWatcher = require('../managers/MemoryWatcher');
+        // MemoryWatcher.start(client);
+        // logSuccess('MemoryWatcher iniciado');
+
+        // Reagenda locks que sobreviveram ao restart.
+        const LockStore = require('../utils/lockStore');
+        for (const l of LockStore.todos()) {
+            const restante = l.expiresAt - Date.now();
+            if (restante <= 0) require('../commands/mod/lock')._autoUnlock(l.canalId);
+            else setTimeout(() => require('../commands/mod/lock')._autoUnlock(l.canalId), restante).unref?.();
+        }
 
         const BatteryAlertManager = require('../managers/BatteryAlertManager');
         BatteryAlertManager.start(client);

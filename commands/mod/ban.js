@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const StatsManager = require('../../managers/StatsManager');
 const { logInfo } = require('../../utils/logger');
+const { comRetry } = require('../../utils/retry');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -24,9 +25,9 @@ module.exports = {
         const reason = interaction.options.getString('reason') || 'Sem motivo especificado';
         
         try {
-            await interaction.guild.members.ban(target, {
+            await comRetry(() => interaction.guild.members.ban(target, {
                 reason: `Banido por ${interaction.user.tag} - ${reason} (HostVille • BOT)`
-            });
+            }), { tentativas: 2, baseMs: 500, contexto: 'ban' });
             StatsManager.trackCommand('ban');
             
             await interaction.reply({
