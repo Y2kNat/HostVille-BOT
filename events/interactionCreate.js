@@ -44,7 +44,8 @@ const commands = {
     slowmode: require('../commands/mod/slowmode'),
     lock: require('../commands/mod/lock'),
     unlock: require('../commands/mod/unlock'),
-    setup: require('../commands/config/setup')
+    setup: require('../commands/config/setup'),
+    poll: require('../commands/config/poll')
 };
 
 module.exports = {

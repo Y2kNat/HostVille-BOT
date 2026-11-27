@@ -40,6 +40,7 @@ const commands = [
     require('../commands/ticket/adicionar').data,
     require('../commands/config/maintenance').data,
     require('../commands/config/setup').data,
+    require('../commands/config/poll').data,
     // Este existia no mapa de handlers mas nunca foi registrado no Discord:
     // o comando aparecia no codigo e nao existia pra staff.
     require('../commands/config/autointeraction').data,
@@ -173,6 +174,9 @@ module.exports = {
     async execute(client) {
         // o client global e usado por varios managers (StaffLearner etc.)
         global.client = client;
+
+        const PollManager = require('../managers/PollManager');
+        PollManager.start(client);
 
         if (config.IMAGE_ANALYZER.ENABLED && !config.IMAGE_ANALYZER.CHANNEL_ID) {
             logWarn('⚠ IMAGE_ANALYZER.ENABLED=true sem CHANNEL_ID — feature desligada.');

@@ -55,3 +55,9 @@ data/ticketKbCache.json
 data/warnings.pre-reset-*.json
 PLANO_COMPLETO.md
 plano-protect.md
+
+# Enquetes (runtime)
+data/polls.json
+data/polls.json.bak
+data/locks.json
+data/locks.json.bak
